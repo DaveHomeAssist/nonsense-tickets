@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700;900&family=Archivo:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+html{
+  --mis:6px;
+  --paper:#ece8dc; --paper2:#f4f1e8; --deep:#e2ddcd;
+  --ink:#17141f; --rule:#17141f;
+  --blue:#2333c4; --pink:#ff2fa0; --acid:#c8f542;
+  --blend:multiply; --dot:rgba(23,20,31,.05); --wash:.1;
+  -webkit-text-size-adjust:100%;
+}
+html[data-theme="dark"]{
+  --paper:#14121c; --paper2:#1c1928; --deep:#100e18;
+  --ink:#eae5d8; --rule:#6b6483;
+  --blue:#5c6bff; --pink:#ff4fb0; --acid:#c8f542;
+  --blend:screen; --dot:rgba(234,229,216,.055); --wash:.22;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:'Archivo',sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;background-image:radial-gradient(var(--dot) 1px,transparent 1px);background-size:5px 5px}
+img{max-width:100%;display:block}
+a{color:var(--ink);text-decoration:none}
+a:hover{color:var(--pink)}
+button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
+input{font-family:inherit}
+::selection{background:var(--pink);color:var(--paper)}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+@keyframes regB{0%{transform:translate(0,0);opacity:0}32%{transform:translate(0,0);opacity:1}100%{transform:translate(calc(var(--mis) * -1),calc(var(--mis) * -0.8));opacity:1}}
+@keyframes regP{0%{transform:translate(0,0);opacity:0}36%{transform:translate(0,0);opacity:1}100%{transform:translate(var(--mis),calc(var(--mis) * 0.8));opacity:1}}
+@keyframes inkIn{0%{opacity:0;transform:translateY(8px)}60%{opacity:1}100%{opacity:1;transform:translateY(0)}}
+@keyframes fadeUp{0%{opacity:0;transform:translateY(10px)}100%{opacity:1;transform:translateY(0)}}
+@keyframes scrollx{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@keyframes popIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes drift{0%{transform:translate3d(-2%,-1%,0) scale(1) rotate(0deg);filter:blur(52px) hue-rotate(0deg)}100%{transform:translate3d(3%,2%,0) scale(1.1) rotate(7deg);filter:blur(64px) hue-rotate(38deg)}}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.001ms !important;animation-delay:0ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important}}
+</style>
+</helmet>
+
+<div aria-hidden="true" style="position:fixed;inset:-25%;z-index:0;pointer-events:none;opacity:var(--wash);background:radial-gradient(58% 52% at 16% 82%,#5a2bff 0,transparent 72%),radial-gradient(54% 48% at 88% 34%,#00b7ad 0,transparent 74%);filter:blur(90px);animation:drift 72s ease-in-out infinite alternate"></div>
+
+<div style="position:relative;z-index:1;min-height:100vh">
+
+  <nav aria-label="Main" style="position:sticky;top:0;z-index:50;background:var(--paper);border-bottom:2px solid var(--rule)">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;max-width:1180px;margin:0 auto">
+      <a href="#top" data-action="view" data-arg="site" style="font-family:'Space Mono',monospace;font-weight:700;font-size:15px;letter-spacing:.02em;white-space:nowrap;flex:0 0 auto">NONSENSE<span style="color:var(--pink)">*</span><span data-mark-tail="1">TICKETS</span></a>
+
+      <div role="group" aria-label="Prototype views" data-switcher="1" style="display:flex;border:2px solid var(--rule);flex:0 1 auto;min-width:0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none">
+        <button data-action="view" data-arg="site" data-view="site" style="font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.1em;padding:7px 12px;border-right:2px solid var(--rule)">Site</button>
+        <button data-action="view" data-arg="event" data-view="event" style="font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.1em;padding:7px 12px;border-right:2px solid var(--rule)">Event</button>
+        <button data-action="view" data-arg="ticket" data-view="ticket" style="font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.1em;padding:7px 12px;border-right:2px solid var(--rule)">Ticket</button>
+        <button data-action="view" data-arg="mobile" data-view="mobile" style="font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.1em;padding:7px 12px">Mobile</button>
+      </div>
+
+      <div style="display:flex;gap:16px;align-items:center;flex-wrap:nowrap">
+        <a href="#fees" data-navlink="1" style="font-family:'Space Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:.08em;white-space:nowrap">The math</a>
+        <a href="#promoters" data-navlink="1" style="font-family:'Space Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:.08em;white-space:nowrap">Promoters</a>
+        <button data-action="theme" aria-label="Toggle dark theme" style="font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.1em;padding:6px 10px;border:2px solid var(--rule);white-space:nowrap;flex:0 0 auto">{{ themeLabel }}</button>
+        <span data-phl="1" style="font-family:'Space Mono',monospace;font-size:11px;background:var(--ink);color:var(--paper);padding:4px 10px;border-radius:99px;letter-spacing:.1em">PHL</span>
+      </div>
+    </div>
+  </nav>
+
+  <sc-if value="{{ isSite }}" hint-placeholder-val="{{ true }}">
+  <div>
+    <header id="top" style="padding:72px 20px 56px;border-bottom:2px solid var(--rule);overflow:hidden">
+      <div style="max-width:1120px;margin:0 auto;position:relative">
+        <div style="position:absolute;right:0;top:-10px;font-family:'Space Mono',monospace;font-size:11px;line-height:1.4;border:2px solid var(--blue);color:var(--blue);padding:10px 12px;transform:rotate(6deg);text-transform:uppercase;letter-spacing:.1em;background:var(--paper);animation:fadeUp .5s ease .75s both">DIY certified ·<br>zero junk fees ·<br>est. Philadelphia</div>
+        <h1 aria-label="No junk fees. No nonsense." style="font-family:'Unbounded',sans-serif;font-weight:900;font-size:clamp(40px,9.4vw,112px);line-height:.95;letter-spacing:-.03em;text-transform:uppercase;user-select:none;position:relative">
+          <span style="display:block;position:relative">
+            <span aria-hidden="true" style="position:absolute;inset:0;color:var(--blue);mix-blend-mode:var(--blend);transform:translate(calc(var(--mis) * -1),calc(var(--mis) * -0.8));animation:regB 1s cubic-bezier(.2,.85,.25,1) .1s both">NO JUNK</span>
+            <span aria-hidden="true" style="position:absolute;inset:0;color:var(--pink);mix-blend-mode:var(--blend);transform:translate(var(--mis),calc(var(--mis) * 0.8));animation:regP 1s cubic-bezier(.2,.85,.25,1) .16s both">NO JUNK</span>
+            <span style="position:relative;z-index:2;display:block;animation:inkIn .5s ease .02s both">NO JUNK</span>
+          </span>
+          <span style="display:block;position:relative">
+            <span aria-hidden="true" style="position:absolute;inset:0;color:var(--blue);mix-blend-mode:var(--blend);transform:translate(calc(var(--mis) * -1),calc(var(--mis) * -0.8));animation:regB 1s cubic-bezier(.2,.85,.25,1) .22s both">FEES. NO</span>
+            <span aria-hidden="true" style="position:absolute;inset:0;color:var(--pink);mix-blend-mode:var(--blend);transform:translate(var(--mis),calc(var(--mis) * 0.8));animation:regP 1s cubic-bezier(.2,.85,.25,1) .28s both">FEES. NO</span>
+            <span style="position:relative;z-index:2;display:block;animation:inkIn .5s ease .1s both">FEES. NO</span>
+          </span>
+          <span style="display:block;position:relative">
+            <span aria-hidden="true" style="position:absolute;inset:0;color:var(--blue);mix-blend-mode:var(--blend);transform:translate(calc(var(--mis) * -1),calc(var(--mis) * -0.8));animation:regB 1s cubic-bezier(.2,.85,.25,1) .34s both">NONSENSE.</span>
+            <span aria-hidden="true" style="position:absolute;inset:0;color:var(--pink);mix-blend-mode:var(--blend);transform:translate(var(--mis),calc(var(--mis) * 0.8));animation:regP 1s cubic-bezier(.2,.85,.25,1) .4s both">NONSENSE.</span>
+            <span style="position:relative;z-index:2;display:block;animation:inkIn .5s ease .18s both">NONSENSE.</span>
+          </span>
+        </h1>
+        <p style="margin-top:28px;max-width:560px;font-size:18px;font-weight:500;text-wrap:pretty;animation:fadeUp .5s ease .55s both">Tickets for Philly's warehouse nights, basement raves, and self hosted shows. The price on the flyer is the price at checkout: <b style="background:var(--acid);color:#17141f;padding:0 5px"><span data-fee-inline="1">flat $1 per ticket</span></b>, promoters keep the rest.</p>
+        <div style="margin-top:32px;display:flex;gap:14px;flex-wrap:wrap;align-items:center;animation:fadeUp .5s ease .65s both">
+          <a href="#shows" style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:14px 26px;border:2px solid var(--rule);background:var(--ink);color:var(--paper);display:inline-block;transition:transform .12s ease,box-shadow .12s ease" style-hover="transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--pink);color:var(--paper)">Find a show</a>
+          <a href="#promoters" style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:14px 26px;border:2px solid var(--rule);background:transparent;display:inline-block;transition:transform .12s ease,box-shadow .12s ease" style-hover="transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--blue);color:var(--ink)">Sell your show</a>
+        </div>
+      </div>
+    </header>
+
+    <div aria-hidden="true" style="border-bottom:2px solid var(--rule);background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap">
+      <div style="display:inline-block;padding:10px 0;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.06em;animation:scrollx 28s linear infinite">
+        <span style="margin:0 26px">$25 TICKET = <span style="color:var(--acid)">$25 ON THE FLYER</span></span><span style="margin:0 26px">·</span>
+        <span style="margin:0 26px">PROMOTER PAYOUT: <span style="color:var(--pink)">NEXT DAY</span></span><span style="margin:0 26px">·</span>
+        <span style="margin:0 26px">YOUR LIST, YOUR DATA</span><span style="margin:0 26px">·</span>
+        <span style="margin:0 26px">DOOR SCAN WORKS OFFLINE</span><span style="margin:0 26px">·</span>
+        <span style="margin:0 26px">$25 TICKET = <span style="color:var(--acid)">$25 ON THE FLYER</span></span><span style="margin:0 26px">·</span>
+        <span style="margin:0 26px">PROMOTER PAYOUT: <span style="color:var(--pink)">NEXT DAY</span></span><span style="margin:0 26px">·</span>
+        <span style="margin:0 26px">YOUR LIST, YOUR DATA</span><span style="margin:0 26px">·</span>
+        <span style="margin:0 26px">DOOR SCAN WORKS OFFLINE</span><span style="margin:0 26px">·</span>
+      </div>
+    </div>
+
+    <section id="shows" style="padding:64px 0">
+      <div style="max-width:1120px;margin:0 auto;padding:0 20px">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:32px;gap:16px;flex-wrap:wrap">
+          <div>
+            <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--blue)">This week and beyond</div>
+            <h2 style="font-family:'Archivo',sans-serif;font-weight:700;font-size:clamp(24px,3.6vw,34px);letter-spacing:-.01em;text-transform:uppercase">Upcoming shows</h2>
+          </div>
+          <div role="group" aria-label="Filter by genre" style="display:flex;gap:8px;flex-wrap:wrap">
+            <button data-action="filter" data-arg="all" data-chip="all" style="font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;padding:8px 14px;border:2px solid var(--rule);border-radius:99px">All</button>
+            <button data-action="filter" data-arg="techno" data-chip="techno" style="font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;padding:8px 14px;border:2px solid var(--rule);border-radius:99px">Techno</button>
+            <button data-action="filter" data-arg="house" data-chip="house" style="font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;padding:8px 14px;border:2px solid var(--rule);border-radius:99px">House</button>
+            <button data-action="filter" data-arg="bass" data-chip="bass" style="font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;padding:8px 14px;border:2px solid var(--rule);border-radius:99px">Bass</button>
+            <button data-action="filter" data-arg="dnb" data-chip="dnb" style="font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;padding:8px 14px;border:2px solid var(--rule);border-radius:99px">DnB</button>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:26px">
+
+          <button data-action="open" data-arg="1" data-genre="techno" aria-label="Concrete Mass 014 at Callowhill warehouse" style="background:var(--paper2);border:2px solid var(--rule);position:relative;display:flex;flex-direction:column;text-align:left;font:inherit;color:inherit;transition:transform .14s ease,box-shadow .14s ease" style-hover="transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--blue)">
+            <div data-tex="Concrete Mass 014" style="height:150px;border-bottom:2px dashed var(--rule);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center"><img src="assets/stage-crowd.png" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"><span aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,16,.38),rgba(10,8,16,0) 55%);pointer-events:none"></span>
+              <span style="position:absolute;top:10px;right:10px;font-family:'Space Mono',monospace;font-weight:700;font-size:11px;letter-spacing:.16em;text-transform:uppercase;background:rgba(10,8,16,.62);color:#eae5d8;padding:4px 9px">TKN</span>
+              <span data-seed="Concrete Mass 014" style="position:absolute;left:10px;bottom:9px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55"></span>
+              <span style="position:absolute;left:-11px;bottom:-11px;width:20px;height:20px;border-radius:50%;background:var(--paper);border:2px solid var(--rule);z-index:2"></span>
+              <span style="position:absolute;right:-11px;bottom:-11px;width:20px;height:20px;border-radius:50%;background:var(--paper);border:2px solid var(--rule);z-index:2"></span>
+            </div>
+            <div style="padding:18px 18px 16px;flex:1;display:flex;flex-direction:column;gap:8px">
+              <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)">FRI SEP 04 · 10PM–4AM</div>
+              <div style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:17px;line-height:1.2;letter-spacing:-.01em">Concrete Mass 014</div>
+              <div style="font-size:13px;font-weight:500;opacity:.75">Callowhill warehouse · address on ticket</div>
+              <div style="margin-top:auto;padding-top:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--rule)">
+                <div style="font-family:'Space Mono',monospace;font-weight:700;font-size:15px"><span data-price="20">$21</span><small style="font-weight:400;font-size:10px;display:block;opacity:.6;letter-spacing:.06em;text-transform:uppercase">all in, no surprises</small></div>
+                <span style="font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;padding:4px 9px;border-radius:99px;background:var(--acid);color:#17141f;white-space:nowrap">On sale</span>
+              </div>
+            </div>
+          </button>
+
+          <button data-action="open" data-arg="2" data-genre="house" aria-label="Sweat Equity at Fishtown Social Club" style="background:var(--paper2);border:2px solid var(--rule);position:relative;display:flex;flex-direction:column;text-align:left;font:inherit;color:inherit;transition:transform .14s ease,box-shadow .14s ease" style-hover="transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--pink)">
+            <div data-tex="Sweat Equity" style="height:150px;border-bottom:2px dashed var(--rule);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center"><img src="assets/stage-lounge.png" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"><span aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,16,.38),rgba(10,8,16,0) 55%);pointer-events:none"></span>
+              <span style="position:absolute;top:10px;right:10px;font-family:'Space Mono',monospace;font-weight:700;font-size:11px;letter-spacing:.16em;text-transform:uppercase;background:rgba(10,8,16,.62);color:#eae5d8;padding:4px 9px">HSE</span>
+              <span data-seed="Sweat Equity" style="position:absolute;left:10px;bottom:9px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55"></span>
+              <span style="position:absolute;left:-11px;bottom:-11px;width:20px;height:20px;border-radius:50%;background:var(--paper);border:2px solid var(--rule);z-index:2"></span>
+              <span style="position:absolute;right:-11px;bottom:-11px;width:20px;height:20px;border-radius:50%;background:var(--paper);border:2px solid var(--rule);z-index:2"></span>
+            </div>
+            <div style="padding:18px 18px 16px;flex:1;display:flex;flex-direction:column;gap:8px">
+              <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)">SAT SEP 05 · 9PM–2AM</div>
+              <div style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:17px;line-height:1.2;letter-spacing:-.01em">Sweat Equity</div>
+              <div style="font-size:13px;font-weight:500;opacity:.75">Fishtown Social Club</div>
+              <div style="margin-top:auto;padding-top:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--rule)">
+                <div style="font-family:'Space Mono',monospace;font-weight:700;font-size:15px"><span data-price="15">$16</span><small style="font-weight:400;font-size:10px;display:block;opacity:.6;letter-spacing:.06em;text-transform:uppercase">all in, no surprises</small></div>
+                <span style="font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;padding:4px 9px;border-radius:99px;background:var(--pink);color:#fff;white-space:nowrap">Low tix</span>
+              </div>
+            </div>
+          </button>
+
+          <button data-action="open" data-arg="3" data-genre="bass" aria-label="Low End Census at The Substation" style="background:var(--paper2);border:2px solid var(--rule);position:relative;display:flex;flex-direction:column;text-align:left;font:inherit;color:inherit;transition:transform .14s ease,box-shadow .14s ease" style-hover="transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--blue)">
+            <div data-tex="Low End Census" style="height:150px;border-bottom:2px dashed var(--rule);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center"><img src="assets/stage-kraken.png" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"><span aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,16,.38),rgba(10,8,16,0) 55%);pointer-events:none"></span>
+              <span style="position:absolute;top:10px;right:10px;font-family:'Space Mono',monospace;font-weight:700;font-size:11px;letter-spacing:.16em;text-transform:uppercase;background:rgba(10,8,16,.62);color:#eae5d8;padding:4px 9px">BSS</span>
+              <span data-seed="Low End Census" style="position:absolute;left:10px;bottom:9px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55"></span>
+              <span style="position:absolute;left:-11px;bottom:-11px;width:20px;height:20px;border-radius:50%;background:var(--paper);border:2px solid var(--rule);z-index:2"></span>
+              <span style="position:absolute;right:-11px;bottom:-11px;width:20px;height:20px;border-radius:50%;background:var(--paper);border:2px solid var(--rule);z-index:2"></span>
+            </div>
+            <div style="padding:18px 18px 16px;flex:1;display:flex;flex-direction:column;gap:8px">
+              <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)">FRI SEP 11 · 10PM–3AM</div>
+              <div style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:17px;line-height:1.2;letter-spacing:-.01em">Low End Census</div>
+              <div style="font-size:13px;font-weight:500;opacity:.75">The Substation · Kensington</div>
+              <div style="margin-top:auto;padding-top:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--rule)">
+                <div style="font-family:'Space Mono',monospace;font-weight:700;font-size:15px"><span data-price="18">$19</span><small style="font-weight:400;font-size:10px;display:block;opacity:.6;letter-spacing:.06em;text-transform:uppercase">all in, no surprises</small></div>
+                <span style="font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;padding:4px 9px;border-radius:99px;background:var(--acid);color:#17141f;white-space:nowrap">On sale</span>
+              </div>
+            </div>
+          </button>
+
+          <button data-action="open" data-arg="4" data-genre="dnb" aria-label="Fast Forward Philly at Ukrainian Social Hall" style="background:var(--paper2);border:2px solid var(--rule);position:relative;display:flex;flex-direction:column;text-align:left;font:inherit;color:inherit;transition:transform .14s ease,box-shadow .14s ease" style-hover="transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--pink)">
+            <div data-tex="Fast Forward Philly" style="height:150px;border-bottom:2px dashed var(--rule);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center"><img src="assets/stage-truss.png" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"><span aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,16,.38),rgba(10,8,16,0) 55%);pointer-events:none"></span>
+              <span style="position:absolute;top:10px;right:10px;font-family:'Space Mono',monospace;font-weight:700;font-size:11px;letter-spacing:.16em;text-transform:uppercase;background:rgba(10,8,16,.62);color:#eae5d8;padding:4px 9px">DNB</span>
+              <span data-seed="Fast Forward Philly" style="position:absolute;left:10px;bottom:9px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55"></span>
+              <span style="position:absolute;left:-11px;bottom:-11px;width:20px;height:20px;border-radius:50%;background:var(--paper);border:2px solid var(--rule);z-index:2"></span>
+              <span style="position:absolute;right:-11px;bottom:-11px;width:20px;height:20px;border-radius:50%;background:var(--paper);border:2px solid var(--rule);z-index:2"></span>
+            </div>
+            <div style="padding:18px 18px 16px;flex:1;display:flex;flex-direction:column;gap:8px">
+              <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)">SAT SEP 12 · 9PM–2AM</div>
+              <div style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:17px;line-height:1.2;letter-spacing:-.01em">Fast Forward Philly</div>
+              <div style="font-size:13px;font-weight:500;opacity:.75">Ukrainian Social Hall</div>
+              <div style="margin-top:auto;padding-top:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--rule)">
+                <div style="font-family:'Space Mono',monospace;font-weight:700;font-size:15px"><span data-price="22">$23</span><small style="font-weight:400;font-size:10px;display:block;opacity:.6;letter-spacing:.06em;text-transform:uppercase">all in, no surprises</small></div>
+                <span style="font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;padding:4px 9px;border-radius:99px;background:var(--acid);color:#17141f;white-space:nowrap">On sale</span>
+              </div>
+            </div>
+          </button>
+
+          <button data-action="open" data-arg="5" data-genre="techno" aria-label="Night Shift All Vinyl at a West Philly basement" style="background:var(--paper2);border:2px solid var(--rule);position:relative;display:flex;flex-direction:column;text-align:left;font:inherit;color:inherit;transition:transform .14s ease,box-shadow .14s ease" style-hover="transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--blue)">
+            <div data-tex="Night Shift All Vinyl" style="height:150px;border-bottom:2px dashed var(--rule);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center"><img src="assets/dj-frame.png" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"><span aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,16,.38),rgba(10,8,16,0) 55%);pointer-events:none"></span>
+              <span style="position:absolute;top:10px;right:10px;font-family:'Space Mono',monospace;font-weight:700;font-size:11px;letter-spacing:.16em;text-transform:uppercase;background:rgba(10,8,16,.62);color:#eae5d8;padding:4px 9px">TKN</span>
+              <span data-seed="Night Shift All Vinyl" style="position:absolute;left:10px;bottom:9px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55"></span>
+              <span style="position:absolute;left:-11px;bottom:-11px;width:20px;height:20px;border-radius:50%;background:var(--paper);border:2px solid var(--rule);z-index:2"></span>
+              <span style="position:absolute;right:-11px;bottom:-11px;width:20px;height:20px;border-radius:50%;background:var(--paper);border:2px solid var(--rule);z-index:2"></span>
+            </div>
+            <div style="padding:18px 18px 16px;flex:1;display:flex;flex-direction:column;gap:8px">
+              <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)">FRI SEP 18 · 11PM–5AM</div>
+              <div style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:17px;line-height:1.2;letter-spacing:-.01em">Night Shift: All Vinyl</div>
+              <div style="font-size:13px;font-weight:500;opacity:.75">Basement TBA · West Philly</div>
+              <div style="margin-top:auto;padding-top:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--rule)">
+                <div style="font-family:'Space Mono',monospace;font-weight:700;font-size:15px"><span data-price="12">$13</span><small style="font-weight:400;font-size:10px;display:block;opacity:.6;letter-spacing:.06em;text-transform:uppercase">all in, no surprises</small></div>
+                <span style="font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;padding:4px 9px;border-radius:99px;background:var(--pink);color:#fff;white-space:nowrap">Low tix</span>
+              </div>
+            </div>
+          </button>
+
+          <button data-action="open" data-arg="6" data-genre="bass" aria-label="Afterjinx After Hours by No Nonsense at 405 N Broad St" style="background:var(--paper2);border:2px solid var(--rule);position:relative;display:flex;flex-direction:column;text-align:left;font:inherit;color:inherit;transition:transform .14s ease,box-shadow .14s ease" style-hover="transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--pink)">
+            <div data-tex="Afterjinx After Hours" style="height:150px;border-bottom:2px dashed var(--rule);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center"><img src="assets/afterjinx-logo.png" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"><span aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,16,.38),rgba(10,8,16,0) 55%);pointer-events:none"></span>
+              <span style="position:absolute;top:10px;right:10px;font-family:'Space Mono',monospace;font-weight:700;font-size:11px;letter-spacing:.16em;text-transform:uppercase;background:rgba(10,8,16,.62);color:#eae5d8;padding:4px 9px">HSE</span>
+              <span data-seed="Afterjinx After Hours" style="position:absolute;left:10px;bottom:9px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55"></span>
+              <span style="position:absolute;left:-11px;bottom:-11px;width:20px;height:20px;border-radius:50%;background:var(--paper);border:2px solid var(--rule);z-index:2"></span>
+              <span style="position:absolute;right:-11px;bottom:-11px;width:20px;height:20px;border-radius:50%;background:var(--paper);border:2px solid var(--rule);z-index:2"></span>
+            </div>
+            <div style="padding:18px 18px 16px;flex:1;display:flex;flex-direction:column;gap:8px">
+              <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)">FRI DEC 26 · 1AM–3AM</div>
+              <div style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:17px;line-height:1.2;letter-spacing:-.01em">Afterjinx After Hours</div>
+              <div style="font-size:13px;font-weight:500;opacity:.75">No Nonsense · 405 N Broad St</div>
+              <div style="margin-top:auto;padding-top:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--rule)">
+                <div style="font-family:'Space Mono',monospace;font-weight:700;font-size:15px"><span data-price="25">$26</span><small style="font-weight:400;font-size:10px;display:block;opacity:.6;letter-spacing:.06em;text-transform:uppercase">all in, no surprises</small></div>
+                <span style="font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;padding:4px 9px;border-radius:99px;background:var(--ink);color:var(--paper);white-space:nowrap">Sold out</span>
+              </div>
+            </div>
+          </button>
+
+        </div>
+      </div>
+    </section>
+
+    <section id="fees" style="padding:64px 0;background:var(--deep);border-top:2px solid var(--rule);border-bottom:2px solid var(--rule)">
+      <div style="max-width:1120px;margin:0 auto;padding:0 20px">
+        <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--blue)">Receipts</div>
+        <h2 style="font-family:'Archivo',sans-serif;font-weight:700;font-size:clamp(24px,3.6vw,34px);letter-spacing:-.01em;text-transform:uppercase;margin-bottom:28px">The math on a $25 ticket</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));border:2px solid var(--rule);background:var(--paper2)">
+          <div style="padding:26px 24px;border-bottom:2px solid var(--rule)">
+            <h3 style="font-family:'Archivo',sans-serif;font-size:14px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px;font-weight:700">Big platform</h3>
+            <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:13px;padding:5px 0"><span>Ticket</span><span>$25.00</span></div>
+            <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:13px;padding:5px 0"><span>Service fee</span><span>$3.49</span></div>
+            <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:13px;padding:5px 0"><span>Processing</span><span>$2.20</span></div>
+            <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:13px;padding:5px 0"><span>"Facility" fee</span><span>$1.50</span></div>
+            <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:15px;font-weight:700;border-top:1px dashed currentColor;margin-top:8px;padding-top:10px"><span>Fan pays</span><span>$32.19</span></div>
+            <p style="font-size:12px;opacity:.65;margin-top:12px;line-height:1.5">Fees appear at the last step of checkout. The list belongs to the platform.</p>
+          </div>
+          <div style="padding:26px 24px;border-bottom:2px solid var(--rule)">
+            <h3 style="font-family:'Archivo',sans-serif;font-size:14px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px;font-weight:700">Social ticketing app</h3>
+            <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:13px;padding:5px 0"><span>Ticket</span><span>$25.00</span></div>
+            <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:13px;padding:5px 0"><span>Platform 10%</span><span>$2.50</span></div>
+            <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:13px;padding:5px 0"><span>Per ticket</span><span>$0.99</span></div>
+            <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:15px;font-weight:700;border-top:1px dashed currentColor;margin-top:8px;padding-top:10px"><span>Fan pays</span><span>$28.49</span></div>
+            <p style="font-size:12px;opacity:.65;margin-top:12px;line-height:1.5">All in pricing, which is honest, but the take rate is the highest on the board.</p>
+          </div>
+          <div style="padding:26px 24px;background:var(--ink);color:var(--paper)">
+            <h3 style="font-family:'Archivo',sans-serif;font-size:14px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px;font-weight:700">Nonsense</h3>
+            <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:13px;padding:5px 0"><span>Ticket</span><span>$25.00</span></div>
+            <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:13px;padding:5px 0"><span>Nonsense flat</span><span>{{ feeMoney }}</span></div>
+            <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:13px;padding:5px 0"><span>Processing</span><span>incl.</span></div>
+            <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:15px;font-weight:700;border-top:1px dashed currentColor;margin-top:8px;padding-top:10px;color:var(--acid)"><span>Fan pays</span><span>{{ fanPays }}</span></div>
+            <p style="font-size:12px;opacity:.8;margin-top:12px;line-height:1.5">Shown on the flyer, shown on the card, charged at checkout. Same number three times.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="promoters" style="padding:64px 0">
+      <div style="max-width:1120px;margin:0 auto;padding:0 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:48px;align-items:start">
+        <div>
+          <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--blue)">For promoters and collectives</div>
+          <h2 style="font-family:'Archivo',sans-serif;font-weight:700;font-size:clamp(24px,3.6vw,34px);letter-spacing:-.01em;text-transform:uppercase;margin-bottom:18px">Run the door like you own it</h2>
+          <p style="max-width:480px;margin-bottom:22px;text-wrap:pretty">Built for the crews already throwing shows: warehouse collectives, basement bookers, social hall one offs. Set up an event in five minutes, share one link, scan at the door from any phone.</p>
+          <button data-action="noop" style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:14px 26px;border:2px solid var(--rule);background:var(--ink);color:var(--paper);transition:transform .12s ease,box-shadow .12s ease" style-hover="transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--pink)">Request access</button>
+      <div style="margin-top:26px;display:flex;align-items:center;gap:14px;border:2px solid var(--rule);background:#0c0a14;padding:12px 16px;max-width:420px">
+        <img src="assets/nn-logo.png" alt="No Nonsense logo" style="height:40px;width:auto;display:block">
+        <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#eae5d8;line-height:1.6">Founding promoter<br><span style="opacity:.65">No Nonsense · Philadelphia · since 2024</span></div>
+      </div>
+        </div>
+        <ul style="list-style:none;display:flex;flex-direction:column;border:2px solid var(--rule);background:var(--paper2)">
+          <li style="padding:16px 20px;border-bottom:2px solid var(--rule);display:flex;gap:14px;align-items:baseline"><span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--pink);font-weight:700;letter-spacing:.08em;min-width:34px">01</span><span><b>Next day payouts.</b> Stripe direct to your account, no holding your money until after the show.</span></li>
+          <li style="padding:16px 20px;border-bottom:2px solid var(--rule);display:flex;gap:14px;align-items:baseline"><span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--pink);font-weight:700;letter-spacing:.08em;min-width:34px">02</span><span><b>Your audience list.</b> Export emails and phone numbers any time. We never market to your crowd.</span></li>
+          <li style="padding:16px 20px;border-bottom:2px solid var(--rule);display:flex;gap:14px;align-items:baseline"><span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--pink);font-weight:700;letter-spacing:.08em;min-width:34px">03</span><span><b>Offline door scan.</b> Basements have bad signal. The scanner caches the list and syncs later.</span></li>
+          <li style="padding:16px 20px;display:flex;gap:14px;align-items:baseline"><span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--pink);font-weight:700;letter-spacing:.08em;min-width:34px">04</span><span><b>Comps and presale codes.</b> Guest list, artist comps, and unlock codes without a spreadsheet.</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <footer style="border-top:2px solid var(--rule);padding:36px 0 44px;background:var(--deep)">
+      <div style="max-width:1120px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:baseline">
+        <a href="#top" style="font-family:'Space Mono',monospace;font-weight:700;font-size:15px;letter-spacing:.02em">NONSENSE<span style="color:var(--pink)">*</span>TICKETS</a>
+        <span style="font-family:'Space Mono',monospace;font-size:11px;opacity:.6;letter-spacing:.06em">Prototype v0.3 · Philadelphia PA · No scalpers, no bots, no nonsense</span>
+      </div>
+    </footer>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isEvent }}" hint-placeholder-val="{{ false }}">
+  <div>
+    <div style="position:sticky;top:57px;z-index:40;background:var(--deep);border-bottom:2px solid var(--rule)">
+      <div style="max-width:1180px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+        <span style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;background:var(--accent);color:#17141f;padding:4px 8px;white-space:nowrap">Editing as promoter</span>
+        <span style="font-family:'Space Mono',monospace;font-size:11px;opacity:.7;white-space:nowrap">Draft · autosaved</span>
+        <div style="display:flex;gap:8px;align-items:center;margin-left:auto;flex-wrap:wrap">
+          <span style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;opacity:.6">Ink</span>
+          <button data-action="accent" data-arg="blue" data-accent="blue" aria-label="Blue ink" style="width:26px;height:26px;border:2px solid var(--rule);background:var(--blue)"></button>
+          <button data-action="accent" data-arg="pink" data-accent="pink" aria-label="Pink ink" style="width:26px;height:26px;border:2px solid var(--rule);background:var(--pink)"></button>
+          <button data-action="accent" data-arg="acid" data-accent="acid" aria-label="Acid ink" style="width:26px;height:26px;border:2px solid var(--rule);background:var(--acid)"></button>
+          <span style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;opacity:.6;margin-left:8px">Header</span>
+          <button data-action="header" data-arg="poster" data-header="poster" style="font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;padding:6px 10px;border:2px solid var(--rule)">Poster</button>
+          <button data-action="header" data-arg="banner" data-header="banner" style="font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;padding:6px 10px;border:2px solid var(--rule)">Banner</button>
+          <button data-action="header" data-arg="video" data-header="video" style="font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;padding:6px 10px;border:2px solid var(--rule)">Video</button>
+          <button data-action="header" data-arg="band" data-header="band" style="font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;padding:6px 10px;border:2px solid var(--rule)">Band</button>
+          <button data-action="reroll" style="font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;padding:6px 10px;border:2px solid var(--rule)">Reprint flyer</button>
+          <button data-action="times" data-times="1" style="font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;padding:6px 10px;border:2px solid var(--rule)">Set times</button>
+          <button data-action="noop" style="font-family:'Space Mono',monospace;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;padding:7px 14px;border:2px solid var(--rule);background:var(--ink);color:var(--paper)">Publish</button>
+        </div>
+      </div>
+    </div>
+
+    <div data-tex-live="1" data-hero-poster="1" style="border-bottom:2px solid var(--rule);min-height:440px;display:flex;align-items:flex-end;padding:40px 20px 34px;position:relative;overflow:hidden">
+      <div style="max-width:1120px;margin:0 auto;width:100%;position:relative">
+        <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;background:var(--ink);color:var(--paper);padding:5px 9px;display:inline-block;margin-bottom:14px">{{ selDate }}</div>
+        <h1 style="font-family:'Unbounded',sans-serif;font-weight:900;font-size:clamp(38px,7.4vw,86px);line-height:.96;letter-spacing:-.03em;text-transform:uppercase;position:relative;max-width:15ch">
+          <span aria-hidden="true" style="position:absolute;inset:0;color:var(--accent);mix-blend-mode:var(--blend);transform:translate(calc(var(--mis) * -1),calc(var(--mis) * -0.8));animation:regB .95s cubic-bezier(.2,.85,.25,1) .06s both">{{ selTitle }}</span>
+          <span aria-hidden="true" style="position:absolute;inset:0;color:var(--pink);mix-blend-mode:var(--blend);transform:translate(var(--mis),calc(var(--mis) * 0.8));animation:regP .95s cubic-bezier(.2,.85,.25,1) .12s both">{{ selTitle }}</span>
+          <span style="position:relative;z-index:2;animation:inkIn .5s ease both">{{ selTitle }}</span>
+        </h1>
+        <div style="margin-top:16px;font-size:17px;font-weight:600">{{ selVenue }}</div>
+      </div>
+    </div>
+
+    <div data-hero-banner="1" style="display:none;border-bottom:2px solid var(--rule);position:relative;height:460px;overflow:hidden">
+      <image-slot id="nt-event-banner" shape="rect" fit="cover" placeholder="Drop your event banner · 1600 × 900"></image-slot>
+      <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(to top,rgba(10,8,16,.86) 0,rgba(10,8,16,.35) 45%,rgba(10,8,16,0) 78%)"></div>
+      <div style="position:absolute;left:0;right:0;bottom:0;padding:0 20px 34px;pointer-events:none">
+        <div style="max-width:1120px;margin:0 auto">
+          <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;background:var(--accent);color:#17141f;padding:5px 9px;display:inline-block;margin-bottom:12px">{{ selDate }}</div>
+          <h1 style="font-family:'Unbounded',sans-serif;font-weight:900;font-size:clamp(34px,6.4vw,74px);line-height:.98;letter-spacing:-.03em;text-transform:uppercase;color:#f4f1e8;max-width:16ch;text-shadow:0 2px 30px rgba(10,8,16,.7)">{{ selTitle }}</h1>
+          <div style="margin-top:12px;font-size:16px;font-weight:600;color:#f4f1e8;opacity:.85">{{ selVenue }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div data-hero-video="1" style="display:none;border-bottom:2px solid var(--rule);position:relative;height:460px;overflow:hidden;background:#0b0912">
+      <video data-video-hero="1" muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none"></video>
+      <div data-videoempty="1" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;padding:24px">
+        <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)">Video header</div>
+        <div style="font-family:'Space Mono',monospace;font-size:13px;opacity:.7;max-width:34ch">No clip yet. Drop a recap video in the block below and it plays silently up here.</div>
+      </div>
+      <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(to top,rgba(10,8,16,.88) 0,rgba(10,8,16,.3) 50%,rgba(10,8,16,0) 80%)"></div>
+      <div style="position:absolute;left:0;right:0;bottom:0;padding:0 20px 34px;pointer-events:none">
+        <div style="max-width:1120px;margin:0 auto">
+          <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;background:var(--accent);color:#17141f;padding:5px 9px;display:inline-block;margin-bottom:12px">{{ selDate }}</div>
+          <h1 style="font-family:'Unbounded',sans-serif;font-weight:900;font-size:clamp(34px,6.4vw,74px);line-height:.98;letter-spacing:-.03em;text-transform:uppercase;color:#f4f1e8;max-width:16ch;text-shadow:0 2px 30px rgba(10,8,16,.7)">{{ selTitle }}</h1>
+          <div style="margin-top:12px;font-size:16px;font-weight:600;color:#f4f1e8;opacity:.85">{{ selVenue }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div data-hero-band="1" style="display:none;border-bottom:2px solid var(--rule);padding:34px 20px 30px">
+      <div style="max-width:1120px;margin:0 auto">
+        <div data-tex-live="1" style="height:150px;border:2px solid var(--rule);margin-bottom:24px"></div>
+        <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)">{{ selDate }}</div>
+        <h1 style="font-family:'Unbounded',sans-serif;font-weight:900;font-size:clamp(32px,5.6vw,60px);line-height:1;letter-spacing:-.03em;text-transform:uppercase;margin-top:8px">{{ selTitle }}</h1>
+        <div style="margin-top:12px;font-size:16px;font-weight:600;opacity:.8">{{ selVenue }}</div>
+      </div>
+    </div>
+
+    <div style="max-width:1120px;margin:0 auto;padding:48px 20px 72px;display:grid;grid-template-columns:minmax(0,1.55fr) minmax(300px,.95fr);gap:44px;align-items:start">
+
+      <div style="display:flex;flex-direction:column;gap:34px">
+        <div style="border:2px dashed transparent;padding:2px" style-hover="border-color:var(--accent)">
+          <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;opacity:.5;margin-bottom:10px">Promoter copy</div>
+          <p style="font-size:19px;font-weight:500;line-height:1.5;text-wrap:pretty;max-width:60ch">Fourteenth edition. One room, one rig, concrete floor, no VIP anything. Doors at ten and the first set is the one you'll text people about, so don't roll in at one. Address goes out at 6PM to everyone holding a ticket.</p>
+        </div>
+
+        <div style="border:2px solid var(--rule);background:var(--paper2)">
+          <div style="padding:14px 18px;border-bottom:2px solid var(--rule);display:flex;justify-content:space-between;align-items:center;gap:12px">
+            <span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase">Lineup</span>
+            <span style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;opacity:.5">Drag to reorder</span>
+          </div>
+          <ul style="list-style:none;display:flex;flex-direction:column">
+            <li style="padding:16px 18px;border-bottom:2px solid var(--rule);display:flex;justify-content:space-between;gap:16px;align-items:baseline">
+              <span style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:17px;letter-spacing:-.01em">{{ selL1 }}</span>
+              <span data-time="1" style="font-family:'Space Mono',monospace;font-size:12px;color:var(--accent);white-space:nowrap">1:30 – 4:00</span>
+            </li>
+            <li style="padding:16px 18px;border-bottom:2px solid var(--rule);display:flex;justify-content:space-between;gap:16px;align-items:baseline">
+              <span style="font-family:'Space Mono',monospace;font-size:15px">{{ selL2 }}</span>
+              <span data-time="1" style="font-family:'Space Mono',monospace;font-size:12px;color:var(--accent);white-space:nowrap">11:45 – 1:30</span>
+            </li>
+            <li style="padding:16px 18px;display:flex;justify-content:space-between;gap:16px;align-items:baseline">
+              <span style="font-family:'Space Mono',monospace;font-size:15px">{{ selL3 }}</span>
+              <span data-time="1" style="font-family:'Space Mono',monospace;font-size:12px;color:var(--accent);white-space:nowrap">10:00 – 11:45</span>
+            </li>
+          </ul>
+        </div>
+
+        <div style="border:2px solid var(--rule);background:var(--paper2)">
+          <div style="padding:14px 18px;border-bottom:2px solid var(--rule);font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase">Door and house rules</div>
+          <ul style="list-style:none;display:flex;flex-direction:column">
+            <li style="padding:14px 18px;border-bottom:2px solid var(--rule);display:flex;gap:12px;align-items:baseline"><span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--accent);font-weight:700;min-width:30px">01</span><span>{{ selNote }}</span></li>
+            <li style="padding:14px 18px;border-bottom:2px solid var(--rule);display:flex;gap:12px;align-items:baseline"><span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--accent);font-weight:700;min-width:30px">02</span><span>Exact address unlocks at 6PM day of show, here and by text.</span></li>
+            <li style="padding:14px 18px;display:flex;gap:12px;align-items:baseline"><span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--accent);font-weight:700;min-width:30px">03</span><span>Free water all night. Earplugs at the merch table, also free.</span></li>
+          </ul>
+        </div>
+
+        <div style="border:2px solid var(--rule);background:var(--paper2)">
+          <div style="padding:14px 18px;border-bottom:2px solid var(--rule);display:flex;justify-content:space-between;align-items:center;gap:12px">
+            <span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase">Recap video</span>
+            <span data-videoname="1" style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.08em;opacity:.5">MP4 / WebM · silent loop</span>
+          </div>
+          <div style="padding:18px">
+            <div data-videodrop="1" style="position:relative;border:2px dashed var(--rule);background:#0b0912;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer">
+              <video data-video="1" muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none"></video>
+              <div data-videoprompt="1" style="text-align:center;padding:20px;pointer-events:none">
+                <div style="width:54px;height:54px;border:2px solid var(--accent);border-radius:50%;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;color:var(--accent);font-family:'Space Mono',monospace;font-size:18px">▶</div>
+                <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#f4f1e8">Drop a clip, or click to browse</div>
+                <div style="font-family:'Space Mono',monospace;font-size:11px;opacity:.55;margin-top:6px;color:#f4f1e8">60 seconds max · plays silent on the page</div>
+              </div>
+              <input data-videofile="1" type="file" accept="video/*" aria-label="Upload recap video" style="position:absolute;inset:0;opacity:0;cursor:pointer">
+            </div>
+            <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+              <button data-action="videoclear" style="min-height:44px;font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.1em;padding:10px 14px;border:2px solid var(--rule)">Remove clip</button>
+              <button data-action="header" data-arg="video" style="min-height:44px;font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.1em;padding:10px 14px;border:2px solid var(--rule)">Use as header</button>
+              <span style="font-family:'Space Mono',monospace;font-size:10px;opacity:.55;align-self:center;max-width:26ch">Sound stays off on the page. Fans get audio in fullscreen.</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="border:2px solid var(--rule);background:var(--paper2)">
+          <div style="padding:14px 18px;border-bottom:2px solid var(--rule);display:flex;justify-content:space-between;align-items:center;gap:12px">
+            <span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase">Your links</span>
+            <button data-action="linkadd" style="font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;padding:6px 10px;border:2px solid var(--rule)">+ Add link</button>
+          </div>
+          <div data-links="1"></div>
+          <div style="padding:12px 18px;border-top:2px solid var(--rule);font-family:'Space Mono',monospace;font-size:10px;opacity:.5">Click any label or URL to edit. Links show under the lineup on the live page.</div>
+        </div>
+
+        <div style="border:2px solid var(--rule);background:var(--paper2);display:flex;gap:16px;align-items:center;padding:18px">
+          <div data-tex-live="1" style="width:64px;height:64px;border:2px solid var(--rule);flex:0 0 auto"></div>
+          <div>
+            <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.55">Presented by</div>
+            <div style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:16px;margin-top:2px">Concrete Mass Collective</div>
+            <div style="font-size:13px;opacity:.7;margin-top:2px">18 shows since 2021 · Philadelphia · @concretemass</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="position:sticky;top:120px;display:flex;flex-direction:column;gap:16px">
+        <div style="border:2px solid var(--rule);background:var(--paper2);box-shadow:8px 8px 0 var(--accent)">
+          <div data-tex-live="1" style="height:8px;border-bottom:2px solid var(--rule)"></div>
+          <div style="padding:20px 20px 22px">
+            <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;opacity:.55">General admission</div>
+            <div style="display:flex;align-items:baseline;gap:8px;margin-top:6px">
+              <span style="font-family:'Space Mono',monospace;font-weight:700;font-size:34px">{{ selAllIn }}</span>
+              <span style="font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;opacity:.6">all in</span>
+            </div>
+            <div style="margin-top:14px;border-top:1px dashed var(--rule);padding-top:12px">
+              <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:12px;padding:3px 0"><span>Ticket</span><span>{{ selBase }}</span></div>
+              <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:12px;padding:3px 0"><span>Nonsense flat</span><span>{{ feeMoney }}</span></div>
+              <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:12px;padding:3px 0"><span>Fees at checkout</span><span style="color:var(--accent)">none</span></div>
+            </div>
+            <button data-action="tickets" style="width:100%;margin-top:16px;min-height:54px;font-family:'Space Mono',monospace;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;border:2px solid var(--rule);background:var(--ink);color:var(--paper);transition:transform .12s ease,box-shadow .12s ease" style-hover="transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--pink)">Get tickets</button>
+            <p style="font-family:'Space Mono',monospace;font-size:10px;opacity:.6;margin-top:10px;text-align:center">{{ selStock }}</p>
+          </div>
+        </div>
+
+        <div style="border:2px solid var(--rule);background:var(--paper2);padding:16px 18px">
+          <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.55;margin-bottom:8px">Share link</div>
+          <div style="font-family:'Space Mono',monospace;font-size:13px;word-break:break-all">nonsense.tickets/{{ selSlug }}</div>
+          <div style="display:flex;gap:8px;margin-top:12px">
+            <button data-action="noop" style="flex:1;min-height:44px;font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.1em;border:2px solid var(--rule)">Copy</button>
+            <button data-action="noop" style="flex:1;min-height:44px;font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.1em;border:2px solid var(--rule)">Embed</button>
+          </div>
+        </div>
+
+        <button data-action="view" data-arg="site" style="min-height:44px;font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.12em;border:2px solid var(--rule);background:transparent">← All shows</button>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isTicket }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:40px 20px 72px">
+    <div style="max-width:520px;margin:0 auto">
+      <button data-action="view" data-arg="site" style="font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.12em;padding:8px 12px;border:2px solid var(--rule);margin-bottom:26px">← All shows</button>
+
+      <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--blue);margin-bottom:6px">Your ticket · 1 of 2</div>
+      <h1 style="font-family:'Unbounded',sans-serif;font-weight:900;font-size:clamp(28px,7vw,44px);line-height:1.02;letter-spacing:-.03em;text-transform:uppercase;position:relative;margin-bottom:26px">
+        <span aria-hidden="true" style="position:absolute;inset:0;color:var(--blue);mix-blend-mode:var(--blend);transform:translate(calc(var(--mis) * -0.6),calc(var(--mis) * -0.5));animation:regB .9s cubic-bezier(.2,.85,.25,1) .08s both">You're in</span>
+        <span aria-hidden="true" style="position:absolute;inset:0;color:var(--pink);mix-blend-mode:var(--blend);transform:translate(calc(var(--mis) * 0.6),calc(var(--mis) * 0.5));animation:regP .9s cubic-bezier(.2,.85,.25,1) .14s both">You're in</span>
+        <span style="position:relative;z-index:2;animation:inkIn .5s ease both">You're in</span>
+      </h1>
+
+      <div style="background:var(--paper2);border:2px solid var(--rule);border-radius:18px;overflow:hidden;box-shadow:10px 10px 0 var(--blue)">
+        <div data-tex="Concrete Mass 014" style="height:120px;border-bottom:2px solid var(--rule);display:flex;align-items:flex-end;justify-content:space-between;padding:12px 16px">
+          <span style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;background:var(--ink);color:var(--paper);padding:4px 8px">NONSENSE*TICKETS</span>
+          <span style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;background:var(--acid);color:#17141f;padding:4px 8px">GA · 2 GUESTS</span>
+        </div>
+        <div style="padding:20px 22px 18px">
+          <div style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:22px;line-height:1.15;letter-spacing:-.02em">Concrete Mass 014</div>
+          <div style="font-size:13px;opacity:.75;margin-top:6px">Callowhill warehouse · 1213 N Front St</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px 12px;margin-top:20px">
+            <div><div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55">Date</div><div style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700">FRI SEP 04</div></div>
+            <div><div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55">Doors</div><div style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700">10:00 PM</div></div>
+            <div><div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55">Admits</div><div style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700">2 guests</div></div>
+            <div><div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55">Paid</div><div style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:var(--blue)">$42.00</div></div>
+          </div>
+        </div>
+        <div style="position:relative;border-top:2px dashed var(--rule)">
+          <span style="position:absolute;left:-11px;top:-11px;width:20px;height:20px;border-radius:50%;background:var(--paper);border:2px solid var(--rule)"></span>
+          <span style="position:absolute;right:-11px;top:-11px;width:20px;height:20px;border-radius:50%;background:var(--paper);border:2px solid var(--rule)"></span>
+        </div>
+        <div style="padding:24px 22px 26px;display:flex;flex-direction:column;align-items:center;gap:12px">
+          <div data-qr="NON-4K2P9X" aria-label="Ticket QR code placeholder" style="width:168px;height:168px;background:#fff;padding:10px;display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:repeat(12,1fr)"></div>
+          <div style="font-family:'Space Mono',monospace;font-size:14px;letter-spacing:.24em;font-weight:700">NON-4K2P9X</div>
+          <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;opacity:.55;text-align:center">Scanned at the door · works offline</div>
+        </div>
+      </div>
+
+      <button data-action="wallet" data-wallet-btn="1" style="width:100%;margin-top:20px;display:flex;align-items:center;justify-content:center;gap:10px;height:52px;border-radius:12px;border:2px solid var(--rule);background:var(--ink);color:var(--paper);font-weight:600;font-size:15px;transition:transform .12s ease,box-shadow .12s ease" style-hover="transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--blue)">
+        <span data-wallet-glyph="1" style="width:22px;height:15px;border-radius:3px;flex:0 0 auto;border:2px solid var(--paper);border-top-width:7px"></span>
+        <span data-wallet-label="1">Add to Apple Wallet</span>
+      </button>
+      <p data-wallet-note="1" style="font-family:'Space Mono',monospace;font-size:11px;opacity:.6;margin-top:10px;text-align:center">Adds a pass with the QR, door time, and address.</p>
+
+      <div style="margin-top:30px;border:2px solid var(--rule);background:var(--paper2)">
+        <div style="padding:14px 18px;border-bottom:2px solid var(--rule);font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase">Receipt</div>
+        <div style="padding:16px 18px">
+          <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:13px;padding:4px 0"><span>2 × GA</span><span>$40.00</span></div>
+          <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:13px;padding:4px 0"><span data-fee-line="1">Nonsense flat ($1 × 2)</span><span data-fee-total="1">$2.00</span></div>
+          <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:13px;padding:4px 0"><span>Processing</span><span>incl.</span></div>
+          <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:15px;font-weight:700;border-top:1px dashed currentColor;margin-top:8px;padding-top:10px"><span>Charged</span><span data-charged="1">$42.00</span></div>
+          <p style="font-size:12px;opacity:.65;margin-top:12px;line-height:1.5">Same number the flyer said. No service fee, no facility fee, no delivery fee for a QR code.</p>
+        </div>
+      </div>
+
+      <div style="margin-top:26px;border:2px solid var(--rule);background:var(--paper2)">
+        <div style="padding:14px 18px;border-bottom:2px solid var(--rule);font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase">Door info</div>
+        <ul style="list-style:none;display:flex;flex-direction:column">
+          <li style="padding:14px 18px;border-bottom:2px solid var(--rule);display:flex;gap:12px;align-items:baseline"><span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--pink);font-weight:700;min-width:30px">01</span><span>Exact address unlocks at 6PM day of show. It lands here and by text.</span></li>
+          <li style="padding:14px 18px;border-bottom:2px solid var(--rule);display:flex;gap:12px;align-items:baseline"><span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--pink);font-weight:700;min-width:30px">02</span><span>21+, ID at the door. Earplugs at the merch table, free.</span></li>
+          <li style="padding:14px 18px;display:flex;gap:12px;align-items:baseline"><span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--pink);font-weight:700;min-width:30px">03</span><span>No photos on the floor. Nobody wants to be in your story at 3AM.</span></li>
+        </ul>
+      </div>
+
+      <div style="display:flex;gap:12px;margin-top:22px;flex-wrap:wrap">
+        <button data-action="noop" style="flex:1 1 160px;min-height:48px;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:14px 18px;border:2px solid var(--rule);background:transparent;transition:transform .12s ease,box-shadow .12s ease" style-hover="transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--pink)">Transfer ticket</button>
+        <button data-action="noop" style="flex:1 1 160px;min-height:48px;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:14px 18px;border:2px solid var(--rule);background:transparent;transition:transform .12s ease,box-shadow .12s ease" style-hover="transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--blue)">Refund before Sep 02</button>
+      </div>
+      <p style="font-family:'Space Mono',monospace;font-size:11px;opacity:.55;margin-top:18px;text-align:center">Screenshot works. Airplane mode works. See you on the floor.</p>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:44px 20px 80px">
+    <div style="max-width:1560px;margin:0 auto">
+      <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--blue)">375 × 740 · iPhone class</div>
+      <h2 style="font-family:'Archivo',sans-serif;font-weight:700;font-size:clamp(24px,3.6vw,34px);letter-spacing:-.01em;text-transform:uppercase;margin-bottom:8px">Mobile layouts</h2>
+      <p style="max-width:620px;opacity:.75;margin-bottom:36px;text-wrap:pretty">The phone build is the real build: one column, thumb-height targets, and the event detail as a dragged bottom sheet. Open the Site view on a narrow window to use it live.</p>
+
+      <div style="display:flex;gap:34px;flex-wrap:wrap">
+
+        <div style="flex:0 0 auto">
+          <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px;opacity:.7">01 · Shows list</div>
+          <div style="width:375px;height:740px;border:10px solid var(--rule);border-radius:44px;overflow:hidden;background:var(--paper);position:relative;box-shadow:10px 10px 0 var(--blue)">
+            <div style="height:38px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;font-family:'Space Mono',monospace;font-size:11px;opacity:.7"><span>9:41</span><span>▮▮▮ ⌁</span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-top:2px solid var(--rule);border-bottom:2px solid var(--rule)">
+              <span style="font-family:'Space Mono',monospace;font-weight:700;font-size:13px">NONSENSE<span style="color:var(--pink)">*</span>TICKETS</span>
+              <span style="font-family:'Space Mono',monospace;font-size:10px;background:var(--ink);color:var(--paper);padding:3px 8px;border-radius:99px">PHL</span>
+            </div>
+            <div style="padding:16px">
+              <div style="font-family:'Unbounded',sans-serif;font-weight:900;font-size:30px;line-height:.98;letter-spacing:-.03em;text-transform:uppercase;position:relative;margin-bottom:14px">
+                <span aria-hidden="true" style="position:absolute;inset:0;color:var(--blue);mix-blend-mode:var(--blend);transform:translate(-4px,-3px)">NO JUNK<br>FEES.</span>
+                <span aria-hidden="true" style="position:absolute;inset:0;color:var(--pink);mix-blend-mode:var(--blend);transform:translate(4px,3px)">NO JUNK<br>FEES.</span>
+                <span style="position:relative;z-index:2">NO JUNK<br>FEES.</span>
+              </div>
+              <div style="display:flex;gap:6px;overflow:hidden;margin-bottom:14px">
+                <span style="font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.08em;padding:8px 12px;border:2px solid var(--rule);border-radius:99px;background:var(--ink);color:var(--paper)">All</span>
+                <span style="font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.08em;padding:8px 12px;border:2px solid var(--rule);border-radius:99px">Techno</span>
+                <span style="font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.08em;padding:8px 12px;border:2px solid var(--rule);border-radius:99px">House</span>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:14px">
+                <div style="border:2px solid var(--rule);background:var(--paper2)">
+                  <div data-tex="Concrete Mass 014" style="height:92px;border-bottom:2px dashed var(--rule);position:relative;display:flex;align-items:center;justify-content:center">
+                    <span style="font-family:'Archivo',sans-serif;font-weight:700;font-size:30px;letter-spacing:-.03em;mix-blend-mode:var(--blend);opacity:.85">TKN</span>
+                  </div>
+                  <div style="padding:12px 14px">
+                    <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.1em;color:var(--blue)">FRI SEP 04 · 10PM</div>
+                    <div style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:15px;line-height:1.2;margin-top:4px">Concrete Mass 014</div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:10px;border-top:1px solid var(--rule)">
+                      <span style="font-family:'Space Mono',monospace;font-weight:700;font-size:14px">$21</span>
+                      <span style="font-family:'Space Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.1em;padding:3px 8px;border-radius:99px;background:var(--acid);color:#17141f">On sale</span>
+                    </div>
+                  </div>
+                </div>
+                <div style="border:2px solid var(--rule);background:var(--paper2)">
+                  <div data-tex="Sweat Equity" style="height:92px;border-bottom:2px dashed var(--rule);position:relative;display:flex;align-items:center;justify-content:center">
+                    <span style="font-family:'Archivo',sans-serif;font-weight:700;font-size:30px;letter-spacing:-.03em;mix-blend-mode:var(--blend);opacity:.85">HSE</span>
+                  </div>
+                  <div style="padding:12px 14px">
+                    <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.1em;color:var(--blue)">SAT SEP 05 · 9PM</div>
+                    <div style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:15px;line-height:1.2;margin-top:4px">Sweat Equity</div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:10px;border-top:1px solid var(--rule)">
+                      <span style="font-family:'Space Mono',monospace;font-weight:700;font-size:14px">$16</span>
+                      <span style="font-family:'Space Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.1em;padding:3px 8px;border-radius:99px;background:var(--pink);color:#fff">Low tix</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="flex:0 0 auto">
+          <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px;opacity:.7">02 · Detail bottom sheet</div>
+          <div style="width:375px;height:740px;border:10px solid var(--rule);border-radius:44px;overflow:hidden;background:var(--paper);position:relative;box-shadow:10px 10px 0 var(--pink)">
+            <div style="position:absolute;inset:0;background:rgba(10,8,16,.55)"></div>
+            <div style="position:absolute;left:0;right:0;bottom:0;background:var(--paper);border-top:2px solid var(--rule);max-height:82%;display:flex;flex-direction:column">
+              <div style="padding:12px 0 6px;display:flex;justify-content:center"><span style="width:56px;height:5px;background:var(--ink);display:block"></span></div>
+              <div style="padding:6px 18px 18px;border-bottom:2px dashed var(--rule);position:relative">
+                <div style="font-family:'Space Mono',monospace;font-size:11px;color:var(--blue);letter-spacing:.1em">FRI SEP 04 · 10PM–4AM</div>
+                <div style="font-family:'Unbounded',sans-serif;font-weight:900;font-size:21px;line-height:1.15;letter-spacing:-.02em;margin-top:6px">Concrete Mass 014</div>
+                <div style="font-size:13px;opacity:.75;margin-top:6px">Callowhill warehouse · 21+ · no photos</div>
+              </div>
+              <div style="padding:18px">
+                <div style="font-family:'Space Mono',monospace;font-size:13px;line-height:1.9;margin-bottom:16px">
+                  <div><span style="background:var(--acid);color:#17141f;padding:0 4px;font-weight:700">VOID CADET (Berlin)</span></div>
+                  <div>Slag Density</div>
+                  <div>Perimeter b2b Fault Line</div>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;border:2px solid var(--rule);padding:14px 16px;background:var(--paper2)">
+                  <div style="font-weight:700;font-size:14px">General admission<small style="display:block;font-weight:400;font-size:12px;opacity:.65">All in, fee included</small></div>
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <span style="width:44px;height:44px;border:2px solid var(--rule);display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-weight:700">−</span>
+                    <span style="font-family:'Space Mono',monospace;font-weight:700">2</span>
+                    <span style="width:44px;height:44px;border:2px solid var(--rule);display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-weight:700;background:var(--ink);color:var(--paper)">+</span>
+                  </div>
+                </div>
+                <div style="margin-top:16px;border-top:2px solid var(--rule);padding-top:12px">
+                  <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:12px;padding:4px 0"><span>2 × GA ($20 + $1 flat)</span><span>$42</span></div>
+                  <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:14px;font-weight:700;border-top:1px dashed currentColor;margin-top:6px;padding-top:8px"><span>Total, actually total</span><span>$42</span></div>
+                </div>
+                <div style="margin-top:16px;min-height:52px;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;border:2px solid var(--rule);background:var(--ink);color:var(--paper)">Checkout · $42</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="flex:0 0 auto">
+          <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px;opacity:.7">03 · Checkout</div>
+          <div style="width:375px;height:740px;border:10px solid var(--rule);border-radius:44px;overflow:hidden;background:var(--paper);position:relative;box-shadow:10px 10px 0 var(--blue)">
+            <div style="height:38px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;font-family:'Space Mono',monospace;font-size:11px;opacity:.7"><span>9:41</span><span>▮▮▮ ⌁</span></div>
+            <div style="position:absolute;left:0;right:0;bottom:0;top:70px;background:var(--paper);border-top:2px solid var(--rule);display:flex;flex-direction:column">
+              <div style="padding:12px 0 6px;display:flex;justify-content:center"><span style="width:56px;height:5px;background:var(--ink);display:block"></span></div>
+              <div style="padding:6px 18px 16px;border-bottom:2px dashed var(--rule)">
+                <div style="font-family:'Space Mono',monospace;font-size:11px;color:var(--blue);letter-spacing:.1em">CHECKOUT · 2 TICKETS</div>
+                <div style="font-family:'Unbounded',sans-serif;font-weight:900;font-size:20px;line-height:1.15;letter-spacing:-.02em;margin-top:6px">Concrete Mass 014</div>
+              </div>
+              <div style="padding:18px">
+                <div style="font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">Name on the list</div>
+                <div style="min-height:48px;border:2px solid var(--rule);background:var(--paper2);padding:13px 14px;font-size:15px">Dae Whitaker</div>
+                <div style="font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;margin:14px 0 6px">Email for your ticket</div>
+                <div style="min-height:48px;border:2px solid var(--rule);background:var(--paper2);padding:13px 14px;font-size:15px;opacity:.6">you@example.com</div>
+                <div style="font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;margin:14px 0 6px">Card</div>
+                <div style="min-height:48px;border:2px solid var(--blue);background:var(--paper2);padding:13px 14px;font-size:15px;font-family:'Space Mono',monospace">4242 4242 4242 4242</div>
+                <div style="margin-top:18px;border-top:2px solid var(--rule);padding-top:12px">
+                  <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:12px;padding:4px 0"><span>2 × Concrete Mass 014</span><span>$42.00</span></div>
+                  <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:14px;font-weight:700;border-top:1px dashed currentColor;margin-top:6px;padding-top:8px"><span>Charged now</span><span>$42.00</span></div>
+                </div>
+                <div style="margin-top:16px;min-height:52px;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;border:2px solid var(--rule);background:var(--ink);color:var(--paper)">Pay $42 · get tickets</div>
+                <div style="font-family:'Space Mono',monospace;font-size:10px;opacity:.6;text-align:center;margin-top:10px">No fees added on this screen. There are none.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="flex:0 0 auto">
+          <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px;opacity:.7">04 · Wallet pass</div>
+          <div style="width:375px;height:740px;border:10px solid var(--rule);border-radius:44px;overflow:hidden;background:var(--paper);position:relative;box-shadow:10px 10px 0 var(--pink)">
+            <div style="height:38px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;font-family:'Space Mono',monospace;font-size:11px;opacity:.7"><span>9:41</span><span>▮▮▮ ⌁</span></div>
+            <div style="padding:16px 16px 0;text-align:center">
+              <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--blue);margin-bottom:12px">You're on the list</div>
+              <div style="background:var(--paper2);border:2px solid var(--rule);border-radius:16px;overflow:hidden;box-shadow:6px 6px 0 var(--blue);text-align:left">
+                <div data-tex="Concrete Mass 014" style="height:60px;border-bottom:2px solid var(--rule);display:flex;align-items:center;justify-content:space-between;padding:0 12px">
+                  <span style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.12em;background:var(--ink);color:var(--paper);padding:3px 6px">NONSENSE*TICKETS</span>
+                  <span style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.12em;background:var(--acid);color:#17141f;padding:3px 6px">GA</span>
+                </div>
+                <div style="padding:14px 16px 12px">
+                  <div style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:16px;line-height:1.2">Concrete Mass 014</div>
+                  <div style="font-size:12px;opacity:.7;margin-top:4px">Callowhill warehouse</div>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px 10px;margin-top:14px">
+                    <div><div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;opacity:.55">Date</div><div style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700">FRI SEP 04</div></div>
+                    <div><div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;opacity:.55">Doors</div><div style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700">10:00 PM</div></div>
+                    <div><div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;opacity:.55">Admits</div><div style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700">2 guests</div></div>
+                    <div><div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;opacity:.55">Paid</div><div style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--blue)">$42.00</div></div>
+                  </div>
+                </div>
+                <div style="position:relative;border-top:2px dashed var(--rule)">
+                  <span style="position:absolute;left:-9px;top:-9px;width:16px;height:16px;border-radius:50%;background:var(--paper)"></span>
+                  <span style="position:absolute;right:-9px;top:-9px;width:16px;height:16px;border-radius:50%;background:var(--paper)"></span>
+                </div>
+                <div style="padding:16px;display:flex;flex-direction:column;align-items:center;gap:8px">
+                  <div data-qr="NON-4K2P9X" style="width:124px;height:124px;background:#fff;padding:8px;display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:repeat(12,1fr)"></div>
+                  <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.2em;font-weight:700">NON-4K2P9X</div>
+                </div>
+              </div>
+              <div style="margin-top:16px;min-height:50px;border-radius:12px;border:2px solid var(--rule);background:var(--ink);color:var(--paper);display:flex;align-items:center;justify-content:center;gap:10px;font-weight:600;font-size:15px">
+                <span style="width:22px;height:15px;border-radius:3px;border:2px solid var(--paper);border-top-width:7px"></span>
+                <span>Add to Apple Wallet</span>
+              </div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;opacity:.6;margin-top:10px">Screenshot works. Airplane mode works.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ open }}" hint-placeholder-val="{{ false }}">
+    <div role="dialog" aria-modal="true" aria-labelledby="sheetTitle" data-ov="1" data-action="backdrop" style="position:fixed;inset:0;z-index:100;background:rgba(10,8,16,.6);display:flex;justify-content:center;align-items:flex-start;overflow-y:auto;padding:0 16px">
+      <div data-panel="1" style="background:var(--paper);border:2px solid var(--rule);width:100%;max-width:620px;margin:32px 0;display:flex;flex-direction:column;position:relative;box-shadow:10px 10px 0 var(--blue)">
+
+        <div data-handle="1" role="button" tabindex="0" aria-label="Drag down to dismiss" style="flex:0 0 auto;padding:12px 0 6px;display:none;justify-content:center;cursor:grab;touch-action:none">
+          <span style="width:56px;height:5px;background:var(--ink);display:block"></span>
+        </div>
+
+        <div data-head="1" style="padding:26px 22px 20px;border-bottom:2px dashed var(--rule);position:relative;flex:0 0 auto">
+          <button data-action="close" data-closebtn="1" aria-label="Close" style="position:absolute;top:14px;right:14px;border:2px solid var(--rule);width:36px;height:36px;font-family:'Space Mono',monospace;font-weight:700;font-size:15px" style-hover="background:var(--pink);color:#fff;border-color:var(--pink)">×</button>
+          <div style="font-family:'Space Mono',monospace;font-size:12px;color:var(--blue);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px">{{ selDate }}</div>
+          <div id="sheetTitle" style="font-family:'Unbounded',sans-serif;font-weight:900;font-size:23px;line-height:1.15;letter-spacing:-.02em;padding-right:44px">{{ selTitle }}</div>
+          <div style="font-size:14px;margin-top:6px;opacity:.75">{{ selVenueNote }}</div>
+          <span style="position:absolute;left:-11px;bottom:-11px;width:20px;height:20px;border-radius:50%;background:var(--paper);border:2px solid var(--rule)"></span>
+          <span style="position:absolute;right:-11px;bottom:-11px;width:20px;height:20px;border-radius:50%;background:var(--paper);border:2px solid var(--rule)"></span>
+        </div>
+
+        <div style="padding:24px 22px 30px;overflow-y:auto;flex:1 1 auto;min-height:0;-webkit-overflow-scrolling:touch">
+
+          <sc-if value="{{ isDetail }}" hint-placeholder-val="{{ true }}">
+            <div>
+              <div style="font-family:'Space Mono',monospace;font-size:13px;line-height:1.9;margin-bottom:22px">
+                <div><span style="background:var(--acid);color:#17141f;padding:0 4px;font-weight:700">{{ selL1 }}</span></div>
+                <div>{{ selL2 }}</div>
+                <div>{{ selL3 }}</div>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;border:2px solid var(--rule);padding:14px 16px;margin-bottom:10px;background:var(--paper2);opacity:.45">
+                <div style="font-weight:700;font-size:14px">Early bird<small style="display:block;font-weight:400;font-size:12px;opacity:.65">Gone. You snooze.</small></div>
+                <span style="font-family:'Space Mono',monospace;font-weight:700">{{ selEarly }}</span>
+              </div>
+              <div data-ga="1" style="display:flex;justify-content:space-between;align-items:center;gap:12px;border:2px solid var(--rule);padding:14px 16px;margin-bottom:10px;background:var(--paper2)">
+                <div style="font-weight:700;font-size:14px">General admission<small style="display:block;font-weight:400;font-size:12px;opacity:.65">All in price, fee included</small></div>
+                <sc-if value="{{ soldOut }}" hint-placeholder-val="{{ false }}">
+                  <span style="font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;padding:4px 9px;border-radius:99px;background:var(--ink);color:var(--paper)">Sold out</span>
+                </sc-if>
+                <sc-if value="{{ onSale }}" hint-placeholder-val="{{ true }}">
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <button data-action="qty" data-arg="-1" style="width:44px;height:44px;border:2px solid var(--rule);font-family:'Space Mono',monospace;font-weight:700;font-size:16px" style-hover="background:var(--ink);color:var(--paper)">−</button>
+                    <span style="font-family:'Space Mono',monospace;font-weight:700;min-width:20px;text-align:center">{{ qty }}</span>
+                    <button data-action="qty" data-arg="1" style="width:44px;height:44px;border:2px solid var(--rule);font-family:'Space Mono',monospace;font-weight:700;font-size:16px" style-hover="background:var(--ink);color:var(--paper)">+</button>
+                  </div>
+                </sc-if>
+              </div>
+              <sc-if value="{{ onSale }}" hint-placeholder-val="{{ true }}">
+                <div>
+                  <div style="margin-top:18px;border-top:2px solid var(--rule);padding-top:14px">
+                    <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:13px;padding:5px 0"><span>{{ lineLabel }}</span><span>{{ totalStr }}</span></div>
+                    <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:15px;font-weight:700;border-top:1px dashed currentColor;margin-top:8px;padding-top:10px"><span>Total, actually total</span><span>{{ totalStr }}</span></div>
+                  </div>
+                  <button data-action="topay" style="width:100%;text-align:center;margin-top:18px;font-family:'Space Mono',monospace;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:16px 26px;border:2px solid var(--rule);background:var(--ink);color:var(--paper);transition:transform .12s ease,box-shadow .12s ease" style-hover="transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--pink)">Checkout · {{ totalStr }}</button>
+                </div>
+              </sc-if>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ isPay }}" hint-placeholder-val="{{ false }}">
+            <div>
+              <div style="margin-bottom:14px">
+                <label for="f-name" style="display:block;font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">Name on the list</label>
+                <input id="f-name" placeholder="First Last" style="width:100%;min-height:48px;padding:12px 14px;border:2px solid var(--rule);background:var(--paper2);color:var(--ink);font-size:15px">
+              </div>
+              <div style="margin-bottom:14px">
+                <label for="f-email" style="display:block;font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">Email for your ticket</label>
+                <input id="f-email" type="email" placeholder="you@example.com" style="width:100%;min-height:48px;padding:12px 14px;border:2px solid var(--rule);background:var(--paper2);color:var(--ink);font-size:15px">
+              </div>
+              <div style="margin-bottom:14px">
+                <label for="f-card" style="display:block;font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">Card</label>
+                <input id="f-card" inputmode="numeric" placeholder="4242 4242 4242 4242" style="width:100%;min-height:48px;padding:12px 14px;border:2px solid var(--rule);background:var(--paper2);color:var(--ink);font-size:15px">
+              </div>
+              <div style="margin-top:18px;border-top:2px solid var(--rule);padding-top:14px">
+                <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:13px;padding:5px 0"><span>{{ payLabel }}</span><span>{{ totalStr }}</span></div>
+                <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:15px;font-weight:700;border-top:1px dashed currentColor;margin-top:8px;padding-top:10px"><span>Charged now</span><span>{{ totalStr }}</span></div>
+              </div>
+              <button data-action="issue" style="width:100%;text-align:center;margin-top:18px;font-family:'Space Mono',monospace;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:16px 26px;border:2px solid var(--rule);background:var(--ink);color:var(--paper);transition:transform .12s ease,box-shadow .12s ease" style-hover="transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--pink)">Pay {{ totalStr }} · get tickets</button>
+              <p style="font-family:'Space Mono',monospace;font-size:11px;opacity:.6;margin-top:10px;text-align:center">Prototype checkout. Production build runs Stripe Elements here.</p>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ isIssued }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;align-items:center">
+              <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--blue);margin-bottom:16px">You're on the list</div>
+
+              <div style="width:100%;max-width:340px;background:var(--paper2);border:2px solid var(--rule);border-radius:16px;overflow:hidden;box-shadow:8px 8px 0 var(--blue);animation:popIn .35s cubic-bezier(.16,.84,.3,1) backwards">
+                <div data-strip="1" style="height:56px;border-bottom:2px solid var(--rule);display:flex;align-items:center;justify-content:space-between;padding:0 12px">
+                  <span style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;background:var(--ink);color:var(--paper);padding:3px 7px">NONSENSE*TICKETS</span>
+                  <span style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;background:var(--acid);color:#17141f;padding:3px 7px">GA</span>
+                </div>
+                <div style="padding:16px 18px 14px">
+                  <div style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:17px;line-height:1.2;letter-spacing:-.01em">{{ selTitle }}</div>
+                  <div style="font-size:12px;opacity:.7;margin-top:4px">{{ selVenue }}</div>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px 10px;margin-top:16px">
+                    <div><div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55">Date</div><div style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700">{{ selDay }}</div></div>
+                    <div><div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55">Doors</div><div style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700">{{ selTime }}</div></div>
+                    <div><div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55">Admits</div><div style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700">{{ admits }}</div></div>
+                    <div><div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55">Paid</div><div style="font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--blue)">{{ totalStr }}</div></div>
+                  </div>
+                </div>
+                <div style="position:relative;border-top:2px dashed var(--rule)">
+                  <span style="position:absolute;left:-10px;top:-10px;width:18px;height:18px;border-radius:50%;background:var(--paper)"></span>
+                  <span style="position:absolute;right:-10px;top:-10px;width:18px;height:18px;border-radius:50%;background:var(--paper)"></span>
+                </div>
+                <div style="padding:20px 18px;display:flex;flex-direction:column;align-items:center;gap:10px">
+                  <div data-qr="live" aria-label="Ticket QR code placeholder" style="width:132px;height:132px;background:#fff;padding:8px;display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:repeat(12,1fr)"></div>
+                  <div style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.22em;font-weight:700">{{ code }}</div>
+                </div>
+              </div>
+
+              <button data-action="wallet" data-wallet-btn="1" style="width:100%;max-width:340px;margin-top:18px;display:flex;align-items:center;justify-content:center;gap:10px;height:52px;border-radius:12px;border:2px solid var(--rule);background:var(--ink);color:var(--paper);font-weight:600;font-size:15px;transition:transform .12s ease,box-shadow .12s ease" style-hover="transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--blue)">
+                <span data-wallet-glyph="1" style="width:22px;height:15px;border-radius:3px;flex:0 0 auto;border:2px solid var(--paper);border-top-width:7px"></span>
+                <span data-wallet-label="1">Add to Apple Wallet</span>
+              </button>
+              <p data-wallet-note="1" style="font-family:'Space Mono',monospace;font-size:11px;opacity:.6;margin-top:10px;text-align:center;max-width:300px">Adds a pass with the QR, door time, and address.</p>
+
+              <p style="font-size:13px;opacity:.75;margin-top:16px;text-align:center;max-width:320px">{{ issuedNote }}<br>Screenshot works. Airplane mode works. See you on the floor.</p>
+              <div style="display:flex;gap:10px;width:100%;max-width:340px;margin-top:18px">
+                <button data-action="view" data-arg="ticket" style="flex:1;min-height:48px;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;border:2px solid var(--rule);background:transparent;transition:transform .12s ease,box-shadow .12s ease" style-hover="transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--pink)">View ticket page</button>
+                <button data-action="close" style="flex:1;min-height:48px;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;border:2px solid var(--rule);background:transparent;transition:transform .12s ease,box-shadow .12s ease" style-hover="transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--blue)">Done</button>
+              </div>
+            </div>
+          </sc-if>
+
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;flatFee&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:1,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:0,&quot;max&quot;:5,&quot;unit&quot;:&quot;$&quot;,&quot;section&quot;:&quot;Fees&quot;},&quot;misregistration&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:6,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:0,&quot;max&quot;:14,&quot;step&quot;:1,&quot;unit&quot;:&quot;px&quot;,&quot;section&quot;:&quot;Print&quot;},&quot;textureIntensity&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:0.3,&quot;max&quot;:1.8,&quot;step&quot;:0.1,&quot;section&quot;:&quot;Print&quot;},&quot;sheetPresentation&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;auto&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;sheet&quot;,&quot;dialog&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Detail view&quot;}}">
+class Component extends DCLogic {
+  state = { view:'site', theme:'dark', filter:'all', evId:'1', sheet:false, step:'detail', qty:1,
+            dragY:0, dragging:false, closing:false, narrow:false, code:'NON-4K2P9X', wallet:false,
+            accent:'blue', header:'poster', texSeed:0, times:true, videoName:'', linkN:4 };
+
+  videoUrl = null;
+  links = [
+    {label:'Instagram', url:'instagram.com/concretemass'},
+    {label:'Resident Advisor', url:'ra.co/events/2088414'},
+    {label:'Soundcloud set', url:'soundcloud.com/voidcadet/mass-013'},
+    {label:'Venue map', url:'nonsense.tickets/mass-014/map'}
+  ];
+
+  data = {
+    1:{art:'assets/stage-crowd.png',banner:'assets/stage-crowd.png',genre:'techno',title:'Concrete Mass 014',venue:'Callowhill warehouse · address on ticket',date:'FRI SEP 04 · 10PM–4AM',price:20,tag:'on',
+       lineup:['VOID CADET (Berlin)','Slag Density','Perimeter b2b Fault Line'],note:'21+ · BYO earplugs · no photos on the floor'},
+    2:{art:'assets/stage-lounge.png',banner:'assets/stage-lounge.png',genre:'house',title:'Sweat Equity',venue:'Fishtown Social Club',date:'SAT SEP 05 · 9PM–2AM',price:15,tag:'low',
+       lineup:['MISS DIRECT','Terrace Logic','Houseplant (live)'],note:'21+ · rooftop opens at midnight'},
+    3:{art:'assets/stage-kraken.png',banner:'assets/stage-kraken.png',genre:'bass',title:'Low End Census',venue:'The Substation · Kensington',date:'FRI SEP 11 · 10PM–3AM',price:18,tag:'on',
+       lineup:['SUBFLOOR','Gutter Pressure','Hexwave'],note:'18+ · Funktion One rig'},
+    4:{art:'assets/stage-truss.png',banner:'assets/stage-truss.png',genre:'dnb',title:'Fast Forward Philly',venue:'Ukrainian Social Hall',date:'SAT SEP 12 · 9PM–2AM',price:22,tag:'on',
+       lineup:['TEMPO CRIMES (UK)','Breakneck','Junglist Union DJs'],note:'21+ · 170bpm minimum'},
+    5:{art:'assets/dj-frame.png',banner:'assets/dj-frame.png',genre:'techno',title:'Night Shift: All Vinyl',venue:'Basement TBA · West Philly',date:'FRI SEP 18 · 11PM–5AM',price:12,tag:'low',
+       lineup:['GRAVEYARD ROTATION','Loading Dock','Third Rail'],note:'21+ · address texted day of show'},
+    6:{genre:'bass',art:'assets/afterjinx-logo.png',banner:'assets/afterjinx-flyer.png',title:'Afterjinx After Hours',venue:'No Nonsense · 405 N Broad St',date:'FRI DEC 26 · 1AM–3AM',price:25,tag:'soldout',
+       lineup:['DEFUNK','FRESH BVKED','JAML','DR.FUNKLE b2b NEUROMANCY'],note:'Presented by No Nonsense · Hijinx unofficial afterparty · sold out'}
+  };
+
+  componentDidMount(){
+    this.mqNarrow = window.matchMedia('(max-width:760px)');
+    this.mqMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    this.onMq = () => this.setState({narrow:this.mqNarrow.matches});
+    this.mqNarrow.addEventListener('change', this.onMq);
+
+    this.onClick = e => {
+      const hit = e.target.closest ? e.target.closest('[data-action]') : null;
+      if(!hit) return;
+      const act = hit.getAttribute('data-action');
+      const arg = hit.getAttribute('data-arg');
+      if(act === 'backdrop'){ if(e.target === hit) this.close(); return; }
+      if(act === 'view'){ this.setState({view:arg, sheet:false, closing:false}); document.body.style.overflow=''; window.scrollTo(0,0); return; }
+      if(act === 'theme'){ this.setState({theme:this.state.theme === 'dark' ? 'light' : 'dark'}); return; }
+      if(act === 'filter'){ this.setState({filter:arg}); return; }
+      if(act === 'accent'){ this.setState({accent:arg}); return; }
+      if(act === 'header'){ this.setState({header:arg}); return; }
+      if(act === 'reroll'){ this.setState({texSeed:this.state.texSeed + 1}); return; }
+      if(act === 'linkadd'){ this.links.push({label:'New link', url:'nonsense.tickets/link'}); this.setState({linkN:this.links.length}); return; }
+      if(act === 'linkdel'){ this.links.splice(Number(arg),1); this.setState({linkN:this.links.length}); return; }
+      if(act === 'videoclear'){
+        if(this.videoUrl){ URL.revokeObjectURL(this.videoUrl); this.videoUrl = null; }
+        this.setState({videoName:''});
+        return;
+      }
+      if(act === 'times'){ this.setState({times:!this.state.times}); return; }
+      if(act === 'open'){
+        const _ev=this.data[String(arg)]; this.setState({view:'event', evId:String(arg), sheet:false, step:'detail', qty:1, texSeed:0, header:(_ev&&_ev.banner)?'banner':'poster'});
+        document.body.style.overflow=''; window.scrollTo(0,0); return;
+      }
+      if(act === 'tickets'){ this.open(this.state.evId); return; }
+      if(act === 'close'){ this.close(); return; }
+      if(act === 'qty'){ this.setState({qty:Math.min(6, Math.max(1, this.state.qty + Number(arg)))}); return; }
+      if(act === 'topay'){ this.setState({step:'pay'}); return; }
+      if(act === 'issue'){ this.issue(); return; }
+      if(act === 'wallet'){ this.setState({wallet:!this.state.wallet}); return; }
+    };
+    document.addEventListener('click', this.onClick);
+
+    this.onDown = e => {
+      const h = e.target.closest ? e.target.closest('[data-handle]') : null;
+      if(!h || !this.isSheet()) return;
+      this.drag = {y:e.clientY, t:Date.now()};
+      this.setState({dragging:true});
+      window.addEventListener('pointermove', this.onMove);
+      window.addEventListener('pointerup', this.onUp);
+      window.addEventListener('pointercancel', this.onUp);
+    };
+    this.onMove = e => {
+      if(!this.drag) return;
+      const dy = Math.max(0, e.clientY - this.drag.y);
+      if(dy !== this.state.dragY) this.setState({dragY:dy});
+    };
+    this.onUp = () => {
+      window.removeEventListener('pointermove', this.onMove);
+      window.removeEventListener('pointerup', this.onUp);
+      window.removeEventListener('pointercancel', this.onUp);
+      if(!this.drag) return;
+      const dy = this.state.dragY, dt = Date.now() - this.drag.t;
+      this.drag = null;
+      if(dy > 110 || (dy > 48 && dt < 260)) this.close();
+      else this.setState({dragging:false, dragY:0});
+    };
+    document.addEventListener('pointerdown', this.onDown);
+
+    this.takeVideo = file => {
+      if(!file || !/^video\//.test(file.type)) return;
+      if(this.videoUrl) URL.revokeObjectURL(this.videoUrl);
+      this.videoUrl = URL.createObjectURL(file);
+      this.setState({videoName:file.name, header:'video'});
+    };
+    this.onChange = e => {
+      const inp = e.target.closest ? e.target.closest('[data-videofile]') : null;
+      if(inp && inp.files && inp.files[0]) this.takeVideo(inp.files[0]);
+    };
+    this.onDragOver = e => {
+      const z = e.target.closest ? e.target.closest('[data-videodrop]') : null;
+      if(!z) return;
+      e.preventDefault();
+      z.style.borderColor = 'var(--accent)';
+    };
+    this.onDrop = e => {
+      const z = e.target.closest ? e.target.closest('[data-videodrop]') : null;
+      if(!z) return;
+      e.preventDefault();
+      z.style.borderColor = 'var(--rule)';
+      const f = e.dataTransfer && e.dataTransfer.files ? e.dataTransfer.files[0] : null;
+      this.takeVideo(f);
+    };
+    document.addEventListener('change', this.onChange);
+    document.addEventListener('dragover', this.onDragOver);
+    document.addEventListener('drop', this.onDrop);
+
+    this.onLinkEdit = e => {
+      const cell = e.target.closest ? e.target.closest('[data-linkfield]') : null;
+      if(!cell) return;
+      const i = Number(cell.getAttribute('data-linkrow'));
+      if(!this.links[i]) return;
+      this.links[i][cell.getAttribute('data-linkfield')] = cell.textContent.trim();
+    };
+    document.addEventListener('input', this.onLinkEdit);
+
+    this.onKey = e => {
+      if(e.key === 'Escape' && this.state.evId != null){ this.close(); return; }
+      const h = document.activeElement;
+      if(h && h.hasAttribute && h.hasAttribute('data-handle') && (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ')){
+        e.preventDefault(); this.close();
+      }
+    };
+    document.addEventListener('keydown', this.onKey);
+
+    this.setState({narrow:this.mqNarrow.matches});
+    this.apply();
+  }
+
+  componentDidUpdate(){ this.apply(); }
+
+  componentWillUnmount(){
+    if(this.mqNarrow) this.mqNarrow.removeEventListener('change', this.onMq);
+    document.removeEventListener('click', this.onClick);
+    document.removeEventListener('pointerdown', this.onDown);
+    document.removeEventListener('keydown', this.onKey);
+    document.removeEventListener('change', this.onChange);
+    document.removeEventListener('dragover', this.onDragOver);
+    document.removeEventListener('drop', this.onDrop);
+    document.removeEventListener('input', this.onLinkEdit);
+    if(this.videoUrl) URL.revokeObjectURL(this.videoUrl);
+    window.removeEventListener('pointermove', this.onMove);
+    window.removeEventListener('pointerup', this.onUp);
+    clearTimeout(this.closeT);
+    document.body.style.overflow = '';
+  }
+
+  get reduce(){ return this.mqMotion ? this.mqMotion.matches : false; }
+  fee(){ return Math.max(0, Math.round(this.props.flatFee ?? 1)); }
+  sel(){ return this.state.evId != null ? this.data[this.state.evId] : null; }
+
+  isSheet(){
+    const p = this.props.sheetPresentation ?? 'auto';
+    if(p === 'sheet') return true;
+    if(p === 'dialog') return false;
+    return this.state.narrow;
+  }
+
+  open(id){
+    document.body.style.overflow = 'hidden';
+    clearTimeout(this.closeT);
+    this.setState({evId:String(id), sheet:true, step:'detail', qty:1, dragY:0, dragging:false, closing:false, wallet:false,
+                   code:'NON-' + Math.random().toString(36).slice(2,8).toUpperCase()});
+  }
+  finish(){
+    document.body.style.overflow = '';
+    this.setState({sheet:false, closing:false, dragY:0, dragging:false, step:'detail'});
+  }
+  close(){
+    if(!this.state.sheet) return;
+    if(this.reduce){ this.finish(); return; }
+    this.setState({closing:true});
+    clearTimeout(this.closeT);
+    this.closeT = setTimeout(() => this.finish(), 240);
+  }
+  issue(){ this.setState({step:'issued', wallet:false}); }
+
+  /* ---- seeded riso flyer texture ---- */
+  seed(s){ let h = 2166136261; for(let i=0;i<s.length;i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+  rng(seed){ let s = seed >>> 0; return () => { s = (Math.imul(s, 1664525) + 1013904223) >>> 0; return s / 4294967296; }; }
+
+  flyer(title){
+    const seed = this.seed(title);
+    const r = this.rng(seed);
+    const dark = this.state.theme === 'dark';
+    const inten = (this.props.textureIntensity ?? 1) * (dark ? 1.35 : 1);
+    const A = v => Math.max(0, Math.min(255, Math.round(v * inten))).toString(16).padStart(2,'0');
+    const pal = dark ? ['#5c6bff','#ff4fb0','#c8f542','#00cfc0'] : ['#2333c4','#ff2fa0','#c8f542','#17141f'];
+    const i1 = Math.floor(r()*4);
+    let i2 = Math.floor(r()*4); if(i2 === i1) i2 = (i1 + 1 + Math.floor(r()*3)) % 4;
+    const c1 = pal[i1], c2 = pal[i2];
+    const ang = Math.round(r()*180), ang2 = (ang + 40 + Math.round(r()*70)) % 180;
+    const w1 = 4 + Math.round(r()*10), w2 = 9 + Math.round(r()*16), d = 5 + Math.round(r()*9);
+    const px = Math.round(r()*100), py = Math.round(r()*100);
+    const qx = Math.round(r()*100), qy = Math.round(r()*100);
+    const cf = Math.round(r()*360);
+    const base = dark ? 'linear-gradient(' + ang + 'deg,#211d31,#171326)' : 'linear-gradient(' + ang + 'deg,#f4f1e8,#eee9db)';
+    return {
+      seed,
+      bg:[
+        'repeating-linear-gradient(' + ang + 'deg,' + c1 + A(56) + ' 0 ' + w1 + 'px,' + c1 + '00 ' + w1 + 'px ' + (w1*2) + 'px)',
+        'repeating-linear-gradient(' + ang2 + 'deg,' + c2 + A(42) + ' 0 ' + w2 + 'px,' + c2 + '00 ' + w2 + 'px ' + Math.round(w2*2.3) + 'px)',
+        'conic-gradient(from ' + cf + 'deg at ' + px + '% ' + py + '%,' + c2 + A(46) + ' 0 12%,' + c2 + '00 26%,' + c1 + A(34) + ' 44%,' + c1 + '00 62%)',
+        'radial-gradient(circle at ' + qx + '% ' + qy + '%,' + c1 + A(52) + ' 0 14%,' + c1 + '00 60%)',
+        'repeating-radial-gradient(circle at ' + qx + '% ' + qy + '%,' + c2 + A(30) + ' 0 ' + d + 'px,' + c2 + '00 ' + d + 'px ' + (d*2) + 'px)',
+        base
+      ].join(',')
+    };
+  }
+
+  /* ---- imperative pass: theme, textures, QR, filter, panel geometry ---- */
+  apply(){
+    const st = this.state;
+    document.documentElement.setAttribute('data-theme', st.theme);
+    document.documentElement.style.setProperty('--mis', (this.props.misregistration ?? 6) + 'px');
+
+    document.documentElement.style.setProperty('--accent', 'var(--' + st.accent + ')');
+
+    const sEv = this.sel();
+    if(sEv){
+      const liveKey = sEv.title + '#' + st.texSeed + '|' + st.theme + '|' + (this.props.textureIntensity ?? 1);
+      const liveBg = this.flyer(sEv.title + '#' + st.texSeed).bg;
+      document.querySelectorAll('[data-tex-live]').forEach(n => {
+        if(n.dataset.texKey === liveKey) return;
+        n.dataset.texKey = liveKey;
+        n.style.background = liveBg;
+      });
+    }
+    const poster = document.querySelector('[data-hero-poster]');
+    const band = document.querySelector('[data-hero-band]');
+    const banner = document.querySelector('[data-hero-banner]');
+    const slotEl = document.getElementById('nt-event-banner');
+    if(slotEl && sEv && sEv.banner && slotEl.dataset.wiredEv !== st.evId){
+      slotEl.dataset.wiredEv = st.evId;
+      slotEl.setAttribute('src', sEv.banner);
+    }
+    const hvid = document.querySelector('[data-hero-video]');
+    if(poster) poster.style.display = st.header === 'poster' ? 'flex' : 'none';
+    if(band) band.style.display = st.header === 'band' ? 'block' : 'none';
+    if(banner) banner.style.display = st.header === 'banner' ? 'block' : 'none';
+    if(hvid) hvid.style.display = st.header === 'video' ? 'block' : 'none';
+
+    const hasVid = !!this.videoUrl;
+    document.querySelectorAll('[data-video],[data-video-hero]').forEach(v => {
+      if(hasVid){
+        if(v.dataset.vsrc !== this.videoUrl){ v.dataset.vsrc = this.videoUrl; v.src = this.videoUrl; }
+        v.style.display = 'block';
+        if(this.reduce){ v.controls = true; v.pause(); }
+        else { v.controls = false; const p = v.play(); if(p && p.catch) p.catch(() => {}); }
+      } else {
+        v.removeAttribute('src'); delete v.dataset.vsrc; v.style.display = 'none';
+      }
+    });
+    const vp = document.querySelector('[data-videoprompt]');
+    if(vp) vp.style.display = hasVid ? 'none' : 'block';
+    const ve = document.querySelector('[data-videoempty]');
+    if(ve) ve.style.display = hasVid ? 'none' : 'flex';
+    const vn = document.querySelector('[data-videoname]');
+    if(vn) vn.textContent = st.videoName ? st.videoName : 'MP4 / WebM · silent loop';
+
+    const lc = document.querySelector('[data-links]');
+    if(lc && lc.dataset.n !== String(this.links.length)){
+      lc.dataset.n = String(this.links.length);
+      lc.innerHTML = this.links.map((l,i) =>
+        '<div style="padding:12px 18px;border-bottom:2px solid var(--rule);display:flex;gap:12px;align-items:center">' +
+        '<span style="font-family:\'Space Mono\',monospace;font-size:11px;opacity:.35;cursor:grab">⠿</span>' +
+        '<span data-linkrow="' + i + '" data-linkfield="label" contenteditable="true" style="font-weight:600;font-size:14px;min-width:90px;outline:none;border-bottom:1px dashed var(--rule)">' + l.label + '</span>' +
+        '<span data-linkrow="' + i + '" data-linkfield="url" contenteditable="true" style="font-family:\'Space Mono\',monospace;font-size:12px;opacity:.7;flex:1;min-width:0;outline:none;border-bottom:1px dashed var(--rule);word-break:break-all">' + l.url + '</span>' +
+        '<button data-action="linkdel" data-arg="' + i + '" aria-label="Remove link" style="width:32px;height:32px;border:2px solid var(--rule);font-family:\'Space Mono\',monospace;flex:0 0 auto">×</button>' +
+        '</div>').join('');
+    }
+    document.querySelectorAll('[data-time]').forEach(n => { n.style.display = st.times ? 'inline' : 'none'; });
+    document.querySelectorAll('[data-accent]').forEach(n => {
+      n.style.outline = n.getAttribute('data-accent') === st.accent ? '3px solid var(--ink)' : 'none';
+      n.style.outlineOffset = '2px';
+    });
+    document.querySelectorAll('[data-header]').forEach(n => {
+      const on = n.getAttribute('data-header') === st.header;
+      n.style.background = on ? 'var(--ink)' : 'transparent';
+      n.style.color = on ? 'var(--paper)' : 'var(--ink)';
+    });
+    const tb = document.querySelector('[data-times]');
+    if(tb){
+      tb.style.background = st.times ? 'var(--ink)' : 'transparent';
+      tb.style.color = st.times ? 'var(--paper)' : 'var(--ink)';
+    }
+
+    document.querySelectorAll('[data-tex]').forEach(n => {
+      const key = n.getAttribute('data-tex') + '|' + st.theme + '|' + (this.props.textureIntensity ?? 1);
+      if(n.dataset.texKey === key) return;
+      n.dataset.texKey = key;
+      n.style.background = this.flyer(n.getAttribute('data-tex')).bg;
+    });
+    document.querySelectorAll('[data-seed]').forEach(n => {
+      const s = this.flyer(n.getAttribute('data-seed')).seed.toString(16).slice(0,4);
+      if(n.textContent !== 'seed ' + s) n.textContent = 'seed ' + s;
+    });
+
+    document.querySelectorAll('[data-qr]').forEach(n => {
+      const key = n.getAttribute('data-qr') === 'live' ? st.code : n.getAttribute('data-qr');
+      if(n.dataset.qrKey === key) return;
+      n.dataset.qrKey = key;
+      const r = this.rng(this.seed(key));
+      let html = '';
+      for(let i=0;i<144;i++) html += '<span style="background:' + (r() > 0.5 ? '#17141f' : 'transparent') + '"></span>';
+      n.innerHTML = html;
+    });
+
+    const fee = this.fee();
+    document.querySelectorAll('[data-price]').forEach(n => {
+      n.textContent = '$' + (Number(n.getAttribute('data-price')) + fee);
+    });
+    const inline = document.querySelector('[data-fee-inline]');
+    if(inline) inline.textContent = 'flat $' + fee + ' per ticket';
+    const fl = document.querySelector('[data-fee-line]');
+    if(fl) fl.textContent = 'Nonsense flat ($' + fee + ' × 2)';
+    const ft = document.querySelector('[data-fee-total]');
+    if(ft) ft.textContent = '$' + (fee*2).toFixed(2);
+    const ch = document.querySelector('[data-charged]');
+    if(ch) ch.textContent = '$' + (40 + fee*2).toFixed(2);
+
+    document.querySelectorAll('[data-view]').forEach(n => {
+      const on = n.getAttribute('data-view') === st.view;
+      n.style.background = on ? 'var(--ink)' : 'transparent';
+      n.style.color = on ? 'var(--paper)' : 'var(--ink)';
+    });
+    document.querySelectorAll('[data-chip]').forEach(n => {
+      const on = n.getAttribute('data-chip') === st.filter;
+      n.style.background = on ? 'var(--ink)' : 'transparent';
+      n.style.color = on ? 'var(--paper)' : 'var(--ink)';
+    });
+    document.querySelectorAll('[data-genre]').forEach(n => {
+      n.style.display = (st.filter === 'all' || n.getAttribute('data-genre') === st.filter) ? 'flex' : 'none';
+    });
+    document.querySelectorAll('[data-navlink]').forEach(n => {
+      n.style.display = (st.narrow || st.view !== 'site') ? 'none' : 'inline';
+    });
+    const tail = document.querySelector('[data-mark-tail]');
+    if(tail) tail.style.display = st.narrow ? 'none' : 'inline';
+    const phl = document.querySelector('[data-phl]');
+    if(phl) phl.style.display = st.narrow ? 'none' : 'inline';
+
+    const wl = document.querySelector('[data-wallet-label]');
+    if(wl) wl.textContent = st.wallet ? 'Added to Wallet' : 'Add to Apple Wallet';
+    const wn = document.querySelector('[data-wallet-note]');
+    if(wn) wn.textContent = st.wallet ? 'Pass saved. It updates itself if doors move.' : 'Adds a pass with the QR, door time, and address.';
+    const wb = document.querySelector('[data-wallet-btn]');
+    if(wb){
+      wb.style.background = st.wallet ? 'transparent' : 'var(--ink)';
+      wb.style.color = st.wallet ? 'var(--ink)' : 'var(--paper)';
+    }
+    const wg = document.querySelector('[data-wallet-glyph]');
+    if(wg){
+      wg.style.borderColor = st.wallet ? 'var(--ink)' : 'var(--paper)';
+      wg.style.background = st.wallet ? 'var(--acid)' : 'transparent';
+    }
+
+    const ov = document.querySelector('[data-ov]');
+    const p = document.querySelector('[data-panel]');
+    if(ov && p){
+      const sheet = this.isSheet();
+      ov.style.alignItems = sheet ? 'flex-end' : 'flex-start';
+      ov.style.padding = sheet ? '0' : '0 16px';
+      ov.style.overflowY = sheet ? 'hidden' : 'auto';
+      ov.style.opacity = st.closing ? '0' : '1';
+      ov.style.transition = 'opacity .2s ease';
+      const handle = p.querySelector('[data-handle]');
+      const head = p.querySelector('[data-head]');
+      const cb = p.querySelector('[data-closebtn]');
+      if(sheet){
+        p.style.maxWidth = '560px'; p.style.maxHeight = '92vh'; p.style.margin = '0';
+        p.style.borderBottom = '0'; p.style.boxShadow = '0 -6px 0 var(--blue)';
+        p.style.transform = 'translateY(' + (st.closing ? '110%' : st.dragY + 'px') + ')';
+        p.style.transition = (st.dragging || this.reduce) ? 'none' : 'transform .3s cubic-bezier(.2,.9,.3,1)';
+        p.style.opacity = '1';
+        if(!p.dataset.anim){ p.dataset.anim = '1'; p.style.animation = 'sheetUp .42s cubic-bezier(.16,.84,.3,1) backwards'; }
+        if(handle) handle.style.display = 'flex';
+        if(head) head.style.padding = '6px 22px 20px';
+        if(cb) cb.style.display = 'none';
+      } else {
+        p.style.maxWidth = '620px'; p.style.maxHeight = 'none'; p.style.margin = '32px 0';
+        p.style.borderBottom = '2px solid var(--rule)'; p.style.boxShadow = '10px 10px 0 var(--blue)';
+        p.style.transform = 'none';
+        p.style.opacity = st.closing ? '0' : '1';
+        p.style.transition = 'opacity .2s ease';
+        if(!p.dataset.anim){ p.dataset.anim = '1'; p.style.animation = 'popIn .24s ease backwards'; }
+        if(handle) handle.style.display = 'none';
+        if(head) head.style.padding = '26px 22px 20px';
+        if(cb) cb.style.display = 'block';
+      }
+      const ga = p.querySelector('[data-ga]');
+      const s = this.sel();
+      if(ga && s) ga.style.opacity = s.tag === 'soldout' ? '.45' : '1';
+    }
+  }
+
+  renderVals(){
+    const fee = this.fee();
+    const s = this.sel();
+    const qty = this.state.qty;
+    const total = s ? (s.price + fee) * qty : 0;
+    const parts = s ? s.date.split('·') : ['',''];
+    return {
+      themeLabel:this.state.theme === 'dark' ? 'Lights on' : 'Lights off',
+      isSite:this.state.view === 'site',
+      isEvent:this.state.view === 'event',
+      isTicket:this.state.view === 'ticket',
+      isMobile:this.state.view === 'mobile',
+      feeMoney:'$' + fee.toFixed(2),
+      fanPays:'$' + (25 + fee).toFixed(2),
+      selNote:s ? s.note : '',
+      selAllIn:s ? '$' + (s.price + fee) : '',
+      selBase:s ? '$' + s.price + '.00' : '',
+      selSlug:s ? s.title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'') : '',
+      selStock:s ? (s.tag === 'soldout' ? 'Sold out · waitlist at the door' : s.tag === 'low' ? 'Under 30 left at this price' : 'On sale · 6 per person max') : '',
+      open:!!s && this.state.sheet,
+      isDetail:this.state.step === 'detail',
+      isPay:this.state.step === 'pay',
+      isIssued:this.state.step === 'issued',
+      soldOut:!!s && s.tag === 'soldout',
+      onSale:!!s && s.tag !== 'soldout',
+      qty,
+      totalStr:'$' + total,
+      lineLabel:s ? qty + ' × GA ($' + s.price + ' + $' + fee + ' flat)' : '',
+      payLabel:s ? qty + ' × ' + s.title : '',
+      admits:qty + (qty > 1 ? ' guests' : ' guest'),
+      issuedNote:s ? qty + (qty > 1 ? ' tickets' : ' ticket') + ' for ' + s.title + '.' : '',
+      code:this.state.code,
+      selDate:s ? s.date : '',
+      selTitle:s ? s.title : '',
+      selVenue:s ? s.venue : '',
+      selVenueNote:s ? s.venue + ' · ' + s.note : '',
+      selDay:(parts[0] || '').trim(),
+      selTime:(parts[1] || '').trim(),
+      selEarly:s ? '$' + (s.price - 5 + fee) : '',
+      selL1:s ? s.lineup[0] : '',
+      selL2:s ? s.lineup[1] : '',
+      selL3:s ? s.lineup[2] : ''
+    };
+  }
+}
+</script>
+</body>
+</html>
