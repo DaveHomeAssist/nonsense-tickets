@@ -43,38 +43,41 @@ build artifacts of `dc-runtime` and get overwritten on any re-export.
 
 ## What's in it
 
-This is a **design presentation**, not an app with six routes. The top nav switches between
-four artboards:
+The served page is the **product as a visitor sees it**, not the design canvas. The
+artboard switcher (`aria-label="Prototype views"`) and the Mobile spec board were part of
+the presentation, so they're gone — see *Design source* below for how to get them back.
 
-| Board | What it shows |
+What remains is one site with a real navigation model:
+
+| Surface | How a visitor reaches it |
 |---|---|
-| **Site** | desktop marketing page + show listings |
-| **Event** | a single event detail page |
-| **Ticket** | the issued-ticket screen |
-| **Mobile** | a spec board — phone mockups in drawn hardware bezels |
+| Shows listing + marketing | the landing page |
+| Event detail | clicking a show |
+| Ticket | completing the buy flow (detail → pay → issued) |
+| The math / Promoters | `#fees` / `#promoters` anchors, shown only on the landing page |
 
-`Mobile` is the one to not misread. It is a picture *of* the responsive design: a `375 × 740
-· iPhone class` caption over a row of phone frames (10px border, 44px radius, 9:41 status
-bar, hard blue drop shadow), labelled `01 · Shows list` and so on. It is not a mobile
-version of the canvas and not a surface anyone navigates — resizing the browser will never
-take you there. Its own copy makes the point: *"the phone build is the real build."*
-
-The last two nav items aren't boards at all. **The math** and **Promoters** are `#fees` and
-`#promoters` anchors that scroll within the Site board.
+**Mobile is not a destination.** The site is already responsive — `matchMedia('(max-width:760px)')`
+drives a `narrow` state that collapses the nav to the wordmark and switches the event detail
+from a dialog to a dragged bottom sheet. Narrow the window to see it. The old Mobile board
+was a picture of that behaviour, captioned `375 × 740 · iPhone class`; keeping it as a tab
+implied visitors could navigate to a mobile version of the site, which was never the intent.
 
 State lives in one `DCLogic` component — theme (light/dark), show filter, cart sheet with
-drag-to-dismiss, quantity, wallet pass, plus accent/header/texture variants. Clicking a show
-on the Site board switches to Event with that show loaded, so the boards are wired to each
-other rather than being independent comps.
+drag-to-dismiss, quantity, wallet pass, plus accent/header/texture variants.
 
-Canvas-editable props:
+## Design source
 
-| Prop | Editor | Default | Range |
-|---|---|---|---|
-| `flatFee` | int | `1` | $0–$5 |
-| `misregistration` | range | `6px` | 0–14px |
-| `textureIntensity` | range | `1` | 0.3–1.8 |
-| `sheetPresentation` | enum | `auto` | auto / sheet / dialog |
+The untouched canvas — both extra artboards, switcher intact — is the first commit:
+
+```bash
+git show f29b030:src/nonsense-tickets.dc.html > canvas.dc.html
+```
+
+The original export is also still at
+`Desktop/00-Inbox/Vivaldi Downloads/Nonsense_Tickets_assets_wired.zip`.
+
+Re-exporting from Claude Design will restore the presentation chrome, so the cuts described
+above have to be reapplied after any re-import.
 
 ## Design system
 
