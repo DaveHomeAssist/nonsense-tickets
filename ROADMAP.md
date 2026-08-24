@@ -1,15 +1,16 @@
 # Nonsense Tickets — Development Roadmap
 
-Current state: a Claude Design canvas served as a static page. Six shows of fixture data,
-no persistence or application data API, no tests, and no CI. React and ReactDOM are served
-locally; Google Fonts remain external. Everything below assumes that starting point, not a
-greenfield repo.
+Current state: a Claude Design canvas served as a static page. Six shows use normalized
+fixture timestamps, a dependency-free Node test suite covers discovery and calendar logic,
+and there is still no persistence, application data API, or CI. React and ReactDOM are
+served locally; Google Fonts remain external. Everything below assumes that starting point,
+not a greenfield repo.
 
 Durations assume one to two engineers. Phases are sequential except where noted.
 
 | Phase | Core Objective | Key Deliverables | Typical Duration |
 | --- | --- | --- | --- |
-| **Phase 0: Discovery & Feasibility** | Settle the unit economics and decide what the product actually commits to — before a backend is built around claims the design already makes. | Fee-model decision (R1), payment/settlement design, shows-orders-tickets schema, ticket-forgery threat model, risk log. **Parallel no-backend track:** current asset optimization and scoped accessibility implementation complete; .ics export and search + date filter await required specs | Weeks 1–3 |
+| **Phase 0: Discovery & Feasibility** | Settle the unit economics and decide what the product actually commits to — before a backend is built around claims the design already makes. | Fee-model decision (R1), payment/settlement design, shows-orders-tickets schema, ticket-forgery threat model, risk log. **Parallel no-backend track:** scoped asset optimization, accessibility, `.ics` export, and combined search/date filtering complete | Weeks 1–3 |
 | **Phase 1: Foundation & MVP** | Replace fixtures with a real data layer and make one show sellable end to end. | CI/CD pipeline (none today), database schema, promoter auth, payment integration + next-day payout, signed ticket payloads, real QR encoder, strict-CSP runtime precompile, transactional email | Weeks 4–12 |
 | **Phase 2: Alpha & User Validation** | Run real doors at friendly promoters' shows. | Offline door-scanner PWA, sold-out waitlist, analytics, feedback log from 3–5 pilot shows, door-staff observation notes | Weeks 13–17 |
 | **Phase 3: Beta & Hardening** | Survive an on-sale spike and a venue with no signal. | On-sale burst load test, pen test against forgery/replay, offline scanner conflict resolution, face-value transfer, SLO baselines | Weeks 18–22 |
@@ -24,8 +25,8 @@ Durations assume one to two engineers. Phases are sequential except where noted.
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | Current-asset optimization (WebP + `<picture>`) | **Complete (scoped)** (`e3538fc`) | 0 (parallel) | S | No | High | — |
 | 2 | Accessibility implementation (`lang`, `aria-live`) | **Complete (scoped)** (`e3538fc`) | 0 (parallel) | S | No | High | — |
-| 3 | Add to calendar (.ics) | **Decision Required** | 0 (parallel) | S | No | Medium | Normalized timestamps/time zone + canvas-approved button placement |
-| 4 | Search + date filtering | **Decision Required** | 0 (parallel) | S | No | Medium | Canvas-approved search/filter UI |
+| 3 | Add to calendar (.ics) | **Complete (scoped)** (`e3d048d`) | 0 (parallel) | S | No | Medium | — |
+| 4 | Search + date filtering | **Complete (scoped)** (`fdc4498`) | 0 (parallel) | S | No | Medium | — |
 | 5 | Runtime CDN independence / strict-CSP precompile | **Partial** (CDN independent; precompile blocked) | 1 | M | No | High | Precompile: `dc-runtime` source/build access |
 | 6 | Persistence + real data layer | **Blocked** | 1 | L | Yes | Critical | R1 and Phase 0 schema |
 | 7 | Real scannable QR + offline door scanner | **Blocked** | 1 → 2 | L | Yes | Critical | 6 |
@@ -33,21 +34,20 @@ Durations assume one to two engineers. Phases are sequential except where noted.
 | 9 | Sold-out waitlist capture | **Blocked** | 2 | M | Yes | High | 6 |
 | 10 | Promoter dashboard (payouts + list export) | **Blocked** | 5 | L | Yes | High | 6, payouts |
 
-Items 1–2 shipped within their stated scope in `e3538fc`; manual assistive-technology
-validation and a repeatable image pipeline remain follow-up work. Items 3–4 are
-backend-independent but cannot enter development under the Definition of Ready until their
-data/UI specifications exist. Item 5 no longer depends on unpkg to boot, but strict-CSP
-precompilation remains blocked. Items 6–10 remain behind the Phase 0 product and data
-decisions shown above.
+Items 1–4 shipped within their stated scopes. Manual assistive-technology validation and a
+repeatable image pipeline remain follow-up work. Calendar export and discovery share one
+normalized event-date model and remain backend independent. Item 5 no longer depends on
+unpkg to boot, but strict-CSP precompilation remains blocked. Items 6–10 remain behind the
+Phase 0 product and data decisions shown above.
 
 ### Grounded feature rationale
 
 | # | Current-state justification |
 | --- | --- |
 | 1 | The eight retained PNG sources total 9,463,501 bytes. Their WebP siblings total 705,984 bytes, a measured 92.54% source-set reduction; seven rendered `<img>` references use `<picture>` with PNG fallback. Event banners still receive PNG paths through the generated `image-slot`, and no repeatable encoding script exists. |
-| 2 | The document declares `lang="en"`, and two polite live regions announce filter-result counts plus the detail → pay → issued purchase progression. The implementation was browser-verified, but no manual screen-reader signoff has been performed. |
-| 3 | There is no calendar export. Fixtures expose display strings rather than normalized `startsAt`, `endsAt`, and `timeZone` values; `FRI DEC 26` also does not align with the 2026 weekday pattern used by the first five fixtures. Correct temporal data and button placement are required before `.ics` generation. |
-| 4 | The listing has six fixtures and four genre filters (techno, house, bass, dnb). That remains workable now but will not scale cleanly beyond roughly twelve shows. |
+| 2 | The document declares `lang="en"`, and three polite live regions announce filter-result counts, the detail → pay → issued purchase progression, and completed calendar downloads. The implementation was browser-verified, but no manual screen-reader signoff has been performed. |
+| 3 | Every event detail view now downloads a deterministic RFC 5545 `.ics` file built locally from canonical `startsAt`, `endsAt`, and `timeZone` fields. UTC conversion covers both daylight and standard time, exported locations use only public fixture copy, and the action announces completion through a polite live region. |
+| 4 | Search across titles, venues, genres, and lineups combines with genre and rolling date filters using AND semantics. Visible counts, pressed states, a resettable zero state, keyboard operation, and polite result announcements are covered by unit and fixed-clock browser checks. |
 | 5 | React 18.3.1 and ReactDOM 18.3.1 are pinned locally, so unpkg availability no longer controls page boot. Babel is lazy-loaded only for JSX `x-import` modules, which the current canvas does not use. Strict CSP remains blocked because the generated runtime evaluates `DCLogic` with `new Function`; resolving that requires precompilation or a rebuilt runtime. |
 | 6 | All six shows live in a hardcoded `data` object. There is no persistence or application data API, so purchases disappear on reload; this is the prerequisite for items 7–10. |
 | 7 | The site promises “DOOR SCAN WORKS OFFLINE,” but the ticket uses a decorative generated grid rather than a signed, scannable payload. The real flow needs signed tickets and validation against a cached manifest. |

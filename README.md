@@ -11,6 +11,7 @@ Source is a [Claude Design](https://claude.ai/code) canvas export (`.dc.html`), 
 
 ```bash
 npm run dev     # http://localhost:5173  (set PORT to change)
+npm test        # dependency-free Node tests for event dates, filters, and .ics output
 ```
 
 No install step — `scripts/dev-server.mjs` is a zero-dependency Node static server
@@ -37,11 +38,14 @@ scripts/
 src/
 ├── index.html                 redirect → the canvas
 ├── nonsense-tickets.dc.html   the design (markup + <style> + DCLogic component)
+├── event-tools.js              normalized dates, discovery matching, and .ics generation
 ├── support.js                 Claude Design runtime (generated — do not edit)
 ├── image-slot.js              image-slot custom element (generated — do not edit)
 ├── .thumbnail                 canvas preview image
 ├── vendor/                    pinned React/ReactDOM UMD files + license notices
 └── assets/                    8 WebPs (706 KB) + 8 PNG fallbacks (9.46 MB)
+tests/
+└── event-tools.test.mjs       utility behavior and canvas source contracts
 ```
 
 Application markup lives in `nonsense-tickets.dc.html`. `support.js` and `image-slot.js`
@@ -58,8 +62,8 @@ What remains is one site with a real navigation model:
 
 | Surface | How a visitor reaches it |
 |---|---|
-| Shows listing + marketing | the landing page |
-| Event detail | clicking a show |
+| Shows listing + marketing | the landing page; search, genre, and rolling date filters combine |
+| Event detail | clicking a show; **Add to calendar** downloads a local `.ics` file |
 | Ticket | completing the buy flow (detail → pay → issued) |
 | The math / Promoters | `#fees` / `#promoters` anchors, shown only on the landing page |
 
@@ -69,8 +73,14 @@ from a dialog to a dragged bottom sheet. Narrow the window to see it. The old Mo
 was a picture of that behaviour, captioned `375 × 740 · iPhone class`; keeping it as a tab
 implied visitors could navigate to a mobile version of the site, which was never the intent.
 
-State lives in one `DCLogic` component — theme (light/dark), show filter, cart sheet with
-drag-to-dismiss, quantity, wallet pass, plus accent/header/texture variants.
+State lives in one `DCLogic` component — theme (light/dark), combined show query/genre/date
+filters, cart sheet with drag-to-dismiss, quantity, wallet pass, plus accent/header/texture
+variants.
+
+All six fixture events use canonical `startsAt`, `endsAt`, and IANA `timeZone` fields. The
+shared `NonsenseEventTools` surface derives visible date labels, rolling filter membership,
+and RFC 5545 calendar files from those values. Calendar exports contain the public venue
+copy already shown on the event page; they do not invent or expose a private address.
 
 ## Design source
 
