@@ -122,6 +122,17 @@ describe('search and filter matching', () => {
     const result = tools.filterEvents([shows[2], {...shows[0], startsAt: 'bad'}, shows[0]], {genre: 'all'});
     assert.deepEqual(result.map((show) => show.id), ['3', '1']);
   });
+
+  test('returns the expected fixture IDs for quick ranges and combined discovery', async () => {
+    const tools = await loadTools();
+    const now = '2026-08-24T12:00:00-04:00';
+    assert.deepEqual(tools.filterEvents(shows, {dateRange:'next7', now}).map((show) => show.id), []);
+    assert.deepEqual(tools.filterEvents(shows, {dateRange:'next30', now}).map((show) => show.id), ['1', '2', '3', '4', '5']);
+    assert.deepEqual(tools.filterEvents(shows, {dateRange:'later', now}).map((show) => show.id), ['6']);
+    assert.deepEqual(tools.filterEvents(shows, {
+      query:'vinyl west', genre:'techno', dateRange:'next30', now
+    }).map((show) => show.id), ['5']);
+  });
 });
 
 describe('RFC 5545 calendar serialization', () => {
@@ -191,5 +202,18 @@ describe('canvas normalized event source contract', () => {
     assert.equal((canvas.match(/data-show-id="[1-6]"/g) || []).length, 6);
     assert.equal((canvas.match(/data-show-date="[1-6]"/g) || []).length, 6);
     assert.match(canvas, /NonsenseEventTools\.formatEventDate\(s\)/);
+  });
+
+  test('defines accessible layered discovery controls and a resettable zero state', async () => {
+    const canvas = await readFile(new URL('../src/nonsense-tickets.dc.html', import.meta.url), 'utf8');
+    assert.match(canvas, /<label[^>]*for="showSearch"[^>]*>Search shows<\/label>/);
+    assert.match(canvas, /<input[^>]*id="showSearch"[^>]*data-show-search[^>]*type="search"/);
+    assert.equal((canvas.match(/data-date-chip="(?:all|next7|next30|later)"/g) || []).length, 4);
+    assert.match(canvas, /data-results-count/);
+    assert.match(canvas, /data-show-grid/);
+    assert.match(canvas, /data-filter-empty/);
+    assert.match(canvas, /data-action="clearfilters"/);
+    assert.match(canvas, /query:'', dateRange:'all'/);
+    assert.match(canvas, /NonsenseEventTools\.matchesEvent/);
   });
 });

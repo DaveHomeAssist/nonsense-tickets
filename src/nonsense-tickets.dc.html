@@ -118,21 +118,35 @@ input{font-family:inherit}
 
     <section id="shows" style="padding:64px 0">
       <div style="max-width:1120px;margin:0 auto;padding:0 20px">
-        <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:32px;gap:16px;flex-wrap:wrap">
+        <div style="display:flex;align-items:end;justify-content:space-between;margin-bottom:24px;gap:16px;flex-wrap:wrap">
           <div>
             <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--blue)">This week and beyond</div>
             <h2 style="font-family:'Archivo',sans-serif;font-weight:700;font-size:clamp(24px,3.6vw,34px);letter-spacing:-.01em;text-transform:uppercase">Upcoming shows</h2>
           </div>
-          <div role="group" aria-label="Filter by genre" style="display:flex;gap:8px;flex-wrap:wrap">
-            <button data-action="filter" data-arg="all" data-chip="all" style="font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;padding:8px 14px;border:2px solid var(--rule);border-radius:99px">All</button>
-            <button data-action="filter" data-arg="techno" data-chip="techno" style="font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;padding:8px 14px;border:2px solid var(--rule);border-radius:99px">Techno</button>
-            <button data-action="filter" data-arg="house" data-chip="house" style="font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;padding:8px 14px;border:2px solid var(--rule);border-radius:99px">House</button>
-            <button data-action="filter" data-arg="bass" data-chip="bass" style="font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;padding:8px 14px;border:2px solid var(--rule);border-radius:99px">Bass</button>
-            <button data-action="filter" data-arg="dnb" data-chip="dnb" style="font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;padding:8px 14px;border:2px solid var(--rule);border-radius:99px">DnB</button>
-          </div>
+          <div data-results-count style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase">6 shows</div>
         </div>
 
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:26px">
+        <div style="margin-bottom:14px">
+          <label for="showSearch" style="display:block;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:7px">Search shows</label>
+          <input id="showSearch" data-show-search type="search" autocomplete="off" aria-controls="showGrid" placeholder="Artists, shows, venues, genres…" style="display:block;width:100%;min-height:48px;border:2px solid var(--rule);background:var(--paper2);color:var(--ink);padding:10px 14px;font-family:'Space Mono',monospace;font-size:13px;border-radius:0">
+        </div>
+
+        <div role="group" aria-label="Filter by date" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+          <button data-action="datefilter" data-arg="all" data-date-chip="all" aria-pressed="true" style="font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;padding:8px 14px;border:2px solid var(--rule);border-radius:99px">All dates</button>
+          <button data-action="datefilter" data-arg="next7" data-date-chip="next7" aria-pressed="false" style="font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;padding:8px 14px;border:2px solid var(--rule);border-radius:99px">Next 7 days</button>
+          <button data-action="datefilter" data-arg="next30" data-date-chip="next30" aria-pressed="false" style="font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;padding:8px 14px;border:2px solid var(--rule);border-radius:99px">Next 30 days</button>
+          <button data-action="datefilter" data-arg="later" data-date-chip="later" aria-pressed="false" style="font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;padding:8px 14px;border:2px solid var(--rule);border-radius:99px">Later</button>
+        </div>
+
+        <div role="group" aria-label="Filter by genre" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px">
+          <button data-action="filter" data-arg="all" data-chip="all" aria-pressed="true" style="font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;padding:8px 14px;border:2px solid var(--rule);border-radius:99px">All</button>
+          <button data-action="filter" data-arg="techno" data-chip="techno" aria-pressed="false" style="font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;padding:8px 14px;border:2px solid var(--rule);border-radius:99px">Techno</button>
+          <button data-action="filter" data-arg="house" data-chip="house" aria-pressed="false" style="font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;padding:8px 14px;border:2px solid var(--rule);border-radius:99px">House</button>
+          <button data-action="filter" data-arg="bass" data-chip="bass" aria-pressed="false" style="font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;padding:8px 14px;border:2px solid var(--rule);border-radius:99px">Bass</button>
+          <button data-action="filter" data-arg="dnb" data-chip="dnb" aria-pressed="false" style="font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;padding:8px 14px;border:2px solid var(--rule);border-radius:99px">DnB</button>
+        </div>
+
+        <div id="showGrid" data-show-grid style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:26px">
 
           <button data-action="open" data-arg="1" data-show-id="1" data-genre="techno" aria-label="Concrete Mass 014 at Callowhill warehouse" style="background:var(--paper2);border:2px solid var(--rule);position:relative;display:flex;flex-direction:column;text-align:left;font:inherit;color:inherit;transition:transform .14s ease,box-shadow .14s ease" style-hover="transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--blue)">
             <div data-tex="Concrete Mass 014" style="height:150px;border-bottom:2px dashed var(--rule);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center"><picture><source srcset="assets/stage-crowd.webp" type="image/webp"><img src="assets/stage-crowd.png" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></picture><span aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,16,.38),rgba(10,8,16,0) 55%);pointer-events:none"></span>
@@ -242,6 +256,12 @@ input{font-family:inherit}
             </div>
           </button>
 
+        </div>
+
+        <div data-filter-empty style="display:none;border:2px dashed var(--rule);background:var(--paper2);padding:30px 24px;text-align:center">
+          <div style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:18px;text-transform:uppercase">No shows match</div>
+          <p data-filter-empty-copy style="font-family:'Space Mono',monospace;font-size:11px;opacity:.7;margin-top:8px">Try clearing the active filters.</p>
+          <button data-action="clearfilters" style="margin-top:18px;min-height:44px;padding:9px 16px;border:2px solid var(--rule);font-family:'Space Mono',monospace;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;background:var(--ink);color:var(--paper)">Clear filters</button>
         </div>
       </div>
     </section>
@@ -699,7 +719,7 @@ input{font-family:inherit}
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;flatFee&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:1,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:0,&quot;max&quot;:5,&quot;unit&quot;:&quot;$&quot;,&quot;section&quot;:&quot;Fees&quot;},&quot;misregistration&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:6,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:0,&quot;max&quot;:14,&quot;step&quot;:1,&quot;unit&quot;:&quot;px&quot;,&quot;section&quot;:&quot;Print&quot;},&quot;textureIntensity&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:0.3,&quot;max&quot;:1.8,&quot;step&quot;:0.1,&quot;section&quot;:&quot;Print&quot;},&quot;sheetPresentation&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;auto&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;sheet&quot;,&quot;dialog&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Detail view&quot;}}">
 class Component extends DCLogic {
-  state = { view:'site', theme:'dark', filter:'all', evId:'1', sheet:false, step:'detail', qty:1,
+  state = { view:'site', theme:'dark', filter:'all', query:'', dateRange:'all', evId:'1', sheet:false, step:'detail', qty:1,
             dragY:0, dragging:false, closing:false, narrow:false, code:'NON-4K2P9X', wallet:false,
             accent:'blue', header:'poster', texSeed:0, times:true, videoName:'', linkN:4 };
 
@@ -741,6 +761,8 @@ class Component extends DCLogic {
       if(act === 'view'){ this.setState({view:arg, sheet:false, closing:false}); document.body.style.overflow=''; window.scrollTo(0,0); return; }
       if(act === 'theme'){ this.setState({theme:this.state.theme === 'dark' ? 'light' : 'dark'}); return; }
       if(act === 'filter'){ this.setState({filter:arg}, () => this.announceFilter()); return; }
+      if(act === 'datefilter'){ this.setState({dateRange:arg}, () => this.announceFilter()); return; }
+      if(act === 'clearfilters'){ this.clearFilters(); return; }
       if(act === 'accent'){ this.setState({accent:arg}); return; }
       if(act === 'header'){ this.setState({header:arg}); return; }
       if(act === 'reroll'){ this.setState({texSeed:this.state.texSeed + 1}); return; }
@@ -820,6 +842,11 @@ class Component extends DCLogic {
     document.addEventListener('drop', this.onDrop);
 
     this.onLinkEdit = e => {
+      const search = e.target.closest ? e.target.closest('[data-show-search]') : null;
+      if(search){
+        this.setState({query:search.value}, () => this.scheduleFilterAnnouncement());
+        return;
+      }
       const cell = e.target.closest ? e.target.closest('[data-linkfield]') : null;
       if(!cell) return;
       const i = Number(cell.getAttribute('data-linkrow'));
@@ -856,6 +883,7 @@ class Component extends DCLogic {
     window.removeEventListener('pointermove', this.onMove);
     window.removeEventListener('pointerup', this.onUp);
     clearTimeout(this.closeT);
+    clearTimeout(this.filterAnnounceT);
     document.body.style.overflow = '';
   }
 
@@ -879,11 +907,41 @@ class Component extends DCLogic {
       if(current) current.textContent = message;
     });
   }
+  filterCriteria(){
+    return {query:this.state.query, genre:this.state.filter, dateRange:this.state.dateRange};
+  }
+  visibleShowIds(){
+    const criteria = this.filterCriteria();
+    return new Set(Object.entries(this.data)
+      .filter(([, show]) => globalThis.NonsenseEventTools.matchesEvent(show, criteria))
+      .map(([id]) => id));
+  }
+  filterDescription(){
+    const bits = [];
+    const query = this.state.query.trim().replace(/\s+/g, ' ');
+    if(query) bits.push('search "' + query + '"');
+    if(this.state.filter !== 'all') bits.push(this.state.filter === 'dnb' ? 'drum and bass' : this.state.filter);
+    const dates = {next7:'the next 7 days', next30:'the next 30 days', later:'later dates'};
+    if(dates[this.state.dateRange]) bits.push(dates[this.state.dateRange]);
+    return bits.join(', ');
+  }
+  scheduleFilterAnnouncement(){
+    clearTimeout(this.filterAnnounceT);
+    this.filterAnnounceT = setTimeout(() => this.announceFilter(), 180);
+  }
   announceFilter(){
-    const filter = this.state.filter;
-    const count = Object.values(this.data).filter(show => filter === 'all' || show.genre === filter).length;
-    const label = filter === 'all' ? 'all genres' : filter === 'dnb' ? 'drum and bass' : filter;
-    this.announce('[data-filter-status]', count + ' ' + (count === 1 ? 'show' : 'shows') + ' displayed for ' + label + '.');
+    const count = this.visibleShowIds().size;
+    const description = this.filterDescription();
+    const message = count + ' ' + (count === 1 ? 'show' : 'shows') + (description ? ' match ' + description : ' displayed') + '.';
+    this.announce('[data-filter-status]', message);
+  }
+  clearFilters(){
+    clearTimeout(this.filterAnnounceT);
+    this.setState({query:'', filter:'all', dateRange:'all'}, () => {
+      const search = document.querySelector('[data-show-search]');
+      if(search){ search.value = ''; search.focus(); }
+      this.announceFilter();
+    });
   }
   announceStep(){
     const messages = {detail:'Ticket details step.', pay:'Payment step.', issued:'Purchase complete. Tickets issued.'};
@@ -1067,10 +1125,31 @@ class Component extends DCLogic {
       const on = n.getAttribute('data-chip') === st.filter;
       n.style.background = on ? 'var(--ink)' : 'transparent';
       n.style.color = on ? 'var(--paper)' : 'var(--ink)';
+      n.setAttribute('aria-pressed', String(on));
     });
-    document.querySelectorAll('[data-genre]').forEach(n => {
-      n.style.display = (st.filter === 'all' || n.getAttribute('data-genre') === st.filter) ? 'flex' : 'none';
+    document.querySelectorAll('[data-date-chip]').forEach(n => {
+      const on = n.getAttribute('data-date-chip') === st.dateRange;
+      n.style.background = on ? 'var(--ink)' : 'transparent';
+      n.style.color = on ? 'var(--paper)' : 'var(--ink)';
+      n.setAttribute('aria-pressed', String(on));
     });
+    const search = document.querySelector('[data-show-search]');
+    if(search && search.value !== st.query && document.activeElement !== search) search.value = st.query;
+    const visibleIds = this.visibleShowIds();
+    document.querySelectorAll('[data-show-id]').forEach(n => {
+      n.style.display = visibleIds.has(n.getAttribute('data-show-id')) ? 'flex' : 'none';
+    });
+    const resultCount = document.querySelector('[data-results-count]');
+    if(resultCount) resultCount.textContent = visibleIds.size + ' ' + (visibleIds.size === 1 ? 'show' : 'shows');
+    const showGrid = document.querySelector('[data-show-grid]');
+    if(showGrid) showGrid.style.display = visibleIds.size ? 'grid' : 'none';
+    const filterEmpty = document.querySelector('[data-filter-empty]');
+    if(filterEmpty) filterEmpty.style.display = visibleIds.size ? 'none' : 'block';
+    const filterEmptyCopy = document.querySelector('[data-filter-empty-copy]');
+    if(filterEmptyCopy){
+      const description = this.filterDescription();
+      filterEmptyCopy.textContent = description ? 'No shows match ' + description + '. Try clearing the active filters.' : 'Try clearing the active filters.';
+    }
     document.querySelectorAll('[data-navlink]').forEach(n => {
       n.style.display = (st.narrow || st.view !== 'site') ? 'none' : 'inline';
     });
