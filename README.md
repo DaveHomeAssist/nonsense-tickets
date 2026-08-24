@@ -17,9 +17,14 @@ No install step — `scripts/dev-server.mjs` is a zero-dependency Node static se
 (Node 18+). It exists because `serve` mangles paths on Windows and buries `index.html`
 under a directory listing.
 
-**Requires a network connection.** `support.js` pulls React 18, ReactDOM, and
-`@babel/standalone` from unpkg at runtime and compiles the `<script type="text/x-dc">`
-component block in the browser. Nothing is bundled — there is no build step.
+The core page can boot without external JavaScript. React 18.3.1 and ReactDOM 18.3.1
+are pinned under `src/vendor/` and loaded before `support.js`. The generated runtime still
+compiles the canvas template and evaluates its `<script type="text/x-dc">` logic in the
+browser; Babel is lazy-loaded only for JSX `x-import` modules, which this canvas does not
+use. There is no application build step.
+
+Google Fonts remain external. If they are unavailable, the page renders with its CSS
+fallback fonts instead of going blank.
 
 Opening `nonsense-tickets.dc.html` with `file://` will not work; the relative asset and
 script fetches need an HTTP origin.
@@ -35,11 +40,13 @@ src/
 ├── support.js                 Claude Design runtime (generated — do not edit)
 ├── image-slot.js              image-slot custom element (generated — do not edit)
 ├── .thumbnail                 canvas preview image
-└── assets/                    8 PNGs, ~9.4 MB
+├── vendor/                    pinned React/ReactDOM UMD files + license notices
+└── assets/                    8 WebPs (706 KB) + 8 PNG fallbacks (9.46 MB)
 ```
 
-Only `nonsense-tickets.dc.html` is hand-editable. `support.js` and `image-slot.js` are
-build artifacts of `dc-runtime` and get overwritten on any re-export.
+Application markup lives in `nonsense-tickets.dc.html`. `support.js` and `image-slot.js`
+are generated `dc-runtime` artifacts and get overwritten on any re-export; the files in
+`vendor/` are pinned third-party distributions and must not be hand-edited.
 
 ## What's in it
 
@@ -77,7 +84,7 @@ The original export is also still at
 `Desktop/00-Inbox/Vivaldi Downloads/Nonsense_Tickets_assets_wired.zip`.
 
 Re-exporting from Claude Design will restore the presentation chrome, so the cuts described
-above have to be reapplied after any re-import.
+above and the two local React preload tags have to be reapplied after any re-import.
 
 ## Design system
 
@@ -103,10 +110,12 @@ charge, and the receipt copy contradicts the fee logic it sits next to.
 
 ## Known gaps
 
-- **Assets are uncompressed.** 8 PNGs at ~9.4 MB, several over 1.3 MB each. They want a
-  pass through an optimizer (and probably WebP/AVIF) before this goes anywhere real.
-- **Not publishable as an Artifact as-is** — a strict CSP would block the unpkg fetches.
-  Hosting it means either vendoring React/Babel locally or compiling the component ahead
-  of time.
+- **Asset optimization is not a repeatable pipeline.** The current eight WebPs total
+  705,984 bytes versus 9,463,501 bytes for their retained PNG sources, but event banners
+  still flow through the generated `image-slot` using PNG paths. New or re-exported assets
+  need a deliberate `cwebp` pass.
+- **Not strict-CSP compatible.** Local React removes the critical unpkg boot dependency,
+  but the generated runtime evaluates `DCLogic` with `new Function`. Removing `unsafe-eval`
+  requires a precompile step or a rebuilt `dc-runtime`, neither of which is in this repo.
 - Content is prototype copy and fixture data (`NON-4K2P9X`, `instagram.com/concretemass`,
   `ra.co/events/2088414`), not real listings.

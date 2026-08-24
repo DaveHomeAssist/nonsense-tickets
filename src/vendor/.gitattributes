@@ -1,0 +1,3 @@
+# SRI and upstream redistribution files depend on byte-exact checkouts.
+*.js -text
+*.LICENSE -text
