@@ -7,6 +7,8 @@ keep the rest.
 Source is a [Claude Design](https://claude.ai/code) canvas export (`.dc.html`), imported
 2026-08-23 from `Nonsense_Tickets_assets_wired.zip`.
 
+Live inspection: <https://davehomeassist.github.io/nonsense-tickets/>
+
 ## Run it
 
 ```bash
