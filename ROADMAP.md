@@ -21,7 +21,7 @@ Durations assume one to two engineers. Phases are sequential except where noted.
 
 | # | Item | Phase | Effort | Backend | Blocked by |
 | --- | --- | --- | --- | --- | --- |
-| 1 | Asset optimization (AVIF/WebP + `<picture>`) | 0 (parallel) | S | No | — |
+| 1 | Asset optimization (WebP + `<picture>`) | 0 (parallel) | S | No | — |
 | 2 | Accessibility pass (`lang`, `aria-live`) | 0 (parallel) | S | No | — |
 | 3 | Add to calendar (.ics) | 0 (parallel) | S | No | — |
 | 4 | Search + date filtering | 0 (parallel) | S | No | — |
@@ -34,6 +34,8 @@ Durations assume one to two engineers. Phases are sequential except where noted.
 
 Items 1–4 are unblocked today and gate nothing. Ship them during Phase 0 rather than
 holding them behind discovery.
+
+AVIF requires installing an encoder; `avifenc` is not present on this machine.
 
 ---
 

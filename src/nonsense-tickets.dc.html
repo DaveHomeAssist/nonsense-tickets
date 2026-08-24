@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -36,6 +36,7 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 input{font-family:inherit}
 ::selection{background:var(--pink);color:var(--paper)}
 :focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 @keyframes regB{0%{transform:translate(0,0);opacity:0}32%{transform:translate(0,0);opacity:1}100%{transform:translate(calc(var(--mis) * -1),calc(var(--mis) * -0.8));opacity:1}}
 @keyframes regP{0%{transform:translate(0,0);opacity:0}36%{transform:translate(0,0);opacity:1}100%{transform:translate(var(--mis),calc(var(--mis) * 0.8));opacity:1}}
 @keyframes inkIn{0%{opacity:0;transform:translateY(8px)}60%{opacity:1}100%{opacity:1;transform:translateY(0)}}
@@ -65,6 +66,9 @@ input{font-family:inherit}
       </div>
     </div>
   </nav>
+
+  <div data-filter-status class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+  <div data-purchase-status class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
 
   <sc-if value="{{ isSite }}" hint-placeholder-val="{{ true }}">
   <div>
@@ -128,7 +132,7 @@ input{font-family:inherit}
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:26px">
 
           <button data-action="open" data-arg="1" data-genre="techno" aria-label="Concrete Mass 014 at Callowhill warehouse" style="background:var(--paper2);border:2px solid var(--rule);position:relative;display:flex;flex-direction:column;text-align:left;font:inherit;color:inherit;transition:transform .14s ease,box-shadow .14s ease" style-hover="transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--blue)">
-            <div data-tex="Concrete Mass 014" style="height:150px;border-bottom:2px dashed var(--rule);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center"><img src="assets/stage-crowd.png" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"><span aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,16,.38),rgba(10,8,16,0) 55%);pointer-events:none"></span>
+            <div data-tex="Concrete Mass 014" style="height:150px;border-bottom:2px dashed var(--rule);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center"><picture><source srcset="assets/stage-crowd.webp" type="image/webp"><img src="assets/stage-crowd.png" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></picture><span aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,16,.38),rgba(10,8,16,0) 55%);pointer-events:none"></span>
               <span style="position:absolute;top:10px;right:10px;font-family:'Space Mono',monospace;font-weight:700;font-size:11px;letter-spacing:.16em;text-transform:uppercase;background:rgba(10,8,16,.62);color:#eae5d8;padding:4px 9px">TKN</span>
               <span data-seed="Concrete Mass 014" style="position:absolute;left:10px;bottom:9px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55"></span>
               <span style="position:absolute;left:-11px;bottom:-11px;width:20px;height:20px;border-radius:50%;background:var(--paper);border:2px solid var(--rule);z-index:2"></span>
@@ -146,7 +150,7 @@ input{font-family:inherit}
           </button>
 
           <button data-action="open" data-arg="2" data-genre="house" aria-label="Sweat Equity at Fishtown Social Club" style="background:var(--paper2);border:2px solid var(--rule);position:relative;display:flex;flex-direction:column;text-align:left;font:inherit;color:inherit;transition:transform .14s ease,box-shadow .14s ease" style-hover="transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--pink)">
-            <div data-tex="Sweat Equity" style="height:150px;border-bottom:2px dashed var(--rule);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center"><img src="assets/stage-lounge.png" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"><span aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,16,.38),rgba(10,8,16,0) 55%);pointer-events:none"></span>
+            <div data-tex="Sweat Equity" style="height:150px;border-bottom:2px dashed var(--rule);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center"><picture><source srcset="assets/stage-lounge.webp" type="image/webp"><img src="assets/stage-lounge.png" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></picture><span aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,16,.38),rgba(10,8,16,0) 55%);pointer-events:none"></span>
               <span style="position:absolute;top:10px;right:10px;font-family:'Space Mono',monospace;font-weight:700;font-size:11px;letter-spacing:.16em;text-transform:uppercase;background:rgba(10,8,16,.62);color:#eae5d8;padding:4px 9px">HSE</span>
               <span data-seed="Sweat Equity" style="position:absolute;left:10px;bottom:9px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55"></span>
               <span style="position:absolute;left:-11px;bottom:-11px;width:20px;height:20px;border-radius:50%;background:var(--paper);border:2px solid var(--rule);z-index:2"></span>
@@ -164,7 +168,7 @@ input{font-family:inherit}
           </button>
 
           <button data-action="open" data-arg="3" data-genre="bass" aria-label="Low End Census at The Substation" style="background:var(--paper2);border:2px solid var(--rule);position:relative;display:flex;flex-direction:column;text-align:left;font:inherit;color:inherit;transition:transform .14s ease,box-shadow .14s ease" style-hover="transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--blue)">
-            <div data-tex="Low End Census" style="height:150px;border-bottom:2px dashed var(--rule);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center"><img src="assets/stage-kraken.png" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"><span aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,16,.38),rgba(10,8,16,0) 55%);pointer-events:none"></span>
+            <div data-tex="Low End Census" style="height:150px;border-bottom:2px dashed var(--rule);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center"><picture><source srcset="assets/stage-kraken.webp" type="image/webp"><img src="assets/stage-kraken.png" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></picture><span aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,16,.38),rgba(10,8,16,0) 55%);pointer-events:none"></span>
               <span style="position:absolute;top:10px;right:10px;font-family:'Space Mono',monospace;font-weight:700;font-size:11px;letter-spacing:.16em;text-transform:uppercase;background:rgba(10,8,16,.62);color:#eae5d8;padding:4px 9px">BSS</span>
               <span data-seed="Low End Census" style="position:absolute;left:10px;bottom:9px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55"></span>
               <span style="position:absolute;left:-11px;bottom:-11px;width:20px;height:20px;border-radius:50%;background:var(--paper);border:2px solid var(--rule);z-index:2"></span>
@@ -182,7 +186,7 @@ input{font-family:inherit}
           </button>
 
           <button data-action="open" data-arg="4" data-genre="dnb" aria-label="Fast Forward Philly at Ukrainian Social Hall" style="background:var(--paper2);border:2px solid var(--rule);position:relative;display:flex;flex-direction:column;text-align:left;font:inherit;color:inherit;transition:transform .14s ease,box-shadow .14s ease" style-hover="transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--pink)">
-            <div data-tex="Fast Forward Philly" style="height:150px;border-bottom:2px dashed var(--rule);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center"><img src="assets/stage-truss.png" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"><span aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,16,.38),rgba(10,8,16,0) 55%);pointer-events:none"></span>
+            <div data-tex="Fast Forward Philly" style="height:150px;border-bottom:2px dashed var(--rule);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center"><picture><source srcset="assets/stage-truss.webp" type="image/webp"><img src="assets/stage-truss.png" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></picture><span aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,16,.38),rgba(10,8,16,0) 55%);pointer-events:none"></span>
               <span style="position:absolute;top:10px;right:10px;font-family:'Space Mono',monospace;font-weight:700;font-size:11px;letter-spacing:.16em;text-transform:uppercase;background:rgba(10,8,16,.62);color:#eae5d8;padding:4px 9px">DNB</span>
               <span data-seed="Fast Forward Philly" style="position:absolute;left:10px;bottom:9px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55"></span>
               <span style="position:absolute;left:-11px;bottom:-11px;width:20px;height:20px;border-radius:50%;background:var(--paper);border:2px solid var(--rule);z-index:2"></span>
@@ -200,7 +204,7 @@ input{font-family:inherit}
           </button>
 
           <button data-action="open" data-arg="5" data-genre="techno" aria-label="Night Shift All Vinyl at a West Philly basement" style="background:var(--paper2);border:2px solid var(--rule);position:relative;display:flex;flex-direction:column;text-align:left;font:inherit;color:inherit;transition:transform .14s ease,box-shadow .14s ease" style-hover="transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--blue)">
-            <div data-tex="Night Shift All Vinyl" style="height:150px;border-bottom:2px dashed var(--rule);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center"><img src="assets/dj-frame.png" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"><span aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,16,.38),rgba(10,8,16,0) 55%);pointer-events:none"></span>
+            <div data-tex="Night Shift All Vinyl" style="height:150px;border-bottom:2px dashed var(--rule);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center"><picture><source srcset="assets/dj-frame.webp" type="image/webp"><img src="assets/dj-frame.png" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></picture><span aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,16,.38),rgba(10,8,16,0) 55%);pointer-events:none"></span>
               <span style="position:absolute;top:10px;right:10px;font-family:'Space Mono',monospace;font-weight:700;font-size:11px;letter-spacing:.16em;text-transform:uppercase;background:rgba(10,8,16,.62);color:#eae5d8;padding:4px 9px">TKN</span>
               <span data-seed="Night Shift All Vinyl" style="position:absolute;left:10px;bottom:9px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55"></span>
               <span style="position:absolute;left:-11px;bottom:-11px;width:20px;height:20px;border-radius:50%;background:var(--paper);border:2px solid var(--rule);z-index:2"></span>
@@ -218,7 +222,7 @@ input{font-family:inherit}
           </button>
 
           <button data-action="open" data-arg="6" data-genre="bass" aria-label="Afterjinx After Hours by No Nonsense at 405 N Broad St" style="background:var(--paper2);border:2px solid var(--rule);position:relative;display:flex;flex-direction:column;text-align:left;font:inherit;color:inherit;transition:transform .14s ease,box-shadow .14s ease" style-hover="transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--pink)">
-            <div data-tex="Afterjinx After Hours" style="height:150px;border-bottom:2px dashed var(--rule);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center"><img src="assets/afterjinx-logo.png" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"><span aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,16,.38),rgba(10,8,16,0) 55%);pointer-events:none"></span>
+            <div data-tex="Afterjinx After Hours" style="height:150px;border-bottom:2px dashed var(--rule);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center"><picture><source srcset="assets/afterjinx-logo.webp" type="image/webp"><img src="assets/afterjinx-logo.png" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></picture><span aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,16,.38),rgba(10,8,16,0) 55%);pointer-events:none"></span>
               <span style="position:absolute;top:10px;right:10px;font-family:'Space Mono',monospace;font-weight:700;font-size:11px;letter-spacing:.16em;text-transform:uppercase;background:rgba(10,8,16,.62);color:#eae5d8;padding:4px 9px">HSE</span>
               <span data-seed="Afterjinx After Hours" style="position:absolute;left:10px;bottom:9px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55"></span>
               <span style="position:absolute;left:-11px;bottom:-11px;width:20px;height:20px;border-radius:50%;background:var(--paper);border:2px solid var(--rule);z-index:2"></span>
@@ -281,7 +285,7 @@ input{font-family:inherit}
           <p style="max-width:480px;margin-bottom:22px;text-wrap:pretty">Built for the crews already throwing shows: warehouse collectives, basement bookers, social hall one offs. Set up an event in five minutes, share one link, scan at the door from any phone.</p>
           <button data-action="noop" style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:14px 26px;border:2px solid var(--rule);background:var(--ink);color:var(--paper);transition:transform .12s ease,box-shadow .12s ease" style-hover="transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--pink)">Request access</button>
       <div style="margin-top:26px;display:flex;align-items:center;gap:14px;border:2px solid var(--rule);background:#0c0a14;padding:12px 16px;max-width:420px">
-        <img src="assets/nn-logo.png" alt="No Nonsense logo" style="height:40px;width:auto;display:block">
+        <picture><source srcset="assets/nn-logo.webp" type="image/webp"><img src="assets/nn-logo.png" alt="No Nonsense logo" style="height:40px;width:auto;display:block"></picture>
         <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#eae5d8;line-height:1.6">Founding promoter<br><span style="opacity:.65">No Nonsense · Philadelphia · since 2024</span></div>
       </div>
         </div>
@@ -733,7 +737,7 @@ class Component extends DCLogic {
       if(act === 'backdrop'){ if(e.target === hit) this.close(); return; }
       if(act === 'view'){ this.setState({view:arg, sheet:false, closing:false}); document.body.style.overflow=''; window.scrollTo(0,0); return; }
       if(act === 'theme'){ this.setState({theme:this.state.theme === 'dark' ? 'light' : 'dark'}); return; }
-      if(act === 'filter'){ this.setState({filter:arg}); return; }
+      if(act === 'filter'){ this.setState({filter:arg}, () => this.announceFilter()); return; }
       if(act === 'accent'){ this.setState({accent:arg}); return; }
       if(act === 'header'){ this.setState({header:arg}); return; }
       if(act === 'reroll'){ this.setState({texSeed:this.state.texSeed + 1}); return; }
@@ -752,7 +756,7 @@ class Component extends DCLogic {
       if(act === 'tickets'){ this.open(this.state.evId); return; }
       if(act === 'close'){ this.close(); return; }
       if(act === 'qty'){ this.setState({qty:Math.min(6, Math.max(1, this.state.qty + Number(arg)))}); return; }
-      if(act === 'topay'){ this.setState({step:'pay'}); return; }
+      if(act === 'topay'){ this.setState({step:'pay'}, () => this.announceStep()); return; }
       if(act === 'issue'){ this.issue(); return; }
       if(act === 'wallet'){ this.setState({wallet:!this.state.wallet}); return; }
     };
@@ -863,11 +867,31 @@ class Component extends DCLogic {
     return this.state.narrow;
   }
 
+  announce(selector, message){
+    const region = document.querySelector(selector);
+    if(!region) return;
+    region.textContent = '';
+    requestAnimationFrame(() => {
+      const current = document.querySelector(selector);
+      if(current) current.textContent = message;
+    });
+  }
+  announceFilter(){
+    const filter = this.state.filter;
+    const count = Object.values(this.data).filter(show => filter === 'all' || show.genre === filter).length;
+    const label = filter === 'all' ? 'all genres' : filter === 'dnb' ? 'drum and bass' : filter;
+    this.announce('[data-filter-status]', count + ' ' + (count === 1 ? 'show' : 'shows') + ' displayed for ' + label + '.');
+  }
+  announceStep(){
+    const messages = {detail:'Ticket details step.', pay:'Payment step.', issued:'Purchase complete. Tickets issued.'};
+    this.announce('[data-purchase-status]', messages[this.state.step]);
+  }
+
   open(id){
     document.body.style.overflow = 'hidden';
     clearTimeout(this.closeT);
     this.setState({evId:String(id), sheet:true, step:'detail', qty:1, dragY:0, dragging:false, closing:false, wallet:false,
-                   code:'NON-' + Math.random().toString(36).slice(2,8).toUpperCase()});
+                   code:'NON-' + Math.random().toString(36).slice(2,8).toUpperCase()}, () => this.announceStep());
   }
   finish(){
     document.body.style.overflow = '';
@@ -880,7 +904,7 @@ class Component extends DCLogic {
     clearTimeout(this.closeT);
     this.closeT = setTimeout(() => this.finish(), 240);
   }
-  issue(){ this.setState({step:'issued', wallet:false}); }
+  issue(){ this.setState({step:'issued', wallet:false}, () => this.announceStep()); }
 
   /* ---- seeded riso flyer texture ---- */
   seed(s){ let h = 2166136261; for(let i=0;i<s.length;i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
