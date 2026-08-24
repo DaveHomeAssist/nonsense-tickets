@@ -4,7 +4,8 @@
   "private": true,
   "description": "Nonsense Tickets - flat-fee DIY ticketing for Philly warehouse shows. Claude Design canvas prototype.",
   "scripts": {
-    "dev": "node scripts/dev-server.mjs"
+    "dev": "node scripts/dev-server.mjs",
+    "test": "node --test"
   },
   "type": "module"
 }
