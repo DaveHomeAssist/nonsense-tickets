@@ -95,6 +95,12 @@ Riso/screen-print aesthetic — paper grain, animated registration misprint on t
 Type: Unbounded (700/900) display, Archivo (400–700) body, Space Mono for numerals —
 all from Google Fonts. `prefers-reduced-motion` is honored.
 
+## Roadmap
+
+Phased plan, backlog mapping, and risk log in [ROADMAP.md](ROADMAP.md). Two risks there are
+blocking rather than theoretical: the flat $1 fee does not cover card processing on a $26
+charge, and the receipt copy contradicts the fee logic it sits next to.
+
 ## Known gaps
 
 - **Assets are uncompressed.** 8 PNGs at ~9.4 MB, several over 1.3 MB each. They want a
