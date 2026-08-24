@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { existsSync } from 'node:fs';
+import { readFile } from 'node:fs/promises';
 import { describe, test } from 'node:test';
 
 const utilityPath = new URL('../src/event-tools.js', import.meta.url);
@@ -161,5 +162,34 @@ describe('RFC 5545 calendar serialization', () => {
       assert.ok(new TextEncoder().encode(line).length <= 75, `line exceeds 75 octets: ${line}`);
     }
     assert.match(calendar, /\r\n /, 'long content should use continuation lines');
+  });
+});
+
+describe('canvas normalized event source contract', () => {
+  test('loads event tools synchronously before the generated runtime', async () => {
+    const canvas = await readFile(new URL('../src/nonsense-tickets.dc.html', import.meta.url), 'utf8');
+    const toolsIndex = canvas.indexOf('<script src="./event-tools.js"></script>');
+    const supportIndex = canvas.indexOf('<script src="./support.js"></script>');
+    assert.ok(toolsIndex >= 0, 'event-tools.js script tag should exist');
+    assert.ok(toolsIndex < supportIndex, 'event-tools.js should load before support.js');
+  });
+
+  test('defines six canonical date triples without display-only fixture dates', async () => {
+    const canvas = await readFile(new URL('../src/nonsense-tickets.dc.html', import.meta.url), 'utf8');
+    assert.equal((canvas.match(/\bstartsAt:/g) || []).length, 6);
+    assert.equal((canvas.match(/\bendsAt:/g) || []).length, 6);
+    assert.equal((canvas.match(/\btimeZone:/g) || []).length, 6);
+    assert.equal(/\bdate:'(?:FRI|SAT)/.test(canvas), false);
+    for (const show of shows) {
+      assert.match(canvas, new RegExp(`startsAt:'${show.startsAt.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}'`));
+      assert.match(canvas, new RegExp(`endsAt:'${show.endsAt.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}'`));
+    }
+  });
+
+  test('connects all six cards to canonical event IDs and derived date targets', async () => {
+    const canvas = await readFile(new URL('../src/nonsense-tickets.dc.html', import.meta.url), 'utf8');
+    assert.equal((canvas.match(/data-show-id="[1-6]"/g) || []).length, 6);
+    assert.equal((canvas.match(/data-show-date="[1-6]"/g) || []).length, 6);
+    assert.match(canvas, /NonsenseEventTools\.formatEventDate\(s\)/);
   });
 });

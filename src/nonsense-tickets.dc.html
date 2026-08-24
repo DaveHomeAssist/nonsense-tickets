@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./vendor/react-18.3.1.production.min.js" integrity="sha384-DGyLxAyjq0f9SPpVevD6IgztCFlnMF6oW/XQGmfe+IsZ8TqEiDrcHkMLKI6fiB/Z"></script>
 <script src="./vendor/react-dom-18.3.1.production.min.js" integrity="sha384-gTGxhz21lVGYNMcdJOyq01Edg0jhn/c22nsx0kyqP0TxaV5WVdsSH1fSDUf5YJj1"></script>
+<script src="./event-tools.js"></script>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -133,7 +134,7 @@ input{font-family:inherit}
 
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:26px">
 
-          <button data-action="open" data-arg="1" data-genre="techno" aria-label="Concrete Mass 014 at Callowhill warehouse" style="background:var(--paper2);border:2px solid var(--rule);position:relative;display:flex;flex-direction:column;text-align:left;font:inherit;color:inherit;transition:transform .14s ease,box-shadow .14s ease" style-hover="transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--blue)">
+          <button data-action="open" data-arg="1" data-show-id="1" data-genre="techno" aria-label="Concrete Mass 014 at Callowhill warehouse" style="background:var(--paper2);border:2px solid var(--rule);position:relative;display:flex;flex-direction:column;text-align:left;font:inherit;color:inherit;transition:transform .14s ease,box-shadow .14s ease" style-hover="transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--blue)">
             <div data-tex="Concrete Mass 014" style="height:150px;border-bottom:2px dashed var(--rule);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center"><picture><source srcset="assets/stage-crowd.webp" type="image/webp"><img src="assets/stage-crowd.png" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></picture><span aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,16,.38),rgba(10,8,16,0) 55%);pointer-events:none"></span>
               <span style="position:absolute;top:10px;right:10px;font-family:'Space Mono',monospace;font-weight:700;font-size:11px;letter-spacing:.16em;text-transform:uppercase;background:rgba(10,8,16,.62);color:#eae5d8;padding:4px 9px">TKN</span>
               <span data-seed="Concrete Mass 014" style="position:absolute;left:10px;bottom:9px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55"></span>
@@ -141,7 +142,7 @@ input{font-family:inherit}
               <span style="position:absolute;right:-11px;bottom:-11px;width:20px;height:20px;border-radius:50%;background:var(--paper);border:2px solid var(--rule);z-index:2"></span>
             </div>
             <div style="padding:18px 18px 16px;flex:1;display:flex;flex-direction:column;gap:8px">
-              <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)">FRI SEP 04 · 10PM–4AM</div>
+              <div data-show-date="1" style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)"></div>
               <div style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:17px;line-height:1.2;letter-spacing:-.01em">Concrete Mass 014</div>
               <div style="font-size:13px;font-weight:500;opacity:.75">Callowhill warehouse · address on ticket</div>
               <div style="margin-top:auto;padding-top:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--rule)">
@@ -151,7 +152,7 @@ input{font-family:inherit}
             </div>
           </button>
 
-          <button data-action="open" data-arg="2" data-genre="house" aria-label="Sweat Equity at Fishtown Social Club" style="background:var(--paper2);border:2px solid var(--rule);position:relative;display:flex;flex-direction:column;text-align:left;font:inherit;color:inherit;transition:transform .14s ease,box-shadow .14s ease" style-hover="transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--pink)">
+          <button data-action="open" data-arg="2" data-show-id="2" data-genre="house" aria-label="Sweat Equity at Fishtown Social Club" style="background:var(--paper2);border:2px solid var(--rule);position:relative;display:flex;flex-direction:column;text-align:left;font:inherit;color:inherit;transition:transform .14s ease,box-shadow .14s ease" style-hover="transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--pink)">
             <div data-tex="Sweat Equity" style="height:150px;border-bottom:2px dashed var(--rule);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center"><picture><source srcset="assets/stage-lounge.webp" type="image/webp"><img src="assets/stage-lounge.png" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></picture><span aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,16,.38),rgba(10,8,16,0) 55%);pointer-events:none"></span>
               <span style="position:absolute;top:10px;right:10px;font-family:'Space Mono',monospace;font-weight:700;font-size:11px;letter-spacing:.16em;text-transform:uppercase;background:rgba(10,8,16,.62);color:#eae5d8;padding:4px 9px">HSE</span>
               <span data-seed="Sweat Equity" style="position:absolute;left:10px;bottom:9px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55"></span>
@@ -159,7 +160,7 @@ input{font-family:inherit}
               <span style="position:absolute;right:-11px;bottom:-11px;width:20px;height:20px;border-radius:50%;background:var(--paper);border:2px solid var(--rule);z-index:2"></span>
             </div>
             <div style="padding:18px 18px 16px;flex:1;display:flex;flex-direction:column;gap:8px">
-              <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)">SAT SEP 05 · 9PM–2AM</div>
+              <div data-show-date="2" style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)"></div>
               <div style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:17px;line-height:1.2;letter-spacing:-.01em">Sweat Equity</div>
               <div style="font-size:13px;font-weight:500;opacity:.75">Fishtown Social Club</div>
               <div style="margin-top:auto;padding-top:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--rule)">
@@ -169,7 +170,7 @@ input{font-family:inherit}
             </div>
           </button>
 
-          <button data-action="open" data-arg="3" data-genre="bass" aria-label="Low End Census at The Substation" style="background:var(--paper2);border:2px solid var(--rule);position:relative;display:flex;flex-direction:column;text-align:left;font:inherit;color:inherit;transition:transform .14s ease,box-shadow .14s ease" style-hover="transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--blue)">
+          <button data-action="open" data-arg="3" data-show-id="3" data-genre="bass" aria-label="Low End Census at The Substation" style="background:var(--paper2);border:2px solid var(--rule);position:relative;display:flex;flex-direction:column;text-align:left;font:inherit;color:inherit;transition:transform .14s ease,box-shadow .14s ease" style-hover="transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--blue)">
             <div data-tex="Low End Census" style="height:150px;border-bottom:2px dashed var(--rule);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center"><picture><source srcset="assets/stage-kraken.webp" type="image/webp"><img src="assets/stage-kraken.png" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></picture><span aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,16,.38),rgba(10,8,16,0) 55%);pointer-events:none"></span>
               <span style="position:absolute;top:10px;right:10px;font-family:'Space Mono',monospace;font-weight:700;font-size:11px;letter-spacing:.16em;text-transform:uppercase;background:rgba(10,8,16,.62);color:#eae5d8;padding:4px 9px">BSS</span>
               <span data-seed="Low End Census" style="position:absolute;left:10px;bottom:9px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55"></span>
@@ -177,7 +178,7 @@ input{font-family:inherit}
               <span style="position:absolute;right:-11px;bottom:-11px;width:20px;height:20px;border-radius:50%;background:var(--paper);border:2px solid var(--rule);z-index:2"></span>
             </div>
             <div style="padding:18px 18px 16px;flex:1;display:flex;flex-direction:column;gap:8px">
-              <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)">FRI SEP 11 · 10PM–3AM</div>
+              <div data-show-date="3" style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)"></div>
               <div style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:17px;line-height:1.2;letter-spacing:-.01em">Low End Census</div>
               <div style="font-size:13px;font-weight:500;opacity:.75">The Substation · Kensington</div>
               <div style="margin-top:auto;padding-top:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--rule)">
@@ -187,7 +188,7 @@ input{font-family:inherit}
             </div>
           </button>
 
-          <button data-action="open" data-arg="4" data-genre="dnb" aria-label="Fast Forward Philly at Ukrainian Social Hall" style="background:var(--paper2);border:2px solid var(--rule);position:relative;display:flex;flex-direction:column;text-align:left;font:inherit;color:inherit;transition:transform .14s ease,box-shadow .14s ease" style-hover="transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--pink)">
+          <button data-action="open" data-arg="4" data-show-id="4" data-genre="dnb" aria-label="Fast Forward Philly at Ukrainian Social Hall" style="background:var(--paper2);border:2px solid var(--rule);position:relative;display:flex;flex-direction:column;text-align:left;font:inherit;color:inherit;transition:transform .14s ease,box-shadow .14s ease" style-hover="transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--pink)">
             <div data-tex="Fast Forward Philly" style="height:150px;border-bottom:2px dashed var(--rule);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center"><picture><source srcset="assets/stage-truss.webp" type="image/webp"><img src="assets/stage-truss.png" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></picture><span aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,16,.38),rgba(10,8,16,0) 55%);pointer-events:none"></span>
               <span style="position:absolute;top:10px;right:10px;font-family:'Space Mono',monospace;font-weight:700;font-size:11px;letter-spacing:.16em;text-transform:uppercase;background:rgba(10,8,16,.62);color:#eae5d8;padding:4px 9px">DNB</span>
               <span data-seed="Fast Forward Philly" style="position:absolute;left:10px;bottom:9px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55"></span>
@@ -195,7 +196,7 @@ input{font-family:inherit}
               <span style="position:absolute;right:-11px;bottom:-11px;width:20px;height:20px;border-radius:50%;background:var(--paper);border:2px solid var(--rule);z-index:2"></span>
             </div>
             <div style="padding:18px 18px 16px;flex:1;display:flex;flex-direction:column;gap:8px">
-              <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)">SAT SEP 12 · 9PM–2AM</div>
+              <div data-show-date="4" style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)"></div>
               <div style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:17px;line-height:1.2;letter-spacing:-.01em">Fast Forward Philly</div>
               <div style="font-size:13px;font-weight:500;opacity:.75">Ukrainian Social Hall</div>
               <div style="margin-top:auto;padding-top:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--rule)">
@@ -205,7 +206,7 @@ input{font-family:inherit}
             </div>
           </button>
 
-          <button data-action="open" data-arg="5" data-genre="techno" aria-label="Night Shift All Vinyl at a West Philly basement" style="background:var(--paper2);border:2px solid var(--rule);position:relative;display:flex;flex-direction:column;text-align:left;font:inherit;color:inherit;transition:transform .14s ease,box-shadow .14s ease" style-hover="transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--blue)">
+          <button data-action="open" data-arg="5" data-show-id="5" data-genre="techno" aria-label="Night Shift All Vinyl at a West Philly basement" style="background:var(--paper2);border:2px solid var(--rule);position:relative;display:flex;flex-direction:column;text-align:left;font:inherit;color:inherit;transition:transform .14s ease,box-shadow .14s ease" style-hover="transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--blue)">
             <div data-tex="Night Shift All Vinyl" style="height:150px;border-bottom:2px dashed var(--rule);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center"><picture><source srcset="assets/dj-frame.webp" type="image/webp"><img src="assets/dj-frame.png" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></picture><span aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,16,.38),rgba(10,8,16,0) 55%);pointer-events:none"></span>
               <span style="position:absolute;top:10px;right:10px;font-family:'Space Mono',monospace;font-weight:700;font-size:11px;letter-spacing:.16em;text-transform:uppercase;background:rgba(10,8,16,.62);color:#eae5d8;padding:4px 9px">TKN</span>
               <span data-seed="Night Shift All Vinyl" style="position:absolute;left:10px;bottom:9px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55"></span>
@@ -213,7 +214,7 @@ input{font-family:inherit}
               <span style="position:absolute;right:-11px;bottom:-11px;width:20px;height:20px;border-radius:50%;background:var(--paper);border:2px solid var(--rule);z-index:2"></span>
             </div>
             <div style="padding:18px 18px 16px;flex:1;display:flex;flex-direction:column;gap:8px">
-              <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)">FRI SEP 18 · 11PM–5AM</div>
+              <div data-show-date="5" style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)"></div>
               <div style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:17px;line-height:1.2;letter-spacing:-.01em">Night Shift: All Vinyl</div>
               <div style="font-size:13px;font-weight:500;opacity:.75">Basement TBA · West Philly</div>
               <div style="margin-top:auto;padding-top:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--rule)">
@@ -223,7 +224,7 @@ input{font-family:inherit}
             </div>
           </button>
 
-          <button data-action="open" data-arg="6" data-genre="bass" aria-label="Afterjinx After Hours by No Nonsense at 405 N Broad St" style="background:var(--paper2);border:2px solid var(--rule);position:relative;display:flex;flex-direction:column;text-align:left;font:inherit;color:inherit;transition:transform .14s ease,box-shadow .14s ease" style-hover="transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--pink)">
+          <button data-action="open" data-arg="6" data-show-id="6" data-genre="bass" aria-label="Afterjinx After Hours by No Nonsense at 405 N Broad St" style="background:var(--paper2);border:2px solid var(--rule);position:relative;display:flex;flex-direction:column;text-align:left;font:inherit;color:inherit;transition:transform .14s ease,box-shadow .14s ease" style-hover="transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--pink)">
             <div data-tex="Afterjinx After Hours" style="height:150px;border-bottom:2px dashed var(--rule);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center"><picture><source srcset="assets/afterjinx-logo.webp" type="image/webp"><img src="assets/afterjinx-logo.png" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></picture><span aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,16,.38),rgba(10,8,16,0) 55%);pointer-events:none"></span>
               <span style="position:absolute;top:10px;right:10px;font-family:'Space Mono',monospace;font-weight:700;font-size:11px;letter-spacing:.16em;text-transform:uppercase;background:rgba(10,8,16,.62);color:#eae5d8;padding:4px 9px">HSE</span>
               <span data-seed="Afterjinx After Hours" style="position:absolute;left:10px;bottom:9px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55"></span>
@@ -231,7 +232,7 @@ input{font-family:inherit}
               <span style="position:absolute;right:-11px;bottom:-11px;width:20px;height:20px;border-radius:50%;background:var(--paper);border:2px solid var(--rule);z-index:2"></span>
             </div>
             <div style="padding:18px 18px 16px;flex:1;display:flex;flex-direction:column;gap:8px">
-              <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)">FRI DEC 26 · 1AM–3AM</div>
+              <div data-show-date="6" style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)"></div>
               <div style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:17px;line-height:1.2;letter-spacing:-.01em">Afterjinx After Hours</div>
               <div style="font-size:13px;font-weight:500;opacity:.75">No Nonsense · 405 N Broad St</div>
               <div style="margin-top:auto;padding-top:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--rule)">
@@ -711,17 +712,17 @@ class Component extends DCLogic {
   ];
 
   data = {
-    1:{art:'assets/stage-crowd.png',banner:'assets/stage-crowd.png',genre:'techno',title:'Concrete Mass 014',venue:'Callowhill warehouse · address on ticket',date:'FRI SEP 04 · 10PM–4AM',price:20,tag:'on',
+    1:{art:'assets/stage-crowd.png',banner:'assets/stage-crowd.png',genre:'techno',title:'Concrete Mass 014',venue:'Callowhill warehouse · address on ticket',startsAt:'2026-09-04T22:00:00-04:00',endsAt:'2026-09-05T04:00:00-04:00',timeZone:'America/New_York',price:20,tag:'on',
        lineup:['VOID CADET (Berlin)','Slag Density','Perimeter b2b Fault Line'],note:'21+ · BYO earplugs · no photos on the floor'},
-    2:{art:'assets/stage-lounge.png',banner:'assets/stage-lounge.png',genre:'house',title:'Sweat Equity',venue:'Fishtown Social Club',date:'SAT SEP 05 · 9PM–2AM',price:15,tag:'low',
+    2:{art:'assets/stage-lounge.png',banner:'assets/stage-lounge.png',genre:'house',title:'Sweat Equity',venue:'Fishtown Social Club',startsAt:'2026-09-05T21:00:00-04:00',endsAt:'2026-09-06T02:00:00-04:00',timeZone:'America/New_York',price:15,tag:'low',
        lineup:['MISS DIRECT','Terrace Logic','Houseplant (live)'],note:'21+ · rooftop opens at midnight'},
-    3:{art:'assets/stage-kraken.png',banner:'assets/stage-kraken.png',genre:'bass',title:'Low End Census',venue:'The Substation · Kensington',date:'FRI SEP 11 · 10PM–3AM',price:18,tag:'on',
+    3:{art:'assets/stage-kraken.png',banner:'assets/stage-kraken.png',genre:'bass',title:'Low End Census',venue:'The Substation · Kensington',startsAt:'2026-09-11T22:00:00-04:00',endsAt:'2026-09-12T03:00:00-04:00',timeZone:'America/New_York',price:18,tag:'on',
        lineup:['SUBFLOOR','Gutter Pressure','Hexwave'],note:'18+ · Funktion One rig'},
-    4:{art:'assets/stage-truss.png',banner:'assets/stage-truss.png',genre:'dnb',title:'Fast Forward Philly',venue:'Ukrainian Social Hall',date:'SAT SEP 12 · 9PM–2AM',price:22,tag:'on',
+    4:{art:'assets/stage-truss.png',banner:'assets/stage-truss.png',genre:'dnb',title:'Fast Forward Philly',venue:'Ukrainian Social Hall',startsAt:'2026-09-12T21:00:00-04:00',endsAt:'2026-09-13T02:00:00-04:00',timeZone:'America/New_York',price:22,tag:'on',
        lineup:['TEMPO CRIMES (UK)','Breakneck','Junglist Union DJs'],note:'21+ · 170bpm minimum'},
-    5:{art:'assets/dj-frame.png',banner:'assets/dj-frame.png',genre:'techno',title:'Night Shift: All Vinyl',venue:'Basement TBA · West Philly',date:'FRI SEP 18 · 11PM–5AM',price:12,tag:'low',
+    5:{art:'assets/dj-frame.png',banner:'assets/dj-frame.png',genre:'techno',title:'Night Shift: All Vinyl',venue:'Basement TBA · West Philly',startsAt:'2026-09-18T23:00:00-04:00',endsAt:'2026-09-19T05:00:00-04:00',timeZone:'America/New_York',price:12,tag:'low',
        lineup:['GRAVEYARD ROTATION','Loading Dock','Third Rail'],note:'21+ · address texted day of show'},
-    6:{genre:'bass',art:'assets/afterjinx-logo.png',banner:'assets/afterjinx-flyer.png',title:'Afterjinx After Hours',venue:'No Nonsense · 405 N Broad St',date:'FRI DEC 26 · 1AM–3AM',price:25,tag:'soldout',
+    6:{genre:'bass',art:'assets/afterjinx-logo.png',banner:'assets/afterjinx-flyer.png',title:'Afterjinx After Hours',venue:'No Nonsense · 405 N Broad St',startsAt:'2026-12-26T01:00:00-05:00',endsAt:'2026-12-26T03:00:00-05:00',timeZone:'America/New_York',price:25,tag:'soldout',
        lineup:['DEFUNK','FRESH BVKED','JAML','DR.FUNKLE b2b NEUROMANCY'],note:'Presented by No Nonsense · Hijinx unofficial afterparty · sold out'}
   };
 
@@ -1039,6 +1040,11 @@ class Component extends DCLogic {
       n.innerHTML = html;
     });
 
+    document.querySelectorAll('[data-show-date]').forEach(n => {
+      const event = this.data[n.getAttribute('data-show-date')];
+      n.textContent = event ? globalThis.NonsenseEventTools.formatEventDate(event).full : '';
+    });
+
     const fee = this.fee();
     document.querySelectorAll('[data-price]').forEach(n => {
       n.textContent = '$' + (Number(n.getAttribute('data-price')) + fee);
@@ -1132,7 +1138,7 @@ class Component extends DCLogic {
     const s = this.sel();
     const qty = this.state.qty;
     const total = s ? (s.price + fee) * qty : 0;
-    const parts = s ? s.date.split('·') : ['',''];
+    const formatted = s ? globalThis.NonsenseEventTools.formatEventDate(s) : {full:'',day:'',time:''};
     return {
       themeLabel:this.state.theme === 'dark' ? 'Lights on' : 'Lights off',
       isSite:this.state.view === 'site',
@@ -1158,12 +1164,12 @@ class Component extends DCLogic {
       admits:qty + (qty > 1 ? ' guests' : ' guest'),
       issuedNote:s ? qty + (qty > 1 ? ' tickets' : ' ticket') + ' for ' + s.title + '.' : '',
       code:this.state.code,
-      selDate:s ? s.date : '',
+      selDate:formatted.full,
       selTitle:s ? s.title : '',
       selVenue:s ? s.venue : '',
       selVenueNote:s ? s.venue + ' · ' + s.note : '',
-      selDay:(parts[0] || '').trim(),
-      selTime:(parts[1] || '').trim(),
+      selDay:formatted.day,
+      selTime:formatted.time,
       selEarly:s ? '$' + (s.price - 5 + fee) : '',
       selL1:s ? s.lineup[0] : '',
       selL2:s ? s.lineup[1] : '',
