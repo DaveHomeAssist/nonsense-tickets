@@ -225,4 +225,12 @@ describe('canvas normalized event source contract', () => {
     assert.match(canvas, /NonsenseEventTools\.buildCalendar/);
     assert.match(canvas, /NonsenseEventTools\.calendarFilename/);
   });
+
+  test('links the promoter surface to the official No Nonsense destinations', async () => {
+    const canvas = await readFile(new URL('../src/nonsense-tickets.dc.html', import.meta.url), 'utf8');
+    assert.match(canvas, /href="https:\/\/linktr\.ee\/nononsensephl"[^>]*target="_blank"[^>]*rel="noopener noreferrer"/);
+    assert.match(canvas, /href="https:\/\/linkstub\.com\/en\/ab26"[^>]*target="_blank"[^>]*rel="noopener noreferrer"/);
+    assert.match(canvas, /aria-label="Open No Nonsense links in a new tab"/);
+    assert.match(canvas, /aria-label="View AfterBreak 2026 tickets in a new tab"/);
+  });
 });
