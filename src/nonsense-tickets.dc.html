@@ -72,6 +72,7 @@ input{font-family:inherit}
 
   <div data-filter-status class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
   <div data-purchase-status class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+  <div data-calendar-status class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
 
   <sc-if value="{{ isSite }}" hint-placeholder-val="{{ true }}">
   <div>
@@ -508,6 +509,7 @@ input{font-family:inherit}
             <button data-action="noop" style="flex:1;min-height:44px;font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.1em;border:2px solid var(--rule)">Copy</button>
             <button data-action="noop" style="flex:1;min-height:44px;font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.1em;border:2px solid var(--rule)">Embed</button>
           </div>
+          <button data-action="calendar" style="width:100%;margin-top:8px;min-height:44px;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;border:2px solid var(--rule);background:var(--ink);color:var(--paper)">Add to calendar</button>
         </div>
 
         <button data-action="view" data-arg="site" style="min-height:44px;font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.12em;border:2px solid var(--rule);background:transparent">← All shows</button>
@@ -779,6 +781,7 @@ class Component extends DCLogic {
         document.body.style.overflow=''; window.scrollTo(0,0); return;
       }
       if(act === 'tickets'){ this.open(this.state.evId); return; }
+      if(act === 'calendar'){ this.downloadCalendar(); return; }
       if(act === 'close'){ this.close(); return; }
       if(act === 'qty'){ this.setState({qty:Math.min(6, Math.max(1, this.state.qty + Number(arg)))}); return; }
       if(act === 'topay'){ this.setState({step:'pay'}, () => this.announceStep()); return; }
@@ -946,6 +949,26 @@ class Component extends DCLogic {
   announceStep(){
     const messages = {detail:'Ticket details step.', pay:'Payment step.', issued:'Purchase complete. Tickets issued.'};
     this.announce('[data-purchase-status]', messages[this.state.step]);
+  }
+
+  downloadCalendar(){
+    const event = this.sel();
+    if(!event) return;
+    try {
+      const calendar = globalThis.NonsenseEventTools.buildCalendar(event);
+      const filename = globalThis.NonsenseEventTools.calendarFilename(event);
+      const url = URL.createObjectURL(new Blob([calendar], {type:'text/calendar;charset=utf-8'}));
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 0);
+      this.announce('[data-calendar-status]', 'Calendar file downloaded for ' + event.title + '.');
+    } catch {
+      this.announce('[data-calendar-status]', 'Calendar download could not be created.');
+    }
   }
 
   open(id){

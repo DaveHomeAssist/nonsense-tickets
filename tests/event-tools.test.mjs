@@ -216,4 +216,13 @@ describe('canvas normalized event source contract', () => {
     assert.match(canvas, /query:'', dateRange:'all'/);
     assert.match(canvas, /NonsenseEventTools\.matchesEvent/);
   });
+
+  test('offers an accessible calendar download from every event detail view', async () => {
+    const canvas = await readFile(new URL('../src/nonsense-tickets.dc.html', import.meta.url), 'utf8');
+    assert.match(canvas, /data-calendar-status[^>]*role="status"[^>]*aria-live="polite"/);
+    assert.match(canvas, /data-action="calendar"/);
+    assert.match(canvas, /downloadCalendar\(\)/);
+    assert.match(canvas, /NonsenseEventTools\.buildCalendar/);
+    assert.match(canvas, /NonsenseEventTools\.calendarFilename/);
+  });
 });
