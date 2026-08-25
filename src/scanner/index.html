@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#17141f">
+<title>Nonsense Door Scanner</title>
+<link rel="manifest" href="./app.webmanifest">
+<style>
+  :root{
+    --paper:#fbf9f4; --ink:#17141f; --rule:#17141f;
+    --pass:#0f7a3d; --fail:#b3261e; --warn:#8a5a00; --muted:#5c5867;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --paper:#131118; --ink:#f4f1ea; --rule:#4a4658; --muted:#a9a4b6; }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font:16px/1.45 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    -webkit-text-size-adjust:100%;
+  }
+  header{padding:12px 16px; border-bottom:3px solid var(--rule); display:flex; gap:12px; align-items:baseline; flex-wrap:wrap}
+  h1{font-size:15px; margin:0; letter-spacing:.14em; text-transform:uppercase}
+  main{padding:16px; max-width:720px; margin:0 auto}
+  section{border:2px solid var(--rule); padding:14px; margin-bottom:16px}
+  h2{font-size:12px; letter-spacing:.16em; text-transform:uppercase; margin:0 0 10px}
+  label{display:block; font-size:12px; letter-spacing:.1em; text-transform:uppercase; margin:10px 0 4px; color:var(--muted)}
+  textarea, select, input{
+    width:100%; font:13px/1.4 ui-monospace, monospace; padding:8px;
+    background:transparent; color:var(--ink); border:2px solid var(--rule);
+  }
+  textarea{min-height:76px; resize:vertical; word-break:break-all}
+  button{
+    font:600 13px/1 ui-monospace, monospace; letter-spacing:.1em; text-transform:uppercase;
+    padding:12px 14px; background:var(--ink); color:var(--paper);
+    border:2px solid var(--ink); cursor:pointer; margin:8px 8px 0 0; min-height:44px;
+  }
+  button.ghost{background:transparent; color:var(--ink)}
+  button:disabled{opacity:.45; cursor:not-allowed}
+  button:focus-visible, textarea:focus-visible, select:focus-visible{outline:3px solid var(--ink); outline-offset:2px}
+  #video{width:100%; max-height:56vh; background:#000; display:block; border:2px solid var(--rule)}
+  .verdict{padding:20px 16px; border:3px solid var(--rule); text-align:center; margin-top:12px}
+  .verdict strong{display:block; font-size:30px; letter-spacing:.08em}
+  .verdict small{display:block; font-size:12px; margin-top:8px; word-break:break-all; color:var(--muted)}
+  .admitted{background:var(--pass); border-color:var(--pass); color:#fff}
+  .admitted small{color:rgba(255,255,255,.85)}
+  .rejected{background:var(--fail); border-color:var(--fail); color:#fff}
+  .rejected small{color:rgba(255,255,255,.85)}
+  .caution{background:var(--warn); border-color:var(--warn); color:#fff}
+  .caution small{color:rgba(255,255,255,.9)}
+  .row{display:flex; gap:16px; flex-wrap:wrap; font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+  .row b{color:var(--ink)}
+  .note{font-size:12px; color:var(--muted); margin-top:10px}
+  .hidden{display:none}
+  ul{margin:8px 0 0; padding-left:18px; font-size:12px}
+</style>
+</head>
+<body>
+<header>
+  <h1>Nonsense · Door Scanner</h1>
+  <div class="row" style="margin-left:auto">
+    <span>Event <b data-event>—</b></span>
+    <span>Manifest v<b data-manifest-version>—</b></span>
+    <span>Admitted <b data-admitted>0</b></span>
+    <span>Queued <b data-queued>0</b></span>
+  </div>
+</header>
+
+<main>
+  <div role="status" aria-live="assertive" class="verdict" data-verdict>
+    <strong data-verdict-text>Not ready</strong>
+    <small data-verdict-detail>Install a signed manifest to begin.</small>
+  </div>
+
+  <section data-setup>
+    <h2>1 · Device enrollment</h2>
+    <p class="note">
+      The publisher key is pinned to this device. A manifest is trusted only when it is
+      signed by this key, so a manifest can never introduce its own trust.
+    </p>
+    <label for="publisher-key">Publisher public key (JWK)</label>
+    <textarea id="publisher-key" spellcheck="false" placeholder='{"kty":"EC","crv":"P-256","x":"...","y":"..."}'></textarea>
+    <label for="manifest-doc">Signed manifest document (NTM1...)</label>
+    <textarea id="manifest-doc" spellcheck="false" placeholder="NTM1.eyJ2Ijox....signature"></textarea>
+    <button data-install>Install manifest</button>
+    <button class="ghost" data-forget>Reset device</button>
+  </section>
+
+  <section data-door class="hidden">
+    <h2>2 · Door</h2>
+    <label for="session">Session being scanned</label>
+    <select id="session" data-session></select>
+
+    <button data-start>Start camera</button>
+    <button class="ghost" data-stop disabled>Stop camera</button>
+    <video id="video" data-video playsinline muted class="hidden"></video>
+    <p class="note" data-camera-note></p>
+
+    <label for="manual">Manual entry (paste or type the payload)</label>
+    <textarea id="manual" spellcheck="false" placeholder="NT1...."></textarea>
+    <button data-check>Check ticket</button>
+  </section>
+
+  <section data-sync class="hidden">
+    <h2>3 · Reconciliation</h2>
+    <p class="note">
+      Scans are held on this device until they are handed back. Rejected scans are
+      included on purpose: a run of bad signatures at one entrance is the signal
+      that someone is working a forgery there.
+    </p>
+    <button data-export>Export queue</button>
+    <button class="ghost" data-clear>Clear queue</button>
+    <div class="note" data-sync-note></div>
+  </section>
+</main>
+
+<script src="../ticket-payload.js"></script>
+<script src="../ticket-manifest.js"></script>
+<script src="../scanner-core.js"></script>
+<script src="./vendor/jsQR.js"></script>
+<script src="./qr-decoder.js"></script>
+<script src="./scanner-app.js"></script>
+</body>
+</html>

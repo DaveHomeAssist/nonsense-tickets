@@ -3,3 +3,5 @@ node_modules/
 Thumbs.db
 *.log
 .superpowers/
+src/scanner/fixtures/generated/
+.playwright-cli/

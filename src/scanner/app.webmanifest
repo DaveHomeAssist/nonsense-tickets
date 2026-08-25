@@ -1,0 +1,19 @@
+{
+  "name": "Nonsense Door Scanner",
+  "short_name": "Door Scan",
+  "description": "Offline ticket validation for Nonsense Tickets doors.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fbf9f4",
+  "theme_color": "#17141f",
+  "icons": [
+    {
+      "src": "../assets/nn-logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
