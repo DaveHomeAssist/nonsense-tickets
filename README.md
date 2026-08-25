@@ -65,7 +65,8 @@ What remains is one site with a real navigation model:
 | Surface | How a visitor reaches it |
 |---|---|
 | Shows listing + marketing | the landing page; search, genre, and rolling date filters combine |
-| Event detail | clicking a show; **Add to calendar** downloads a local `.ics` file |
+| Event detail | clicking a native fixture; **Add to calendar** downloads a local `.ics` file |
+| AfterBreak offers | clicking AfterBreak opens its two-night offer sheet; checkout continues on Linkstub |
 | Ticket | completing the buy flow (detail → pay → issued) |
 | The math / Promoters | `#fees` / `#promoters` anchors, shown only on the landing page |
 
@@ -79,10 +80,18 @@ State lives in one `DCLogic` component — theme (light/dark), combined show que
 filters, cart sheet with drag-to-dismiss, quantity, wallet pass, plus accent/header/texture
 variants.
 
-All six fixture events use canonical `startsAt`, `endsAt`, and IANA `timeZone` fields. The
-shared `NonsenseEventTools` surface derives visible date labels, rolling filter membership,
-and RFC 5545 calendar files from those values. Calendar exports contain the public venue
-copy already shown on the event page; they do not invent or expose a private address.
+The catalog contains six native demo fixtures plus the official externally sold AfterBreak
+2026 listing. Every entry uses canonical `startsAt`, `endsAt`, and IANA `timeZone` fields.
+AfterBreak additionally uses `sessions`, `offers`, and an HTTPS `checkout` contract: offer
+`sessionIds` define the admission grants that a future native ticket will carry. The shared
+`NonsenseEventTools` surface validates those references and derives a two-night label from
+the two published session starts. Because the official listing does not publish a distinct
+Night 1 end time, the prototype refuses to manufacture a multi-session calendar file.
+
+The six native fixtures retain the existing local checkout demonstration and RFC 5545
+calendar downloads. AfterBreak never enters that simulated payment or issuance flow;
+Linkstub remains responsible for its live payment and tickets until persistent orders,
+signed ticket payloads, and session-aware scanning exist.
 
 ## Design source
 
@@ -129,5 +138,6 @@ charge, and the receipt copy contradicts the fee logic it sits next to.
 - **Not strict-CSP compatible.** Local React removes the critical unpkg boot dependency,
   but the generated runtime evaluates `DCLogic` with `new Function`. Removing `unsafe-eval`
   requires a precompile step or a rebuilt `dc-runtime`, neither of which is in this repo.
-- Content is prototype copy and fixture data (`NON-4K2P9X`, `instagram.com/concretemass`,
-  `ra.co/events/2088414`), not real listings.
+- Six entries remain prototype copy and fixture data (`NON-4K2P9X`,
+  `instagram.com/concretemass`, `ra.co/events/2088414`). AfterBreak is sourced from the
+  official No Nonsense listing but deliberately uses external Linkstub checkout.

@@ -1,17 +1,18 @@
 # Nonsense Tickets — Development Roadmap
 
-Current state: a Claude Design canvas served as a static page. Six shows use normalized
-fixture timestamps, a dependency-free Node test suite covers discovery and calendar logic,
-and there is still no persistence, application data API, or CI. React and ReactDOM are
-served locally; Google Fonts remain external. Everything below assumes that starting point,
-not a greenfield repo.
+Current state: a Claude Design canvas served as a static page. The catalog contains six
+native demo fixtures plus an official AfterBreak 2026 entry with two sessions, three
+entitlement-bearing offers, and external Linkstub checkout. A dependency-free Node test
+suite and GitHub Pages CI cover the current frontend; there is still no persistence or
+application data API. React and ReactDOM are served locally; Google Fonts remain external.
+Everything below assumes that starting point, not a greenfield repo.
 
 Durations assume one to two engineers. Phases are sequential except where noted.
 
 | Phase | Core Objective | Key Deliverables | Typical Duration |
 | --- | --- | --- | --- |
 | **Phase 0: Discovery & Feasibility** | Settle the unit economics and decide what the product actually commits to — before a backend is built around claims the design already makes. | Fee-model decision (R1), payment/settlement design, shows-orders-tickets schema, ticket-forgery threat model, risk log. **Parallel no-backend track:** scoped asset optimization, accessibility, `.ics` export, and combined search/date filtering complete | Weeks 1–3 |
-| **Phase 1: Foundation & MVP** | Replace fixtures with a real data layer and make one show sellable end to end. | CI/CD pipeline (none today), database schema, promoter auth, payment integration + next-day payout, signed ticket payloads, real QR encoder, strict-CSP runtime precompile, transactional email | Weeks 4–12 |
+| **Phase 1: Foundation & MVP** | Replace fixtures with a real data layer and make one show sellable end to end. | Database schema, promoter auth, payment integration + next-day payout, signed ticket payloads, real QR encoder, strict-CSP runtime precompile, transactional email | Weeks 4–12 |
 | **Phase 2: Alpha & User Validation** | Run real doors at friendly promoters' shows. | Offline door-scanner PWA, sold-out waitlist, analytics, feedback log from 3–5 pilot shows, door-staff observation notes | Weeks 13–17 |
 | **Phase 3: Beta & Hardening** | Survive an on-sale spike and a venue with no signal. | On-sale burst load test, pen test against forgery/replay, offline scanner conflict resolution, face-value transfer, SLO baselines | Weeks 18–22 |
 | **Phase 4: General Availability** | Public rollout and monitoring. | Production deployment, door-staff runbook, promoter onboarding docs, incident runbooks, marketing kickoff | Weeks 23–24 |
@@ -34,7 +35,9 @@ Durations assume one to two engineers. Phases are sequential except where noted.
 | 9 | Sold-out waitlist capture | **Blocked** | 2 | M | Yes | High | 6 |
 | 10 | Promoter dashboard (payouts + list export) | **Blocked** | 5 | L | Yes | High | 6, payouts |
 
-Items 1–4 shipped within their stated scopes. Manual assistive-technology validation and a
+Items 1–4 shipped within their stated scopes. The frontend also models AfterBreak as one
+multi-session event with offer-to-session grants while preserving Linkstub as the only live
+checkout. Manual assistive-technology validation and a
 repeatable image pipeline remain follow-up work. Calendar export and discovery share one
 normalized event-date model and remain backend independent. Item 5 no longer depends on
 unpkg to boot, but strict-CSP precompilation remains blocked. Items 6–10 remain behind the
@@ -46,11 +49,11 @@ Phase 0 product and data decisions shown above.
 | --- | --- |
 | 1 | The eight retained PNG sources total 9,463,501 bytes. Their WebP siblings total 705,984 bytes, a measured 92.54% source-set reduction; seven rendered `<img>` references use `<picture>` with PNG fallback. Event banners still receive PNG paths through the generated `image-slot`, and no repeatable encoding script exists. |
 | 2 | The document declares `lang="en"`, and three polite live regions announce filter-result counts, the detail → pay → issued purchase progression, and completed calendar downloads. The implementation was browser-verified, but no manual screen-reader signoff has been performed. |
-| 3 | Every event detail view now downloads a deterministic RFC 5545 `.ics` file built locally from canonical `startsAt`, `endsAt`, and `timeZone` fields. UTC conversion covers both daylight and standard time, exported locations use only public fixture copy, and the action announces completion through a polite live region. |
+| 3 | Each native fixture detail view downloads a deterministic RFC 5545 `.ics` file built locally from canonical `startsAt`, `endsAt`, and `timeZone` fields. UTC conversion covers both daylight and standard time, exported locations use only public fixture copy, and the action announces completion through a polite live region. AfterBreak calendar export is deliberately unavailable because its official listing does not publish a distinct Night 1 end time. |
 | 4 | Search across titles, venues, genres, and lineups combines with genre and rolling date filters using AND semantics. Visible counts, pressed states, a resettable zero state, keyboard operation, and polite result announcements are covered by unit and fixed-clock browser checks. |
 | 5 | React 18.3.1 and ReactDOM 18.3.1 are pinned locally, so unpkg availability no longer controls page boot. Babel is lazy-loaded only for JSX `x-import` modules, which the current canvas does not use. Strict CSP remains blocked because the generated runtime evaluates `DCLogic` with `new Function`; resolving that requires precompilation or a rebuilt runtime. |
-| 6 | All six shows live in a hardcoded `data` object. There is no persistence or application data API, so purchases disappear on reload; this is the prerequisite for items 7–10. |
-| 7 | The site promises “DOOR SCAN WORKS OFFLINE,” but the ticket uses a decorative generated grid rather than a signed, scannable payload. The real flow needs signed tickets and validation against a cached manifest. |
+| 6 | All seven catalog entries live in a hardcoded `data` object. AfterBreak proves the intended `event → sessions → offers` shape, but there is no persistence or application data API, so native purchases disappear on reload; this is the prerequisite for items 7–10. |
+| 7 | The site promises “DOOR SCAN WORKS OFFLINE,” but the ticket uses a decorative generated grid rather than a signed, scannable payload. The real flow needs signed tickets and validation against a cached manifest. For multi-session offers, redemption must be keyed by `(ticketId, sessionId)` so a combo ticket admits once on each granted night. |
 | 8 | There is no transfer or refund flow. Face-value transfer keeps the no-junk-fees position intact when a buyer can no longer attend. |
 | 9 | “Sold out · waitlist at the door” is copy only. A functional waitlist would capture the highest-intent audience while supporting the “YOUR LIST, YOUR DATA” promise. |
 | 10 | The site promises next-day payouts and audience ownership, but `#promoters` remains marketing content rather than an operational promoter surface. |

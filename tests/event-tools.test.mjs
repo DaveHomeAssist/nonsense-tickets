@@ -53,6 +53,22 @@ const shows = [
   }
 ];
 
+const afterbreak = {
+  id: '7', title: 'AfterBreak 2026', venue: 'Secret location · revealed day of event', genre: 'edm',
+  lineup: ['Full lineup TBA'], note: '18+ to enter · 21+ to party · valid ID required',
+  startsAt: '2026-09-11T23:45:00-04:00', endsAt: '2026-09-13T06:30:00-04:00', timeZone: 'America/New_York',
+  sessions: [
+    {id: 'night-1', label: 'Night 1', startsAt: '2026-09-11T23:45:00-04:00'},
+    {id: 'night-2', label: 'Night 2', startsAt: '2026-09-12T23:45:00-04:00'}
+  ],
+  offers: [
+    {id: 'night-1-early-bird', label: 'GA Night 1 · Early Bird', facePrice: 25, externalTotal: 29.77, sessionIds: ['night-1']},
+    {id: 'night-2-early-bird', label: 'GA Night 2 · Early Bird', facePrice: 25, externalTotal: 29.77, sessionIds: ['night-2']},
+    {id: 'combo-early-bird', label: 'GA Night 1 + 2 Combo · Early Bird', facePrice: 40, externalTotal: 46.25, sessionIds: ['night-1', 'night-2']}
+  ],
+  checkout: {mode: 'external', provider: 'Linkstub', url: 'https://linkstub.com/en/ab26'}
+};
+
 describe('NonsenseEventTools API', () => {
   test('exposes one frozen dependency-free utility surface', async () => {
     const tools = await loadTools();
@@ -84,6 +100,41 @@ describe('canonical date validation and formatting', () => {
     assert.throws(() => tools.validateEvent({...shows[0], startsAt: 'nope'}), /startsAt/);
     assert.throws(() => tools.validateEvent({...shows[0], endsAt: shows[0].startsAt}), /later/);
     assert.throws(() => tools.validateEvent({...shows[0], timeZone: 'Philadelphia'}), /timeZone/);
+  });
+
+  test('validates and formats a two-session event without inventing session end times', async () => {
+    const tools = await loadTools();
+    const validated = tools.validateEvent(afterbreak);
+    assert.deepEqual(validated.sessions.map((session) => session.id), ['night-1', 'night-2']);
+    assert.deepEqual(validated.offers.map((offer) => offer.id), [
+      'night-1-early-bird', 'night-2-early-bird', 'combo-early-bird'
+    ]);
+    assert.deepEqual(tools.formatEventDate(afterbreak), {
+      full: '2 NIGHTS · FRI SEP 11 + SAT SEP 12 · 11:45PM EACH NIGHT',
+      day: 'FRI SEP 11 + SAT SEP 12',
+      time: '11:45PM EACH NIGHT'
+    });
+    assert.equal(tools.matchesEvent(afterbreak, {query: 'night combo'}), true);
+  });
+
+  test('rejects invalid session, offer, and external checkout contracts', async () => {
+    const tools = await loadTools();
+    assert.throws(() => tools.validateEvent({
+      ...afterbreak,
+      sessions: [...afterbreak.sessions, {...afterbreak.sessions[0]}]
+    }), /session IDs must be unique/);
+    assert.throws(() => tools.validateEvent({
+      ...afterbreak,
+      offers: [{...afterbreak.offers[0], sessionIds: ['night-3']}]
+    }), /unknown session/);
+    assert.throws(() => tools.validateEvent({
+      ...afterbreak,
+      offers: [{...afterbreak.offers[0], facePrice: -1}]
+    }), /facePrice/);
+    assert.throws(() => tools.validateEvent({
+      ...afterbreak,
+      checkout: {...afterbreak.checkout, url: 'http://linkstub.com/en/ab26'}
+    }), /HTTPS/);
   });
 });
 
@@ -174,6 +225,11 @@ describe('RFC 5545 calendar serialization', () => {
     }
     assert.match(calendar, /\r\n /, 'long content should use continuation lines');
   });
+
+  test('refuses a misleading calendar when session end times are unpublished', async () => {
+    const tools = await loadTools();
+    assert.throws(() => tools.buildCalendar(afterbreak), /exact session end time/);
+  });
 });
 
 describe('canvas normalized event source contract', () => {
@@ -185,11 +241,11 @@ describe('canvas normalized event source contract', () => {
     assert.ok(toolsIndex < supportIndex, 'event-tools.js should load before support.js');
   });
 
-  test('defines six canonical date triples without display-only fixture dates', async () => {
+  test('defines seven canonical event ranges plus two canonical session starts', async () => {
     const canvas = await readFile(new URL('../src/nonsense-tickets.dc.html', import.meta.url), 'utf8');
-    assert.equal((canvas.match(/\bstartsAt:/g) || []).length, 6);
-    assert.equal((canvas.match(/\bendsAt:/g) || []).length, 6);
-    assert.equal((canvas.match(/\btimeZone:/g) || []).length, 6);
+    assert.equal((canvas.match(/\bstartsAt:/g) || []).length, 9);
+    assert.equal((canvas.match(/\bendsAt:/g) || []).length, 7);
+    assert.equal((canvas.match(/\btimeZone:/g) || []).length, 7);
     assert.equal(/\bdate:'(?:FRI|SAT)/.test(canvas), false);
     for (const show of shows) {
       assert.match(canvas, new RegExp(`startsAt:'${show.startsAt.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}'`));
@@ -197,11 +253,26 @@ describe('canvas normalized event source contract', () => {
     }
   });
 
-  test('connects all six cards to canonical event IDs and derived date targets', async () => {
+  test('connects all seven cards to canonical event IDs and derived date targets', async () => {
     const canvas = await readFile(new URL('../src/nonsense-tickets.dc.html', import.meta.url), 'utf8');
-    assert.equal((canvas.match(/data-show-id="[1-6]"/g) || []).length, 6);
-    assert.equal((canvas.match(/data-show-date="[1-6]"/g) || []).length, 6);
+    assert.equal((canvas.match(/data-show-id="[1-7]"/g) || []).length, 7);
+    assert.equal((canvas.match(/data-show-date="[1-7]"/g) || []).length, 7);
     assert.match(canvas, /NonsenseEventTools\.formatEventDate\(s\)/);
+  });
+
+  test('models AfterBreak offers as external session entitlements without native issuance', async () => {
+    const canvas = await readFile(new URL('../src/nonsense-tickets.dc.html', import.meta.url), 'utf8');
+    assert.match(canvas, /7:\{[^\n]*title:'AfterBreak 2026'/);
+    assert.equal((canvas.match(/id:'night-[12]'/g) || []).length, 2);
+    assert.equal((canvas.match(/id:'(?:night-[12]|combo)-early-bird'/g) || []).length, 3);
+    assert.match(canvas, /sessionIds:\['night-1','night-2'\]/);
+    assert.match(canvas, /checkout:\{mode:'external',provider:'Linkstub',url:'https:\/\/linkstub\.com\/en\/ab26'\}/);
+    assert.match(canvas, /data-external-offers[^>]*role="list"/);
+    assert.match(canvas, /data-external-checkout-link[^>]*href="https:\/\/linkstub\.com\/en\/ab26"[^>]*target="_blank"[^>]*rel="noopener noreferrer"/);
+    assert.match(canvas, /aria-label="Choose AfterBreak tickets on Linkstub \(opens in a new tab\)"/);
+    assert.match(canvas, /data-external-eyebrow[^>]*color:var\(--paper\)/);
+    assert.match(canvas, /data-native-checkout/);
+    assert.match(canvas, /data-external-checkout/);
   });
 
   test('defines accessible layered discovery controls and a resettable zero state', async () => {

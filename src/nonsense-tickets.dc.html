@@ -203,6 +203,24 @@ input{font-family:inherit}
             </div>
           </button>
 
+          <button data-action="external" data-arg="7" data-show-id="7" data-genre="edm" aria-label="AfterBreak 2026, two nights, tickets sold on Linkstub" style="background:var(--paper2);border:2px solid var(--rule);position:relative;display:flex;flex-direction:column;text-align:left;font:inherit;color:inherit;transition:transform .14s ease,box-shadow .14s ease" style-hover="transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--acid)">
+            <div data-tex="AfterBreak 2026" style="height:150px;border-bottom:2px dashed var(--rule);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#0c0a14"><picture><source srcset="assets/nn-logo.webp" type="image/webp"><img src="assets/nn-logo.png" alt="" loading="lazy" style="position:relative;width:min(62%,190px);height:auto;max-height:92px;object-fit:contain;filter:drop-shadow(4px 4px 0 rgba(255,47,160,.5));z-index:1"></picture><span aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(92,107,255,.3),transparent 46%,rgba(200,245,66,.2));pointer-events:none"></span>
+              <span style="position:absolute;top:10px;right:10px;font-family:'Space Mono',monospace;font-weight:700;font-size:11px;letter-spacing:.16em;text-transform:uppercase;background:var(--acid);color:#17141f;padding:4px 9px;z-index:2">2 NTS</span>
+              <span data-seed="AfterBreak 2026" style="position:absolute;left:10px;bottom:9px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#eae5d8;opacity:.65;z-index:2"></span>
+              <span style="position:absolute;left:-11px;bottom:-11px;width:20px;height:20px;border-radius:50%;background:var(--paper);border:2px solid var(--rule);z-index:2"></span>
+              <span style="position:absolute;right:-11px;bottom:-11px;width:20px;height:20px;border-radius:50%;background:var(--paper);border:2px solid var(--rule);z-index:2"></span>
+            </div>
+            <div style="padding:18px 18px 16px;flex:1;display:flex;flex-direction:column;gap:8px">
+              <div data-show-date="7" style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);line-height:1.55"></div>
+              <div style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:17px;line-height:1.2;letter-spacing:-.01em">AfterBreak 2026</div>
+              <div style="font-size:13px;font-weight:500;opacity:.75">No Nonsense · secret location</div>
+              <div style="margin-top:auto;padding-top:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--rule)">
+                <div style="font-family:'Space Mono',monospace;font-weight:700;font-size:15px">From $25<small style="font-weight:400;font-size:10px;display:block;opacity:.6;letter-spacing:.06em;text-transform:uppercase">face value · Linkstub fees apply</small></div>
+                <span style="font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;padding:4px 9px;border-radius:99px;background:var(--acid);color:#17141f;white-space:nowrap">Official sale</span>
+              </div>
+            </div>
+          </button>
+
           <button data-action="open" data-arg="4" data-show-id="4" data-genre="dnb" aria-label="Fast Forward Philly at Ukrainian Social Hall" style="background:var(--paper2);border:2px solid var(--rule);position:relative;display:flex;flex-direction:column;text-align:left;font:inherit;color:inherit;transition:transform .14s ease,box-shadow .14s ease" style-hover="transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--pink)">
             <div data-tex="Fast Forward Philly" style="height:150px;border-bottom:2px dashed var(--rule);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center"><picture><source srcset="assets/stage-truss.webp" type="image/webp"><img src="assets/stage-truss.png" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></picture><span aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,16,.38),rgba(10,8,16,0) 55%);pointer-events:none"></span>
               <span style="position:absolute;top:10px;right:10px;font-family:'Space Mono',monospace;font-weight:700;font-size:11px;letter-spacing:.16em;text-transform:uppercase;background:rgba(10,8,16,.62);color:#eae5d8;padding:4px 9px">DNB</span>
@@ -615,6 +633,29 @@ input{font-family:inherit}
 
           <sc-if value="{{ isDetail }}" hint-placeholder-val="{{ true }}">
             <div>
+              <div data-external-checkout style="display:none">
+                <div style="border:2px solid var(--rule);background:var(--ink);color:var(--paper);padding:14px 16px;margin-bottom:14px">
+                  <div data-external-eyebrow style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper)">Two-night event · official external checkout</div>
+                  <p style="font-size:13px;line-height:1.55;margin-top:6px;opacity:.85">Choose Night 1, Night 2, or both on Linkstub. Payment and ticket issuance stay with the official seller.</p>
+                </div>
+                <ul data-external-offers role="list" style="list-style:none;border:2px solid var(--rule);background:var(--paper2)">
+                  <li style="padding:14px 16px;border-bottom:2px solid var(--rule);display:flex;justify-content:space-between;gap:16px;align-items:baseline">
+                    <span style="font-weight:700;font-size:14px">{{ offer1Label }}</span>
+                    <span style="font-family:'Space Mono',monospace;font-size:11px;text-align:right;white-space:nowrap">{{ offer1Price }}</span>
+                  </li>
+                  <li style="padding:14px 16px;border-bottom:2px solid var(--rule);display:flex;justify-content:space-between;gap:16px;align-items:baseline">
+                    <span style="font-weight:700;font-size:14px">{{ offer2Label }}</span>
+                    <span style="font-family:'Space Mono',monospace;font-size:11px;text-align:right;white-space:nowrap">{{ offer2Price }}</span>
+                  </li>
+                  <li style="padding:14px 16px;display:flex;justify-content:space-between;gap:16px;align-items:baseline;background:color-mix(in srgb,var(--acid) 13%,transparent)">
+                    <span style="font-weight:700;font-size:14px">{{ offer3Label }}</span>
+                    <span style="font-family:'Space Mono',monospace;font-size:11px;text-align:right;white-space:nowrap">{{ offer3Price }}</span>
+                  </li>
+                </ul>
+                <a data-external-checkout-link href="https://linkstub.com/en/ab26" target="_blank" rel="noopener noreferrer" aria-label="Choose AfterBreak tickets on Linkstub (opens in a new tab)" style="width:100%;min-height:54px;margin-top:16px;padding:13px 20px;border:2px solid var(--rule);background:var(--ink);color:var(--paper);display:inline-flex;align-items:center;justify-content:center;text-align:center;font-family:'Space Mono',monospace;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;transition:transform .12s ease,box-shadow .12s ease" style-hover="transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--acid);color:var(--paper)">Choose tickets on Linkstub ↗</a>
+                <p style="font-family:'Space Mono',monospace;font-size:10px;line-height:1.55;opacity:.65;margin-top:10px;text-align:center">Linkstub prices include its published fees. Native Nonsense checkout activates only after persistent tickets and session-aware scanning exist.</p>
+              </div>
+              <div data-native-checkout>
               <div style="font-family:'Space Mono',monospace;font-size:13px;line-height:1.9;margin-bottom:22px">
                 <div><span style="background:var(--acid);color:#17141f;padding:0 4px;font-weight:700">{{ selL1 }}</span></div>
                 <div>{{ selL2 }}</div>
@@ -646,6 +687,7 @@ input{font-family:inherit}
                   <button data-action="topay" style="width:100%;text-align:center;margin-top:18px;font-family:'Space Mono',monospace;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:16px 26px;border:2px solid var(--rule);background:var(--ink);color:var(--paper);transition:transform .12s ease,box-shadow .12s ease" style-hover="transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--pink)">Checkout · {{ totalStr }}</button>
                 </div>
               </sc-if>
+              </div>
             </div>
           </sc-if>
 
@@ -748,7 +790,11 @@ class Component extends DCLogic {
     5:{art:'assets/dj-frame.png',banner:'assets/dj-frame.png',genre:'techno',title:'Night Shift: All Vinyl',venue:'Basement TBA · West Philly',startsAt:'2026-09-18T23:00:00-04:00',endsAt:'2026-09-19T05:00:00-04:00',timeZone:'America/New_York',price:12,tag:'low',
        lineup:['GRAVEYARD ROTATION','Loading Dock','Third Rail'],note:'21+ · address texted day of show'},
     6:{genre:'bass',art:'assets/afterjinx-logo.png',banner:'assets/afterjinx-flyer.png',title:'Afterjinx After Hours',venue:'No Nonsense · 405 N Broad St',startsAt:'2026-12-26T01:00:00-05:00',endsAt:'2026-12-26T03:00:00-05:00',timeZone:'America/New_York',price:25,tag:'soldout',
-       lineup:['DEFUNK','FRESH BVKED','JAML','DR.FUNKLE b2b NEUROMANCY'],note:'Presented by No Nonsense · Hijinx unofficial afterparty · sold out'}
+       lineup:['DEFUNK','FRESH BVKED','JAML','DR.FUNKLE b2b NEUROMANCY'],note:'Presented by No Nonsense · Hijinx unofficial afterparty · sold out'},
+    7:{art:'assets/nn-logo.png',genre:'edm',title:'AfterBreak 2026',venue:'Secret location · revealed day of event',startsAt:'2026-09-11T23:45:00-04:00',endsAt:'2026-09-13T06:30:00-04:00',timeZone:'America/New_York',price:25,tag:'external',
+       sessions:[{id:'night-1',label:'Night 1',startsAt:'2026-09-11T23:45:00-04:00'},{id:'night-2',label:'Night 2',startsAt:'2026-09-12T23:45:00-04:00'}],
+       offers:[{id:'night-1-early-bird',label:'GA Night 1 · Early Bird',facePrice:25,externalTotal:29.77,sessionIds:['night-1']},{id:'night-2-early-bird',label:'GA Night 2 · Early Bird',facePrice:25,externalTotal:29.77,sessionIds:['night-2']},{id:'combo-early-bird',label:'GA Night 1 + 2 Combo · Early Bird',facePrice:40,externalTotal:46.25,sessionIds:['night-1','night-2']}],
+       checkout:{mode:'external',provider:'Linkstub',url:'https://linkstub.com/en/ab26'},lineup:['Full lineup TBA','',''],note:'18+ to enter · 21+ to party · valid ID required'}
   };
 
   componentDidMount(){
@@ -779,6 +825,7 @@ class Component extends DCLogic {
         return;
       }
       if(act === 'times'){ this.setState({times:!this.state.times}); return; }
+      if(act === 'external'){ this.open(String(arg)); return; }
       if(act === 'open'){
         const _ev=this.data[String(arg)]; this.setState({view:'event', evId:String(arg), sheet:false, step:'detail', qty:1, texSeed:0, header:(_ev&&_ev.banner)?'banner':'poster'});
         document.body.style.overflow=''; window.scrollTo(0,0); return;
@@ -950,7 +997,9 @@ class Component extends DCLogic {
     });
   }
   announceStep(){
-    const messages = {detail:'Ticket details step.', pay:'Payment step.', issued:'Purchase complete. Tickets issued.'};
+    const selected = this.sel();
+    const external = selected && selected.checkout && selected.checkout.mode === 'external';
+    const messages = {detail:external ? selected.title + ' ticket options. Checkout continues on ' + selected.checkout.provider + '.' : 'Ticket details step.', pay:'Payment step.', issued:'Purchase complete. Tickets issued.'};
     this.announce('[data-purchase-status]', messages[this.state.step]);
   }
 
@@ -1184,6 +1233,11 @@ class Component extends DCLogic {
     const phl = document.querySelector('[data-phl]');
     if(phl) phl.style.display = st.narrow ? 'none' : 'inline';
 
+    const selectedEvent = this.sel();
+    const usesExternalCheckout = !!(selectedEvent && selectedEvent.checkout && selectedEvent.checkout.mode === 'external');
+    document.querySelectorAll('[data-native-checkout]').forEach(n => { n.style.display = usesExternalCheckout ? 'none' : 'block'; });
+    document.querySelectorAll('[data-external-checkout]').forEach(n => { n.style.display = usesExternalCheckout ? 'block' : 'none'; });
+
     const wl = document.querySelector('[data-wallet-label]');
     if(wl) wl.textContent = st.wallet ? 'Added to Wallet' : 'Add to Apple Wallet';
     const wn = document.querySelector('[data-wallet-note]');
@@ -1244,6 +1298,10 @@ class Component extends DCLogic {
     const qty = this.state.qty;
     const total = s ? (s.price + fee) * qty : 0;
     const formatted = s ? globalThis.NonsenseEventTools.formatEventDate(s) : {full:'',day:'',time:''};
+    const offers = s && Array.isArray(s.offers) ? s.offers : [];
+    const offerLabel = index => offers[index] ? offers[index].label : '';
+    const offerPrice = index => offers[index] ? '$' + offers[index].facePrice.toFixed(2) + ' face · $' + offers[index].externalTotal.toFixed(2) + ' total' : '';
+    const external = !!(s && s.checkout && s.checkout.mode === 'external');
     return {
       themeLabel:this.state.theme === 'dark' ? 'Lights on' : 'Lights off',
       isSite:this.state.view === 'site',
@@ -1255,13 +1313,13 @@ class Component extends DCLogic {
       selAllIn:s ? '$' + (s.price + fee) : '',
       selBase:s ? '$' + s.price + '.00' : '',
       selSlug:s ? s.title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'') : '',
-      selStock:s ? (s.tag === 'soldout' ? 'Sold out · waitlist at the door' : s.tag === 'low' ? 'Under 30 left at this price' : 'On sale · 6 per person max') : '',
+      selStock:s ? (external ? 'Sold and issued by ' + s.checkout.provider : s.tag === 'soldout' ? 'Sold out · waitlist at the door' : s.tag === 'low' ? 'Under 30 left at this price' : 'On sale · 6 per person max') : '',
       open:!!s && this.state.sheet,
       isDetail:this.state.step === 'detail',
       isPay:this.state.step === 'pay',
       isIssued:this.state.step === 'issued',
       soldOut:!!s && s.tag === 'soldout',
-      onSale:!!s && s.tag !== 'soldout',
+      onSale:!!s && s.tag !== 'soldout' && !external,
       qty,
       totalStr:'$' + total,
       lineLabel:s ? qty + ' × GA ($' + s.price + ' + $' + fee + ' flat)' : '',
@@ -1278,7 +1336,13 @@ class Component extends DCLogic {
       selEarly:s ? '$' + (s.price - 5 + fee) : '',
       selL1:s ? s.lineup[0] : '',
       selL2:s ? s.lineup[1] : '',
-      selL3:s ? s.lineup[2] : ''
+      selL3:s ? s.lineup[2] : '',
+      offer1Label:offerLabel(0),
+      offer1Price:offerPrice(0),
+      offer2Label:offerLabel(1),
+      offer2Price:offerPrice(1),
+      offer3Label:offerLabel(2),
+      offer3Price:offerPrice(2)
     };
   }
 }
