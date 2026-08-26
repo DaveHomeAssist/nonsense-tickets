@@ -1,8 +1,9 @@
 # Nonsense Tickets
 
 Flat-fee DIY ticketing concept for Philadelphia warehouse nights, basement raves, and
-self-hosted shows. **$25 on the flyer = $25 at checkout** — a flat $1 per ticket, promoters
-keep the rest.
+self-hosted shows. **The price on the flyer is the price at checkout** — face value plus
+a flat $2 per ticket, shown all-in everywhere. Card processing comes out of the $2, so
+promoters keep the full face value.
 
 Source is a [Claude Design](https://claude.ai/code) canvas export (`.dc.html`), imported
 2026-08-23 from `Nonsense_Tickets_assets_wired.zip`.
@@ -125,9 +126,10 @@ all from Google Fonts. `prefers-reduced-motion` is honored.
 
 ## Roadmap
 
-Phased plan, backlog mapping, and risk log in [ROADMAP.md](ROADMAP.md). Two risks there are
-blocking rather than theoretical: the flat $1 fee does not cover card processing on a $26
-charge, and the receipt copy contradicts the fee logic it sits next to.
+Phased plan, backlog mapping, and risk log in [ROADMAP.md](ROADMAP.md). The fee-model
+decision (R1/R2) is resolved: a flat $2 per ticket added to face value, shown all-in on
+the flyer, the card, and checkout, with card processing paid out of the flat fee — so
+"promoters keep the face value" is arithmetically true.
 
 ## Known gaps
 

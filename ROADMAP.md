@@ -65,23 +65,25 @@ WebPs were encoded with `cwebp`, but no repeatable asset-pipeline script exists 
 
 ## Risk Log
 
-**R1 — The flat $1 fee does not cover card processing. (Critical, economic)**
+**R1 — RESOLVED 2026-08-26: the flat fee is $2 and absorbs card processing.**
 
-`fee()` returns the `flatFee` prop and `fanPays` computes `price + fee`, so a $25 ticket
-charges the fan $26. At typical US card rates (roughly 2.9% + 30¢), processing a $26 charge
-costs about $1.05 — more than the entire $1 fee, before any infrastructure or support cost.
-The core promise is currently loss-making per ticket. Options: raise the flat fee, charge
-the promoter a per-show fee, absorb processing into a subscription, or push toward payment
-rails with lower per-transaction cost. **This decision blocks Phase 1** — the payment
-integration cannot be designed without it.
+The original $1 flat fee was loss-making: at typical US card rates (roughly 2.9% + 30¢),
+processing a $26 charge costs about $1.05 — more than the entire fee. Decision, from the
+options listed at audit time: raise the flat fee to **$2 per ticket**, keep it fan-side,
+and pay card processing out of it. On a $27 all-in charge, processing is about $1.08,
+leaving roughly $0.92 gross per ticket before infrastructure and support. `flatFee` now
+defaults to 2 (`fee()` falls back to 2), and the payment/settlement design in Phase 1
+builds on this: fan pays face + $2, promoter is settled the full face value, Nonsense
+owns the processing cost. Revisit only if payment rails with materially lower
+per-transaction cost become available.
 
-**R2 — The fee copy contradicts the fee logic. (High, product)**
+**R2 — RESOLVED 2026-08-26 with R1: all-in framing everywhere.**
 
-The receipt panel says *"Shown on the flyer, shown on the card, charged at checkout. Same
-number three times"* while the same panel itemizes a `Nonsense flat $1` line and a `Fan pays`
-total of $26. Those cannot both be true. Either the fan pays the flyer price and the $1 comes
-out of the promoter's side, or the fan pays flyer + $1 and the "same number three times" copy
-has to go. This is a positioning decision, not a bug fix — resolve it with R1.
+The "same number three times" claim now means the **all-in** number (face + $2): it is
+what the flyer prints, what the show card displays (`data-price` renders face + fee), and
+what checkout charges. The hero, marquee, fee panel, receipt, and README all state that
+processing comes out of the flat fee and promoters keep the whole face value — no copy
+implies that face value alone is the checkout price anymore.
 
 **R3 — "Door scan works offline" is unimplemented.** The hero marquee advertises it; the
 ticket QR is a decorative CSS grid rendered from `NON-4K2P9X`. Any promoter demo invites a
