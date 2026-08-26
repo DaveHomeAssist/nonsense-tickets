@@ -544,7 +544,7 @@ input{font-family:inherit}
     <div style="max-width:520px;margin:0 auto">
       <button data-action="view" data-arg="site" style="font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.12em;padding:8px 12px;border:2px solid var(--rule);margin-bottom:26px">← All shows</button>
 
-      <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--blue);margin-bottom:6px">Your ticket · 1 of 2</div>
+      <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--blue);margin-bottom:6px">Demo ticket preview · 1 of 2 · not valid for entry</div>
       <h1 style="font-family:'Unbounded',sans-serif;font-weight:900;font-size:clamp(28px,7vw,44px);line-height:1.02;letter-spacing:-.03em;text-transform:uppercase;position:relative;margin-bottom:26px">
         <span aria-hidden="true" style="position:absolute;inset:0;color:var(--blue);mix-blend-mode:var(--blend);transform:translate(calc(var(--mis) * -0.6),calc(var(--mis) * -0.5));animation:regB .9s cubic-bezier(.2,.85,.25,1) .08s both">You're in</span>
         <span aria-hidden="true" style="position:absolute;inset:0;color:var(--pink);mix-blend-mode:var(--blend);transform:translate(calc(var(--mis) * 0.6),calc(var(--mis) * 0.5));animation:regP .9s cubic-bezier(.2,.85,.25,1) .14s both">You're in</span>
@@ -554,6 +554,7 @@ input{font-family:inherit}
       <div style="background:var(--paper2);border:2px solid var(--rule);border-radius:18px;overflow:hidden;box-shadow:10px 10px 0 var(--blue)">
         <div data-tex="Concrete Mass 014" style="height:120px;border-bottom:2px solid var(--rule);display:flex;align-items:flex-end;justify-content:space-between;padding:12px 16px">
           <span style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;background:var(--ink);color:var(--paper);padding:4px 8px">NONSENSE*TICKETS</span>
+          <span style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;background:var(--pink);color:#fff;padding:4px 8px">DEMO</span>
           <span style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;background:var(--acid);color:#17141f;padding:4px 8px">GA · 2 GUESTS</span>
         </div>
         <div style="padding:20px 22px 18px">
@@ -573,7 +574,7 @@ input{font-family:inherit}
         <div style="padding:24px 22px 26px;display:flex;flex-direction:column;align-items:center;gap:12px">
           <div data-qr="NON-4K2P9X" aria-label="Ticket QR code placeholder" style="width:168px;height:168px;background:#fff;padding:10px;display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:repeat(12,1fr)"></div>
           <div style="font-family:'Space Mono',monospace;font-size:14px;letter-spacing:.24em;font-weight:700">NON-4K2P9X</div>
-          <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;opacity:.55;text-align:center">Scanned at the door · works offline</div>
+          <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;opacity:.55;text-align:center">Demo pattern · not a scannable code · real tickets carry signed QR payloads</div>
         </div>
       </div>
 
@@ -607,7 +608,7 @@ input{font-family:inherit}
         <button data-action="noop" style="flex:1 1 160px;min-height:48px;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:14px 18px;border:2px solid var(--rule);background:transparent;transition:transform .12s ease,box-shadow .12s ease" style-hover="transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--pink)">Transfer ticket</button>
         <button data-action="noop" style="flex:1 1 160px;min-height:48px;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:14px 18px;border:2px solid var(--rule);background:transparent;transition:transform .12s ease,box-shadow .12s ease" style-hover="transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--blue)">Refund before Sep 02</button>
       </div>
-      <p style="font-family:'Space Mono',monospace;font-size:11px;opacity:.55;margin-top:18px;text-align:center">Screenshot works. Airplane mode works. See you on the floor.</p>
+      <p style="font-family:'Space Mono',monospace;font-size:11px;opacity:.55;margin-top:18px;text-align:center">Demo page — nothing here admits anyone. Real tickets are signed NT1 payloads in real QR codes, scanned offline at the door.</p>
     </div>
   </div>
   </sc-if>
@@ -694,15 +695,15 @@ input{font-family:inherit}
           <sc-if value="{{ isPay }}" hint-placeholder-val="{{ false }}">
             <div>
               <div style="margin-bottom:14px">
-                <label for="f-name" style="display:block;font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">Name on the list</label>
-                <input id="f-name" placeholder="First Last" style="width:100%;min-height:48px;padding:12px 14px;border:2px solid var(--rule);background:var(--paper2);color:var(--ink);font-size:15px">
+                <label for="f-name" style="display:block;font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">Name on the list · required</label>
+                <input id="f-name" required aria-required="true" placeholder="First Last" style="width:100%;min-height:48px;padding:12px 14px;border:2px solid var(--rule);background:var(--paper2);color:var(--ink);font-size:15px">
               </div>
               <div style="margin-bottom:14px">
-                <label for="f-email" style="display:block;font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">Email for your ticket</label>
-                <input id="f-email" type="email" placeholder="you@example.com" style="width:100%;min-height:48px;padding:12px 14px;border:2px solid var(--rule);background:var(--paper2);color:var(--ink);font-size:15px">
+                <label for="f-email" style="display:block;font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">Email for your ticket · required</label>
+                <input id="f-email" type="email" required aria-required="true" placeholder="you@example.com" style="width:100%;min-height:48px;padding:12px 14px;border:2px solid var(--rule);background:var(--paper2);color:var(--ink);font-size:15px">
               </div>
               <div style="margin-bottom:14px">
-                <label for="f-card" style="display:block;font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">Card</label>
+                <label for="f-card" style="display:block;font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">Card · demo, leave the test number</label>
                 <input id="f-card" inputmode="numeric" placeholder="4242 4242 4242 4242" style="width:100%;min-height:48px;padding:12px 14px;border:2px solid var(--rule);background:var(--paper2);color:var(--ink);font-size:15px">
               </div>
               <div style="margin-top:18px;border-top:2px solid var(--rule);padding-top:14px">
@@ -710,17 +711,18 @@ input{font-family:inherit}
                 <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:15px;font-weight:700;border-top:1px dashed currentColor;margin-top:8px;padding-top:10px"><span>Charged now</span><span>{{ totalStr }}</span></div>
               </div>
               <button data-action="issue" style="width:100%;text-align:center;margin-top:18px;font-family:'Space Mono',monospace;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:16px 26px;border:2px solid var(--rule);background:var(--ink);color:var(--paper);transition:transform .12s ease,box-shadow .12s ease" style-hover="transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--pink)">Pay {{ totalStr }} · get tickets</button>
-              <p style="font-family:'Space Mono',monospace;font-size:11px;opacity:.6;margin-top:10px;text-align:center">Prototype checkout. Production build runs Stripe Elements here.</p>
+              <p style="font-family:'Space Mono',monospace;font-size:11px;opacity:.6;margin-top:10px;text-align:center">Demo checkout — nothing is charged, no real ticket is issued, and no real card number should ever be entered. Production build runs Stripe Elements here.</p>
             </div>
           </sc-if>
 
           <sc-if value="{{ isIssued }}" hint-placeholder-val="{{ false }}">
             <div style="display:flex;flex-direction:column;align-items:center">
-              <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--blue);margin-bottom:16px">You're on the list</div>
+              <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--blue);margin-bottom:16px">Demo preview · not valid for entry</div>
 
               <div style="width:100%;max-width:340px;background:var(--paper2);border:2px solid var(--rule);border-radius:16px;overflow:hidden;box-shadow:8px 8px 0 var(--blue);animation:popIn .35s cubic-bezier(.16,.84,.3,1) backwards">
                 <div data-strip="1" style="height:56px;border-bottom:2px solid var(--rule);display:flex;align-items:center;justify-content:space-between;padding:0 12px">
                   <span style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;background:var(--ink);color:var(--paper);padding:3px 7px">NONSENSE*TICKETS</span>
+                  <span style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;background:var(--pink);color:#fff;padding:3px 7px">DEMO</span>
                   <span style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;background:var(--acid);color:#17141f;padding:3px 7px">GA</span>
                 </div>
                 <div style="padding:16px 18px 14px">
@@ -749,7 +751,7 @@ input{font-family:inherit}
               </button>
               <p data-wallet-note="1" style="font-family:'Space Mono',monospace;font-size:11px;opacity:.6;margin-top:10px;text-align:center;max-width:300px">Adds a pass with the QR, door time, and address.</p>
 
-              <p style="font-size:13px;opacity:.75;margin-top:16px;text-align:center;max-width:320px">{{ issuedNote }}<br>Screenshot works. Airplane mode works. See you on the floor.</p>
+              <p style="font-size:13px;opacity:.75;margin-top:16px;text-align:center;max-width:320px">{{ issuedNote }}<br>Demo preview — no payment was taken and this pattern is not a scannable code.</p>
               <div style="display:flex;gap:10px;width:100%;max-width:340px;margin-top:18px">
                 <button data-action="view" data-arg="ticket" style="flex:1;min-height:48px;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;border:2px solid var(--rule);background:transparent;transition:transform .12s ease,box-shadow .12s ease" style-hover="transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--pink)">View ticket page</button>
                 <button data-action="close" style="flex:1;min-height:48px;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;border:2px solid var(--rule);background:transparent;transition:transform .12s ease,box-shadow .12s ease" style-hover="transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--blue)">Done</button>
@@ -999,7 +1001,7 @@ class Component extends DCLogic {
   announceStep(){
     const selected = this.sel();
     const external = selected && selected.checkout && selected.checkout.mode === 'external';
-    const messages = {detail:external ? selected.title + ' ticket options. Checkout continues on ' + selected.checkout.provider + '.' : 'Ticket details step.', pay:'Payment step.', issued:'Purchase complete. Tickets issued.'};
+    const messages = {detail:external ? selected.title + ' ticket options. Checkout continues on ' + selected.checkout.provider + '.' : 'Ticket details step.', pay:'Demo payment step. Nothing is charged.', issued:'Demo checkout complete. Preview ticket issued. No payment was taken and this code will not scan at a door.'};
     this.announce('[data-purchase-status]', messages[this.state.step]);
   }
 
@@ -1040,7 +1042,25 @@ class Component extends DCLogic {
     clearTimeout(this.closeT);
     this.closeT = setTimeout(() => this.finish(), 240);
   }
-  issue(){ this.setState({step:'issued', wallet:false}, () => this.announceStep()); }
+  issue(){
+    /* Demo gate: a preview ticket still requires a door-list name and a
+       deliverable email, and says so, instead of announcing a purchase
+       for three empty fields. */
+    const name = document.getElementById('f-name');
+    const email = document.getElementById('f-email');
+    const nameVal = name ? name.value.trim() : '';
+    const emailVal = email ? email.value.trim() : '';
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal);
+    if(name) name.setAttribute('aria-invalid', String(!nameVal));
+    if(email) email.setAttribute('aria-invalid', String(!emailOk));
+    if(!nameVal || !emailOk){
+      this.announce('[data-purchase-status]', 'Enter the name for the door list and a valid email before the demo issues a preview ticket.');
+      const firstInvalid = !nameVal ? name : email;
+      if(firstInvalid) firstInvalid.focus();
+      return;
+    }
+    this.setState({step:'issued', wallet:false}, () => this.announceStep());
+  }
 
   /* ---- seeded riso flyer texture ---- */
   seed(s){ let h = 2166136261; for(let i=0;i<s.length;i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
