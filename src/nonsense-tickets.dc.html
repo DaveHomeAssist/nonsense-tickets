@@ -1128,13 +1128,36 @@ class Component extends DCLogic {
     const lc = document.querySelector('[data-links]');
     if(lc && lc.dataset.n !== String(this.links.length)){
       lc.dataset.n = String(this.links.length);
-      lc.innerHTML = this.links.map((l,i) =>
-        '<div style="padding:12px 18px;border-bottom:2px solid var(--rule);display:flex;gap:12px;align-items:center">' +
-        '<span style="font-family:\'Space Mono\',monospace;font-size:11px;opacity:.35;cursor:grab">⠿</span>' +
-        '<span data-linkrow="' + i + '" data-linkfield="label" contenteditable="true" style="font-weight:600;font-size:14px;min-width:90px;outline:none;border-bottom:1px dashed var(--rule)">' + l.label + '</span>' +
-        '<span data-linkrow="' + i + '" data-linkfield="url" contenteditable="true" style="font-family:\'Space Mono\',monospace;font-size:12px;opacity:.7;flex:1;min-width:0;outline:none;border-bottom:1px dashed var(--rule);word-break:break-all">' + l.url + '</span>' +
-        '<button data-action="linkdel" data-arg="' + i + '" aria-label="Remove link" style="width:32px;height:32px;border:2px solid var(--rule);font-family:\'Space Mono\',monospace;flex:0 0 auto">×</button>' +
-        '</div>').join('');
+      /* Built with DOM APIs and textContent on purpose: label and URL are
+         promoter-editable strings, so they must never reach an HTML parser. */
+      lc.textContent = '';
+      this.links.forEach((l,i) => {
+        const row = document.createElement('div');
+        row.style.cssText = 'padding:12px 18px;border-bottom:2px solid var(--rule);display:flex;gap:12px;align-items:center';
+        const grip = document.createElement('span');
+        grip.style.cssText = "font-family:'Space Mono',monospace;font-size:11px;opacity:.35;cursor:grab";
+        grip.textContent = '⠿';
+        const label = document.createElement('span');
+        label.setAttribute('data-linkrow', String(i));
+        label.setAttribute('data-linkfield', 'label');
+        label.setAttribute('contenteditable', 'true');
+        label.style.cssText = 'font-weight:600;font-size:14px;min-width:90px;outline:none;border-bottom:1px dashed var(--rule)';
+        label.textContent = l.label;
+        const url = document.createElement('span');
+        url.setAttribute('data-linkrow', String(i));
+        url.setAttribute('data-linkfield', 'url');
+        url.setAttribute('contenteditable', 'true');
+        url.style.cssText = "font-family:'Space Mono',monospace;font-size:12px;opacity:.7;flex:1;min-width:0;outline:none;border-bottom:1px dashed var(--rule);word-break:break-all";
+        url.textContent = l.url;
+        const del = document.createElement('button');
+        del.setAttribute('data-action', 'linkdel');
+        del.setAttribute('data-arg', String(i));
+        del.setAttribute('aria-label', 'Remove link');
+        del.style.cssText = "width:32px;height:32px;border:2px solid var(--rule);font-family:'Space Mono',monospace;flex:0 0 auto";
+        del.textContent = '×';
+        row.append(grip, label, url, del);
+        lc.appendChild(row);
+      });
     }
     document.querySelectorAll('[data-time]').forEach(n => { n.style.display = st.times ? 'inline' : 'none'; });
     document.querySelectorAll('[data-accent]').forEach(n => {
