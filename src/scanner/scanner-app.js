@@ -176,8 +176,13 @@
 
   function startScannerCore() {
     scanner = root.NonsenseScannerCore.createScanner({manifest, deviceId: deviceId()});
-    /* Restore admissions so a reopened device still catches duplicates. */
-    scanner.restore(loadQueue().filter((entry) => entry.manifestVersion === manifest.version));
+    /* Restore admissions so a reopened device still catches duplicates.
+       Key the restore on the event, not the manifest version: installing a
+       newer manifest mid-show (a revocation, a transfer) must not forget who
+       is already inside, or the same ticket admits again at this door. Scans
+       for another event stay in the queue for export but never seed this
+       event's duplicate map. */
+    scanner.restore(loadQueue().filter((entry) => entry.eventId === manifest.eventId));
 
     el.session.innerHTML = '';
     manifest.sessions.forEach((session) => {

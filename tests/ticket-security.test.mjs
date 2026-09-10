@@ -639,6 +639,44 @@ describe('conflicting offline devices', () => {
     assert.equal(decision.result, 'duplicate', 'a reopened scanner must not forget admissions');
     assert.equal(after.pendingBatch()[0].scanId, savedScanId, 'restore must preserve the original scan identity');
   });
+
+  test('installing a newer manifest mid-show keeps earlier admissions', async () => {
+    /* A revocation or transfer publishes manifest v2 while doors are open.
+       The device that installs it must still know who it admitted under v1,
+       otherwise the same ticket walks in twice at the same door. */
+    const world = await buildWorld();
+    const issued = await issueOne(world);
+    const payload = issued.payloads[0].payload;
+
+    const underV1 = scannerFor(world, 'door-front');
+    const first = await underV1.evaluate(payload, {sessionId: 'night-1', now: NIGHT_1_SCAN});
+    assert.equal(first.result, 'admitted');
+    assert.equal(first.manifestVersion, 1);
+    const queue = underV1.pendingBatch();
+
+    const refreshed = await Manifest.buildManifest({
+      eventId: EVENT_ID,
+      version: 2,
+      issuedAt: NIGHT_1_SCAN,
+      expiresAt: EXPIRES + 86400,
+      timeZone: 'America/New_York',
+      title: 'AfterBreak 2026',
+      sessions: world.manifest.sessions,
+      keys: world.manifest.keys,
+      revoked: [Issuer.newOpaqueId(ISSUE_MS)],
+      minSerials: {}
+    }, world.publisher.privateKey);
+    const verified = await Manifest.verifyManifest(refreshed.document, {publisher: world.publisher.publicKeyJwk}, {now: NIGHT_1_SCAN, installedVersion: 1});
+    assert.equal(verified.status, 'valid');
+    assert.equal(verified.manifest.version, 2);
+
+    const underV2 = Scanner.createScanner({manifest: verified.manifest, deviceId: 'door-front'});
+    underV2.restore(queue.filter((entry) => entry.eventId === verified.manifest.eventId));
+    assert.equal(underV2.admittedCount(), 1, 'the v1 admission must survive the manifest refresh');
+    const again = await underV2.evaluate(payload, {sessionId: 'night-1', now: NIGHT_1_SCAN + 300});
+    assert.equal(again.result, 'duplicate', 'a manifest refresh must not reopen the door for an admitted ticket');
+    assert.equal(again.manifestVersion, 2);
+  });
 });
 
 describe('persistent schema', () => {
