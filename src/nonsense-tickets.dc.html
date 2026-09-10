@@ -6,6 +6,7 @@
 <script src="./vendor/react-18.3.1.production.min.js" integrity="sha384-DGyLxAyjq0f9SPpVevD6IgztCFlnMF6oW/XQGmfe+IsZ8TqEiDrcHkMLKI6fiB/Z"></script>
 <script src="./vendor/react-dom-18.3.1.production.min.js" integrity="sha384-gTGxhz21lVGYNMcdJOyq01Edg0jhn/c22nsx0kyqP0TxaV5WVdsSH1fSDUf5YJj1"></script>
 <script src="./event-tools.js"></script>
+<script src="./event-catalog.js"></script>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -161,8 +162,8 @@ input{font-family:inherit}
               <div style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:17px;line-height:1.2;letter-spacing:-.01em">Concrete Mass 014</div>
               <div style="font-size:13px;font-weight:500;opacity:.75">Callowhill warehouse · address on ticket</div>
               <div style="margin-top:auto;padding-top:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--rule)">
-                <div style="font-family:'Space Mono',monospace;font-weight:700;font-size:15px"><span data-price="20">$22</span><small style="font-weight:400;font-size:10px;display:block;opacity:.6;letter-spacing:.06em;text-transform:uppercase">all in, no surprises</small></div>
-                <span style="font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;padding:4px 9px;border-radius:99px;background:var(--acid);color:#17141f;white-space:nowrap">On sale</span>
+                <div style="font-family:'Space Mono',monospace;font-weight:700;font-size:15px"><span data-show-price="1"></span><small style="font-weight:400;font-size:10px;display:block;opacity:.6;letter-spacing:.06em;text-transform:uppercase">all in, no surprises</small></div>
+                <span data-show-status="1" style="font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;padding:4px 9px;border-radius:99px;white-space:nowrap"></span>
               </div>
             </div>
           </button>
@@ -179,8 +180,8 @@ input{font-family:inherit}
               <div style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:17px;line-height:1.2;letter-spacing:-.01em">Sweat Equity</div>
               <div style="font-size:13px;font-weight:500;opacity:.75">Fishtown Social Club</div>
               <div style="margin-top:auto;padding-top:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--rule)">
-                <div style="font-family:'Space Mono',monospace;font-weight:700;font-size:15px"><span data-price="15">$17</span><small style="font-weight:400;font-size:10px;display:block;opacity:.6;letter-spacing:.06em;text-transform:uppercase">all in, no surprises</small></div>
-                <span style="font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;padding:4px 9px;border-radius:99px;background:var(--pink);color:#fff;white-space:nowrap">Low tix</span>
+                <div style="font-family:'Space Mono',monospace;font-weight:700;font-size:15px"><span data-show-price="2"></span><small style="font-weight:400;font-size:10px;display:block;opacity:.6;letter-spacing:.06em;text-transform:uppercase">all in, no surprises</small></div>
+                <span data-show-status="2" style="font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;padding:4px 9px;border-radius:99px;white-space:nowrap"></span>
               </div>
             </div>
           </button>
@@ -197,8 +198,8 @@ input{font-family:inherit}
               <div style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:17px;line-height:1.2;letter-spacing:-.01em">Low End Census</div>
               <div style="font-size:13px;font-weight:500;opacity:.75">The Substation · Kensington</div>
               <div style="margin-top:auto;padding-top:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--rule)">
-                <div style="font-family:'Space Mono',monospace;font-weight:700;font-size:15px"><span data-price="18">$20</span><small style="font-weight:400;font-size:10px;display:block;opacity:.6;letter-spacing:.06em;text-transform:uppercase">all in, no surprises</small></div>
-                <span style="font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;padding:4px 9px;border-radius:99px;background:var(--acid);color:#17141f;white-space:nowrap">On sale</span>
+                <div style="font-family:'Space Mono',monospace;font-weight:700;font-size:15px"><span data-show-price="3"></span><small style="font-weight:400;font-size:10px;display:block;opacity:.6;letter-spacing:.06em;text-transform:uppercase">all in, no surprises</small></div>
+                <span data-show-status="3" style="font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;padding:4px 9px;border-radius:99px;white-space:nowrap"></span>
               </div>
             </div>
           </button>
@@ -215,8 +216,8 @@ input{font-family:inherit}
               <div style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:17px;line-height:1.2;letter-spacing:-.01em">AfterBreak 2026</div>
               <div style="font-size:13px;font-weight:500;opacity:.75">No Nonsense · secret location</div>
               <div style="margin-top:auto;padding-top:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--rule)">
-                <div style="font-family:'Space Mono',monospace;font-weight:700;font-size:15px">From $25<small style="font-weight:400;font-size:10px;display:block;opacity:.6;letter-spacing:.06em;text-transform:uppercase">face value · Linkstub fees apply</small></div>
-                <span style="font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;padding:4px 9px;border-radius:99px;background:var(--acid);color:#17141f;white-space:nowrap">Official sale</span>
+                <div style="font-family:'Space Mono',monospace;font-weight:700;font-size:15px"><span data-show-price="7"></span><small style="font-weight:400;font-size:10px;display:block;opacity:.6;letter-spacing:.06em;text-transform:uppercase">face value · Linkstub fees apply</small></div>
+                <span data-show-status="7" style="font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;padding:4px 9px;border-radius:99px;white-space:nowrap"></span>
               </div>
             </div>
           </button>
@@ -233,8 +234,8 @@ input{font-family:inherit}
               <div style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:17px;line-height:1.2;letter-spacing:-.01em">Fast Forward Philly</div>
               <div style="font-size:13px;font-weight:500;opacity:.75">Ukrainian Social Hall</div>
               <div style="margin-top:auto;padding-top:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--rule)">
-                <div style="font-family:'Space Mono',monospace;font-weight:700;font-size:15px"><span data-price="22">$24</span><small style="font-weight:400;font-size:10px;display:block;opacity:.6;letter-spacing:.06em;text-transform:uppercase">all in, no surprises</small></div>
-                <span style="font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;padding:4px 9px;border-radius:99px;background:var(--acid);color:#17141f;white-space:nowrap">On sale</span>
+                <div style="font-family:'Space Mono',monospace;font-weight:700;font-size:15px"><span data-show-price="4"></span><small style="font-weight:400;font-size:10px;display:block;opacity:.6;letter-spacing:.06em;text-transform:uppercase">all in, no surprises</small></div>
+                <span data-show-status="4" style="font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;padding:4px 9px;border-radius:99px;white-space:nowrap"></span>
               </div>
             </div>
           </button>
@@ -251,8 +252,8 @@ input{font-family:inherit}
               <div style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:17px;line-height:1.2;letter-spacing:-.01em">Night Shift: All Vinyl</div>
               <div style="font-size:13px;font-weight:500;opacity:.75">Basement TBA · West Philly</div>
               <div style="margin-top:auto;padding-top:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--rule)">
-                <div style="font-family:'Space Mono',monospace;font-weight:700;font-size:15px"><span data-price="12">$14</span><small style="font-weight:400;font-size:10px;display:block;opacity:.6;letter-spacing:.06em;text-transform:uppercase">all in, no surprises</small></div>
-                <span style="font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;padding:4px 9px;border-radius:99px;background:var(--pink);color:#fff;white-space:nowrap">Low tix</span>
+                <div style="font-family:'Space Mono',monospace;font-weight:700;font-size:15px"><span data-show-price="5"></span><small style="font-weight:400;font-size:10px;display:block;opacity:.6;letter-spacing:.06em;text-transform:uppercase">all in, no surprises</small></div>
+                <span data-show-status="5" style="font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;padding:4px 9px;border-radius:99px;white-space:nowrap"></span>
               </div>
             </div>
           </button>
@@ -269,8 +270,8 @@ input{font-family:inherit}
               <div style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:17px;line-height:1.2;letter-spacing:-.01em">Afterjinx After Hours</div>
               <div style="font-size:13px;font-weight:500;opacity:.75">No Nonsense · 405 N Broad St</div>
               <div style="margin-top:auto;padding-top:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--rule)">
-                <div style="font-family:'Space Mono',monospace;font-weight:700;font-size:15px"><span data-price="25">$27</span><small style="font-weight:400;font-size:10px;display:block;opacity:.6;letter-spacing:.06em;text-transform:uppercase">all in, no surprises</small></div>
-                <span style="font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;padding:4px 9px;border-radius:99px;background:var(--ink);color:var(--paper);white-space:nowrap">Sold out</span>
+                <div style="font-family:'Space Mono',monospace;font-weight:700;font-size:15px"><span data-show-price="6"></span><small style="font-weight:400;font-size:10px;display:block;opacity:.6;letter-spacing:.06em;text-transform:uppercase">all in, no surprises</small></div>
+                <span data-show-status="6" style="font-family:'Space Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;padding:4px 9px;border-radius:99px;white-space:nowrap"></span>
               </div>
             </div>
           </button>
@@ -356,8 +357,8 @@ input{font-family:inherit}
   <div>
     <div style="position:sticky;top:57px;z-index:40;background:var(--deep);border-bottom:2px solid var(--rule)">
       <div style="max-width:1180px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
-        <span style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;background:var(--accent);color:#17141f;padding:4px 8px;white-space:nowrap">Editing as promoter</span>
-        <span style="font-family:'Space Mono',monospace;font-size:11px;opacity:.7;white-space:nowrap">Draft · autosaved</span>
+        <span style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;background:var(--accent);color:#17141f;padding:4px 8px;white-space:nowrap">Promoter editor · demo</span>
+        <span style="font-family:'Space Mono',monospace;font-size:11px;opacity:.7;white-space:nowrap">Edits are not saved · promoter accounts are planned</span>
         <div style="display:flex;gap:8px;align-items:center;margin-left:auto;flex-wrap:wrap">
           <span style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;opacity:.6">Ink</span>
           <button data-action="accent" data-arg="blue" data-accent="blue" aria-label="Blue ink" style="width:26px;height:26px;border:2px solid var(--rule);background:var(--blue)"></button>
@@ -544,7 +545,7 @@ input{font-family:inherit}
     <div style="max-width:520px;margin:0 auto">
       <button data-action="view" data-arg="site" style="font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.12em;padding:8px 12px;border:2px solid var(--rule);margin-bottom:26px">← All shows</button>
 
-      <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--blue);margin-bottom:6px">Demo ticket preview · 1 of 2 · not valid for entry</div>
+      <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--blue);margin-bottom:6px">Demo ticket preview · not valid for entry</div>
       <h1 style="font-family:'Unbounded',sans-serif;font-weight:900;font-size:clamp(28px,7vw,44px);line-height:1.02;letter-spacing:-.03em;text-transform:uppercase;position:relative;margin-bottom:26px">
         <span aria-hidden="true" style="position:absolute;inset:0;color:var(--blue);mix-blend-mode:var(--blend);transform:translate(calc(var(--mis) * -0.6),calc(var(--mis) * -0.5));animation:regB .9s cubic-bezier(.2,.85,.25,1) .08s both">You're in</span>
         <span aria-hidden="true" style="position:absolute;inset:0;color:var(--pink);mix-blend-mode:var(--blend);transform:translate(calc(var(--mis) * 0.6),calc(var(--mis) * 0.5));animation:regP .9s cubic-bezier(.2,.85,.25,1) .14s both">You're in</span>
@@ -552,19 +553,19 @@ input{font-family:inherit}
       </h1>
 
       <div style="background:var(--paper2);border:2px solid var(--rule);border-radius:18px;overflow:hidden;box-shadow:10px 10px 0 var(--blue)">
-        <div data-tex="Concrete Mass 014" style="height:120px;border-bottom:2px solid var(--rule);display:flex;align-items:flex-end;justify-content:space-between;padding:12px 16px">
+        <div data-tex-live="1" style="height:120px;border-bottom:2px solid var(--rule);display:flex;align-items:flex-end;justify-content:space-between;padding:12px 16px">
           <span style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;background:var(--ink);color:var(--paper);padding:4px 8px">NONSENSE*TICKETS</span>
           <span style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;background:var(--pink);color:#fff;padding:4px 8px">DEMO</span>
-          <span style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;background:var(--acid);color:#17141f;padding:4px 8px">GA · 2 GUESTS</span>
+          <span style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;background:var(--acid);color:#17141f;padding:4px 8px">GA · {{ admitsBadge }}</span>
         </div>
         <div style="padding:20px 22px 18px">
-          <div style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:22px;line-height:1.15;letter-spacing:-.02em">Concrete Mass 014</div>
-          <div style="font-size:13px;opacity:.75;margin-top:6px">Callowhill warehouse · 1213 N Front St</div>
+          <div style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:22px;line-height:1.15;letter-spacing:-.02em">{{ selTitle }}</div>
+          <div style="font-size:13px;opacity:.75;margin-top:6px">{{ selVenue }}</div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px 12px;margin-top:20px">
-            <div><div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55">Date</div><div style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700">FRI SEP 04</div></div>
-            <div><div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55">Doors</div><div style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700">10:00 PM</div></div>
-            <div><div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55">Admits</div><div style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700">2 guests</div></div>
-            <div><div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55">Paid</div><div style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:var(--blue)">$44.00</div></div>
+            <div><div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55">Date</div><div style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700">{{ selDay }}</div></div>
+            <div><div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55">Doors</div><div style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700">{{ selTime }}</div></div>
+            <div><div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55">Admits</div><div style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700">{{ admits }}</div></div>
+            <div><div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55">Paid</div><div style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:var(--blue)">{{ totalMoney }}</div></div>
           </div>
         </div>
         <div style="position:relative;border-top:2px dashed var(--rule)">
@@ -572,8 +573,8 @@ input{font-family:inherit}
           <span style="position:absolute;right:-11px;top:-11px;width:20px;height:20px;border-radius:50%;background:var(--paper);border:2px solid var(--rule)"></span>
         </div>
         <div style="padding:24px 22px 26px;display:flex;flex-direction:column;align-items:center;gap:12px">
-          <div data-qr="NON-4K2P9X" aria-label="Ticket QR code placeholder" style="width:168px;height:168px;background:#fff;padding:10px;display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:repeat(12,1fr)"></div>
-          <div style="font-family:'Space Mono',monospace;font-size:14px;letter-spacing:.24em;font-weight:700">NON-4K2P9X</div>
+          <div data-qr="live" aria-label="Ticket QR code placeholder" style="width:168px;height:168px;background:#fff;padding:10px;display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:repeat(12,1fr)"></div>
+          <div style="font-family:'Space Mono',monospace;font-size:14px;letter-spacing:.24em;font-weight:700">{{ code }}</div>
           <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;opacity:.55;text-align:center">Demo pattern · not a scannable code · real tickets carry signed QR payloads</div>
         </div>
       </div>
@@ -587,10 +588,10 @@ input{font-family:inherit}
       <div style="margin-top:30px;border:2px solid var(--rule);background:var(--paper2)">
         <div style="padding:14px 18px;border-bottom:2px solid var(--rule);font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase">Receipt</div>
         <div style="padding:16px 18px">
-          <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:13px;padding:4px 0"><span>2 × GA</span><span>$40.00</span></div>
-          <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:13px;padding:4px 0"><span data-fee-line="1">Nonsense flat ($2 × 2)</span><span data-fee-total="1">$4.00</span></div>
+          <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:13px;padding:4px 0"><span>{{ receiptLine }}</span><span>{{ receiptBase }}</span></div>
+          <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:13px;padding:4px 0"><span>{{ receiptFeeLine }}</span><span>{{ receiptFee }}</span></div>
           <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:13px;padding:4px 0"><span>Processing</span><span>incl.</span></div>
-          <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:15px;font-weight:700;border-top:1px dashed currentColor;margin-top:8px;padding-top:10px"><span>Charged</span><span data-charged="1">$44.00</span></div>
+          <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:15px;font-weight:700;border-top:1px dashed currentColor;margin-top:8px;padding-top:10px"><span>Charged</span><span>{{ totalMoney }}</span></div>
           <p style="font-size:12px;opacity:.65;margin-top:12px;line-height:1.5">Same number the flyer said. No service fee, no facility fee, no delivery fee for a QR code.</p>
         </div>
       </div>
@@ -598,7 +599,7 @@ input{font-family:inherit}
       <div style="margin-top:26px;border:2px solid var(--rule);background:var(--paper2)">
         <div style="padding:14px 18px;border-bottom:2px solid var(--rule);font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase">Door info</div>
         <ul style="list-style:none;display:flex;flex-direction:column">
-          <li style="padding:14px 18px;border-bottom:2px solid var(--rule);display:flex;gap:12px;align-items:baseline"><span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--pink);font-weight:700;min-width:30px">01</span><span>Exact address unlocks at 6PM day of show. It lands here and by text.</span></li>
+          <li style="padding:14px 18px;border-bottom:2px solid var(--rule);display:flex;gap:12px;align-items:baseline"><span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--pink);font-weight:700;min-width:30px">01</span><span>{{ selNote }}</span></li>
           <li style="padding:14px 18px;border-bottom:2px solid var(--rule);display:flex;gap:12px;align-items:baseline"><span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--pink);font-weight:700;min-width:30px">02</span><span>21+, ID at the door. Earplugs at the merch table, free.</span></li>
           <li style="padding:14px 18px;display:flex;gap:12px;align-items:baseline"><span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--pink);font-weight:700;min-width:30px">03</span><span>No photos on the floor. Nobody wants to be in your story at 3AM.</span></li>
         </ul>
@@ -780,24 +781,9 @@ class Component extends DCLogic {
     {label:'Venue map', url:'nonsense.tickets/mass-014/map'}
   ];
 
-  data = {
-    1:{art:'assets/stage-crowd.png',banner:'assets/stage-crowd.png',genre:'techno',title:'Concrete Mass 014',venue:'Callowhill warehouse · address on ticket',startsAt:'2026-09-04T22:00:00-04:00',endsAt:'2026-09-05T04:00:00-04:00',timeZone:'America/New_York',price:20,tag:'on',
-       lineup:['VOID CADET (Berlin)','Slag Density','Perimeter b2b Fault Line'],note:'21+ · BYO earplugs · no photos on the floor'},
-    2:{art:'assets/stage-lounge.png',banner:'assets/stage-lounge.png',genre:'house',title:'Sweat Equity',venue:'Fishtown Social Club',startsAt:'2026-09-05T21:00:00-04:00',endsAt:'2026-09-06T02:00:00-04:00',timeZone:'America/New_York',price:15,tag:'low',
-       lineup:['MISS DIRECT','Terrace Logic','Houseplant (live)'],note:'21+ · rooftop opens at midnight'},
-    3:{art:'assets/stage-kraken.png',banner:'assets/stage-kraken.png',genre:'bass',title:'Low End Census',venue:'The Substation · Kensington',startsAt:'2026-09-11T22:00:00-04:00',endsAt:'2026-09-12T03:00:00-04:00',timeZone:'America/New_York',price:18,tag:'on',
-       lineup:['SUBFLOOR','Gutter Pressure','Hexwave'],note:'18+ · Funktion One rig'},
-    4:{art:'assets/stage-truss.png',banner:'assets/stage-truss.png',genre:'dnb',title:'Fast Forward Philly',venue:'Ukrainian Social Hall',startsAt:'2026-09-12T21:00:00-04:00',endsAt:'2026-09-13T02:00:00-04:00',timeZone:'America/New_York',price:22,tag:'on',
-       lineup:['TEMPO CRIMES (UK)','Breakneck','Junglist Union DJs'],note:'21+ · 170bpm minimum'},
-    5:{art:'assets/dj-frame.png',banner:'assets/dj-frame.png',genre:'techno',title:'Night Shift: All Vinyl',venue:'Basement TBA · West Philly',startsAt:'2026-09-18T23:00:00-04:00',endsAt:'2026-09-19T05:00:00-04:00',timeZone:'America/New_York',price:12,tag:'low',
-       lineup:['GRAVEYARD ROTATION','Loading Dock','Third Rail'],note:'21+ · address texted day of show'},
-    6:{genre:'bass',art:'assets/afterjinx-logo.png',banner:'assets/afterjinx-flyer.png',title:'Afterjinx After Hours',venue:'No Nonsense · 405 N Broad St',startsAt:'2026-12-26T01:00:00-05:00',endsAt:'2026-12-26T03:00:00-05:00',timeZone:'America/New_York',price:25,tag:'soldout',
-       lineup:['DEFUNK','FRESH BVKED','JAML','DR.FUNKLE b2b NEUROMANCY'],note:'Presented by No Nonsense · Hijinx unofficial afterparty · sold out'},
-    7:{art:'assets/nn-logo.png',genre:'edm',title:'AfterBreak 2026',venue:'Secret location · revealed day of event',startsAt:'2026-09-11T23:45:00-04:00',endsAt:'2026-09-13T06:30:00-04:00',timeZone:'America/New_York',price:25,tag:'external',
-       sessions:[{id:'night-1',label:'Night 1',startsAt:'2026-09-11T23:45:00-04:00'},{id:'night-2',label:'Night 2',startsAt:'2026-09-12T23:45:00-04:00'}],
-       offers:[{id:'night-1-early-bird',label:'GA Night 1 · Early Bird',facePrice:25,externalTotal:29.77,sessionIds:['night-1']},{id:'night-2-early-bird',label:'GA Night 2 · Early Bird',facePrice:25,externalTotal:29.77,sessionIds:['night-2']},{id:'combo-early-bird',label:'GA Night 1 + 2 Combo · Early Bird',facePrice:40,externalTotal:46.25,sessionIds:['night-1','night-2']}],
-       checkout:{mode:'external',provider:'Linkstub',url:'https://linkstub.com/en/ab26'},lineup:['Full lineup TBA','',''],note:'18+ to enter · 21+ to party · valid ID required'}
-  };
+  /* The catalog lives in event-catalog.js so the cards, the sheet, the
+     checkout math, and the tests all read one definition of a show. */
+  data = globalThis.NonsenseEventCatalog.events;
 
   componentDidMount(){
     this.mqNarrow = window.matchMedia('(max-width:760px)');
@@ -945,6 +931,23 @@ class Component extends DCLogic {
   get reduce(){ return this.mqMotion ? this.mqMotion.matches : false; }
   fee(){ return Math.max(0, Math.round(this.props.flatFee ?? 2)); }
   sel(){ return this.state.evId != null ? this.data[this.state.evId] : null; }
+  isExternal(event){ return !!(event && event.checkout && event.checkout.mode === 'external'); }
+  cardPrice(event, fee){
+    if(this.isExternal(event)){
+      const faces = (event.offers || []).map(o => o.facePrice);
+      return faces.length ? 'From $' + Math.min(...faces) : '';
+    }
+    return '$' + (event.price + fee);
+  }
+  statusBadge(event){
+    const badges = {
+      on:{text:'On sale', bg:'var(--acid)', color:'#17141f'},
+      low:{text:'Low tix', bg:'var(--pink)', color:'#fff'},
+      soldout:{text:'Sold out', bg:'var(--ink)', color:'var(--paper)'},
+      external:{text:'Official sale', bg:'var(--acid)', color:'#17141f'}
+    };
+    return badges[event.tag] || null;
+  }
 
   isSheet(){
     const p = this.props.sheetPresentation ?? 'auto';
@@ -1222,17 +1225,22 @@ class Component extends DCLogic {
     });
 
     const fee = this.fee();
-    document.querySelectorAll('[data-price]').forEach(n => {
-      n.textContent = '$' + (Number(n.getAttribute('data-price')) + fee);
+    /* Card price and sale status come from the catalog entry, never from a
+       second copy in the markup, so the card, the sheet, and checkout can
+       only ever disagree if the catalog itself does. */
+    document.querySelectorAll('[data-show-price]').forEach(n => {
+      const event = this.data[n.getAttribute('data-show-price')];
+      n.textContent = event ? this.cardPrice(event, fee) : '';
+    });
+    document.querySelectorAll('[data-show-status]').forEach(n => {
+      const event = this.data[n.getAttribute('data-show-status')];
+      const badge = event ? this.statusBadge(event) : null;
+      n.textContent = badge ? badge.text : '';
+      n.style.background = badge ? badge.bg : 'transparent';
+      n.style.color = badge ? badge.color : 'inherit';
     });
     const inline = document.querySelector('[data-fee-inline]');
     if(inline) inline.textContent = 'a flat $' + fee + ' per ticket';
-    const fl = document.querySelector('[data-fee-line]');
-    if(fl) fl.textContent = 'Nonsense flat ($' + fee + ' × 2)';
-    const ft = document.querySelector('[data-fee-total]');
-    if(ft) ft.textContent = '$' + (fee*2).toFixed(2);
-    const ch = document.querySelector('[data-charged]');
-    if(ch) ch.textContent = '$' + (40 + fee*2).toFixed(2);
 
     document.querySelectorAll('[data-view]').forEach(n => {
       const on = n.getAttribute('data-view') === st.view;
@@ -1368,6 +1376,12 @@ class Component extends DCLogic {
       lineLabel:s ? qty + ' × GA ($' + s.price + ' + $' + fee + ' flat)' : '',
       payLabel:s ? qty + ' × ' + s.title : '',
       admits:qty + (qty > 1 ? ' guests' : ' guest'),
+      admitsBadge:(qty + (qty > 1 ? ' guests' : ' guest')).toUpperCase(),
+      totalMoney:'$' + total.toFixed(2),
+      receiptLine:qty + ' × GA',
+      receiptBase:s ? '$' + (s.price * qty).toFixed(2) : '',
+      receiptFeeLine:'Nonsense flat ($' + fee + ' × ' + qty + ')',
+      receiptFee:'$' + (fee * qty).toFixed(2),
       issuedNote:s ? qty + (qty > 1 ? ' tickets' : ' ticket') + ' for ' + s.title + '.' : '',
       code:this.state.code,
       selDate:formatted.full,

@@ -18,56 +18,15 @@ async function loadTools() {
   return utilityPromise;
 }
 
-const shows = [
-  {
-    id: '1', title: 'Concrete Mass 014', venue: 'Callowhill warehouse · address on ticket', genre: 'techno',
-    lineup: ['VOID CADET (Berlin)', 'Slag Density', 'Perimeter b2b Fault Line'],
-    note: '21+ · BYO earplugs · no photos on the floor',
-    startsAt: '2026-09-04T22:00:00-04:00', endsAt: '2026-09-05T04:00:00-04:00', timeZone: 'America/New_York'
-  },
-  {
-    id: '2', title: 'Sweat Equity', venue: 'Fishtown Social Club', genre: 'house',
-    lineup: ['MISS DIRECT', 'Terrace Logic', 'Houseplant (live)'], note: '21+ · rooftop opens at midnight',
-    startsAt: '2026-09-05T21:00:00-04:00', endsAt: '2026-09-06T02:00:00-04:00', timeZone: 'America/New_York'
-  },
-  {
-    id: '3', title: 'Low End Census', venue: 'The Substation · Kensington', genre: 'bass',
-    lineup: ['SUBFLOOR', 'Gutter Pressure', 'Hexwave'], note: '18+ · Funktion One rig',
-    startsAt: '2026-09-11T22:00:00-04:00', endsAt: '2026-09-12T03:00:00-04:00', timeZone: 'America/New_York'
-  },
-  {
-    id: '4', title: 'Fast Forward Philly', venue: 'Ukrainian Social Hall', genre: 'dnb',
-    lineup: ['TEMPO CRIMES (UK)', 'Breakneck', 'Junglist Union DJs'], note: '21+ · 170bpm minimum',
-    startsAt: '2026-09-12T21:00:00-04:00', endsAt: '2026-09-13T02:00:00-04:00', timeZone: 'America/New_York'
-  },
-  {
-    id: '5', title: 'Night Shift: All Vinyl', venue: 'Basement TBA · West Philly', genre: 'techno',
-    lineup: ['GRAVEYARD ROTATION', 'Loading Dock', 'Third Rail'], note: '21+ · address texted day of show',
-    startsAt: '2026-09-18T23:00:00-04:00', endsAt: '2026-09-19T05:00:00-04:00', timeZone: 'America/New_York'
-  },
-  {
-    id: '6', title: 'Afterjinx After Hours', venue: 'No Nonsense · 405 N Broad St', genre: 'bass',
-    lineup: ['DEFUNK', 'FRESH BVKED', 'JAML', 'DR.FUNKLE b2b NEUROMANCY'],
-    note: 'Presented by No Nonsense · Hijinx unofficial afterparty · sold out',
-    startsAt: '2026-12-26T01:00:00-05:00', endsAt: '2026-12-26T03:00:00-05:00', timeZone: 'America/New_York'
-  }
-];
+const catalogPath = new URL('../src/event-catalog.js', import.meta.url);
+const canvasPath = new URL('../src/nonsense-tickets.dc.html', import.meta.url);
 
-const afterbreak = {
-  id: '7', title: 'AfterBreak 2026', venue: 'Secret location · revealed day of event', genre: 'edm',
-  lineup: ['Full lineup TBA'], note: '18+ to enter · 21+ to party · valid ID required',
-  startsAt: '2026-09-11T23:45:00-04:00', endsAt: '2026-09-13T06:30:00-04:00', timeZone: 'America/New_York',
-  sessions: [
-    {id: 'night-1', label: 'Night 1', startsAt: '2026-09-11T23:45:00-04:00'},
-    {id: 'night-2', label: 'Night 2', startsAt: '2026-09-12T23:45:00-04:00'}
-  ],
-  offers: [
-    {id: 'night-1-early-bird', label: 'GA Night 1 · Early Bird', facePrice: 25, externalTotal: 29.77, sessionIds: ['night-1']},
-    {id: 'night-2-early-bird', label: 'GA Night 2 · Early Bird', facePrice: 25, externalTotal: 29.77, sessionIds: ['night-2']},
-    {id: 'combo-early-bird', label: 'GA Night 1 + 2 Combo · Early Bird', facePrice: 40, externalTotal: 46.25, sessionIds: ['night-1', 'night-2']}
-  ],
-  checkout: {mode: 'external', provider: 'Linkstub', url: 'https://linkstub.com/en/ab26'}
-};
+/* The fixtures are the catalog the site ships, not a second copy of it. */
+await loadTools();
+await import(catalogPath.href);
+const catalog = globalThis.NonsenseEventCatalog.events;
+const shows = ['1', '2', '3', '4', '5', '6'].map((id) => ({id, ...catalog[id]}));
+const afterbreak = {id: '7', ...catalog['7']};
 
 describe('NonsenseEventTools API', () => {
   test('exposes one frozen dependency-free utility surface', async () => {
@@ -233,24 +192,31 @@ describe('RFC 5545 calendar serialization', () => {
 });
 
 describe('canvas normalized event source contract', () => {
-  test('loads event tools synchronously before the generated runtime', async () => {
-    const canvas = await readFile(new URL('../src/nonsense-tickets.dc.html', import.meta.url), 'utf8');
+  test('loads event tools and the catalog synchronously before the generated runtime', async () => {
+    const canvas = await readFile(canvasPath, 'utf8');
     const toolsIndex = canvas.indexOf('<script src="./event-tools.js"></script>');
+    const catalogIndex = canvas.indexOf('<script src="./event-catalog.js"></script>');
     const supportIndex = canvas.indexOf('<script src="./support.js"></script>');
     assert.ok(toolsIndex >= 0, 'event-tools.js script tag should exist');
-    assert.ok(toolsIndex < supportIndex, 'event-tools.js should load before support.js');
+    assert.ok(catalogIndex > toolsIndex, 'event-catalog.js should load after event-tools.js');
+    assert.ok(catalogIndex < supportIndex, 'event-catalog.js should load before support.js');
   });
 
-  test('defines seven canonical event ranges plus two canonical session starts', async () => {
-    const canvas = await readFile(new URL('../src/nonsense-tickets.dc.html', import.meta.url), 'utf8');
-    assert.equal((canvas.match(/\bstartsAt:/g) || []).length, 9);
-    assert.equal((canvas.match(/\bendsAt:/g) || []).length, 7);
-    assert.equal((canvas.match(/\btimeZone:/g) || []).length, 7);
-    assert.equal(/\bdate:'(?:FRI|SAT)/.test(canvas), false);
+  test('defines seven canonical event ranges plus two canonical session starts in the catalog only', async () => {
+    const source = await readFile(catalogPath, 'utf8');
+    const canvas = await readFile(canvasPath, 'utf8');
+    assert.equal((source.match(/\bstartsAt:/g) || []).length, 9);
+    assert.equal((source.match(/\bendsAt:/g) || []).length, 7);
+    assert.equal((source.match(/\btimeZone:/g) || []).length, 7);
+    assert.equal(/\bdate:'(?:FRI|SAT)/.test(source), false);
     for (const show of shows) {
-      assert.match(canvas, new RegExp(`startsAt:'${show.startsAt.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}'`));
-      assert.match(canvas, new RegExp(`endsAt:'${show.endsAt.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}'`));
+      assert.match(source, new RegExp(`startsAt:'${show.startsAt.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}'`));
+      assert.match(source, new RegExp(`endsAt:'${show.endsAt.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}'`));
     }
+    /* The canvas must not carry a second copy of any event definition. */
+    assert.equal((canvas.match(/\bstartsAt:/g) || []).length, 0);
+    assert.equal((canvas.match(/\bendsAt:/g) || []).length, 0);
+    assert.match(canvas, /data = globalThis\.NonsenseEventCatalog\.events;/);
   });
 
   test('connects all seven cards to canonical event IDs and derived date targets', async () => {
@@ -261,12 +227,13 @@ describe('canvas normalized event source contract', () => {
   });
 
   test('models AfterBreak offers as external session entitlements without native issuance', async () => {
-    const canvas = await readFile(new URL('../src/nonsense-tickets.dc.html', import.meta.url), 'utf8');
-    assert.match(canvas, /7:\{[^\n]*title:'AfterBreak 2026'/);
-    assert.equal((canvas.match(/id:'night-[12]'/g) || []).length, 2);
-    assert.equal((canvas.match(/id:'(?:night-[12]|combo)-early-bird'/g) || []).length, 3);
-    assert.match(canvas, /sessionIds:\['night-1','night-2'\]/);
-    assert.match(canvas, /checkout:\{mode:'external',provider:'Linkstub',url:'https:\/\/linkstub\.com\/en\/ab26'\}/);
+    const source = await readFile(catalogPath, 'utf8');
+    const canvas = await readFile(canvasPath, 'utf8');
+    assert.match(source, /7:\{[^\n]*title:'AfterBreak 2026'/);
+    assert.equal((source.match(/id:'night-[12]'/g) || []).length, 2);
+    assert.equal((source.match(/id:'(?:night-[12]|combo)-early-bird'/g) || []).length, 3);
+    assert.match(source, /sessionIds:\['night-1','night-2'\]/);
+    assert.match(source, /checkout:\{mode:'external',provider:'Linkstub',url:'https:\/\/linkstub\.com\/en\/ab26'\}/);
     assert.match(canvas, /data-external-offers[^>]*role="list"/);
     assert.match(canvas, /data-external-checkout-link[^>]*href="https:\/\/linkstub\.com\/en\/ab26"[^>]*target="_blank"[^>]*rel="noopener noreferrer"/);
     assert.match(canvas, /aria-label="Choose AfterBreak tickets on Linkstub \(opens in a new tab\)"/);

@@ -42,6 +42,15 @@ describe('offline scanner decoder assets', () => {
     assert.match(worker, /'\.\/qr-decoder\.js'/);
   });
 
+  test('restores the local admission log by event, not by manifest version', () => {
+    /* scanner-core proves a restored log keeps duplicate detection; the shell
+       must hand it every scan for this event, including scans recorded under
+       an earlier manifest, or a mid-show manifest refresh forgets who is in. */
+    const app = read('src/scanner/scanner-app.js');
+    assert.match(app, /scanner\.restore\(loadQueue\(\)\.filter\(\(entry\) => entry\.eventId === manifest\.eventId\)\)/);
+    assert.doesNotMatch(app, /entry\.manifestVersion === manifest\.version/);
+  });
+
   test('routes camera frames through the decoder adapter and keeps manual entry', () => {
     const app = read('src/scanner/scanner-app.js');
     assert.match(app, /NonsenseQrDecoder\.createDecoder\(/);

@@ -1,11 +1,16 @@
 # Nonsense Tickets — Development Roadmap
 
-Current state: a Claude Design canvas served as a static page. The catalog contains six
-native demo fixtures plus an official AfterBreak 2026 entry with two sessions, three
-entitlement-bearing offers, and external Linkstub checkout. A dependency-free Node test
-suite and GitHub Pages CI cover the current frontend; there is still no persistence or
-application data API. React and ReactDOM are served locally; Google Fonts remain external.
-Everything below assumes that starting point, not a greenfield repo.
+Current state: a Claude Design canvas served as a static page. The catalog
+(`src/event-catalog.js`) contains six native demo fixtures plus an official AfterBreak
+2026 entry with two sessions, three entitlement-bearing offers, and external Linkstub
+checkout. Alongside the storefront, a verification-only door slice exists: persistent
+record contracts (`ticket-schema.js`), signed `NT1` tickets and `NTM1` manifests, server
+side issuance and transfer, an offline admission engine with reconciliation, a real QR
+encoder, and an installable scanner PWA at `/scanner/`. A Node test suite and GitHub Pages
+CI cover both; there is still no persistence, application data API, issuance service, or
+key custody, and the storefront's demo checkout does not touch the door contracts. React
+and ReactDOM are served locally; Google Fonts remain external. Everything below assumes
+that starting point, not a greenfield repo.
 
 Durations assume one to two engineers. Phases are sequential except where noted.
 
@@ -29,8 +34,8 @@ Durations assume one to two engineers. Phases are sequential except where noted.
 | 3 | Add to calendar (.ics) | **Complete (scoped)** (`e3d048d`) | 0 (parallel) | S | No | Medium | — |
 | 4 | Search + date filtering | **Complete (scoped)** (`fdc4498`) | 0 (parallel) | S | No | Medium | — |
 | 5 | Runtime CDN independence / strict-CSP precompile | **Partial** (CDN independent; precompile blocked) | 1 | M | No | High | Precompile: `dc-runtime` source/build access |
-| 6 | Persistence + real data layer | **Blocked** | 1 | L | Yes | Critical | R1 and Phase 0 schema |
-| 7 | Real scannable QR + offline door scanner | **Blocked** | 1 → 2 | L | Yes | Critical | 6 |
+| 6 | Persistence + real data layer | **Blocked** (record contracts exist in `ticket-schema.js`; no storage, API, or storefront adapter) | 1 | L | Yes | Critical | storage and API decision |
+| 7 | Real scannable QR + offline door scanner | **Partial** (`f856ee1`: signed payloads, manifest, engine, encoder, PWA; no issuance service; physical-phone gate not run) | 1 → 2 | L | Yes | Critical | 6 for live tickets |
 | 8 | Face-value ticket transfer | **Blocked** | 3 | M–L | Yes | High | 6, 7 |
 | 9 | Sold-out waitlist capture | **Blocked** | 2 | M | Yes | High | 6 |
 | 10 | Promoter dashboard (payouts + list export) | **Blocked** | 5 | L | Yes | High | 6, payouts |
@@ -40,8 +45,10 @@ multi-session event with offer-to-session grants while preserving Linkstub as th
 checkout. Manual assistive-technology validation and a
 repeatable image pipeline remain follow-up work. Calendar export and discovery share one
 normalized event-date model and remain backend independent. Item 5 no longer depends on
-unpkg to boot, but strict-CSP precompilation remains blocked. Items 6–10 remain behind the
-Phase 0 product and data decisions shown above.
+unpkg to boot, but strict-CSP precompilation remains blocked. Item 7's door side shipped as
+a verification-only slice; it becomes real when item 6 supplies persisted orders and an
+issuance service that signs tickets and publishes manifests. Items 8–10 remain behind item
+6. R1 is resolved, so item 6 is blocked only on the storage and API decision.
 
 ### Grounded feature rationale
 
@@ -52,8 +59,8 @@ Phase 0 product and data decisions shown above.
 | 3 | Each native fixture detail view downloads a deterministic RFC 5545 `.ics` file built locally from canonical `startsAt`, `endsAt`, and `timeZone` fields. UTC conversion covers both daylight and standard time, exported locations use only public fixture copy, and the action announces completion through a polite live region. AfterBreak calendar export is deliberately unavailable because its official listing does not publish a distinct Night 1 end time. |
 | 4 | Search across titles, venues, genres, and lineups combines with genre and rolling date filters using AND semantics. Visible counts, pressed states, a resettable zero state, keyboard operation, and polite result announcements are covered by unit and fixed-clock browser checks. |
 | 5 | React 18.3.1 and ReactDOM 18.3.1 are pinned locally, so unpkg availability no longer controls page boot. Babel is lazy-loaded only for JSX `x-import` modules, which the current canvas does not use. Strict CSP remains blocked because the generated runtime evaluates `DCLogic` with `new Function`; resolving that requires precompilation or a rebuilt runtime. |
-| 6 | All seven catalog entries live in a hardcoded `data` object. AfterBreak proves the intended `event → sessions → offers` shape, but there is no persistence or application data API, so native purchases disappear on reload; this is the prerequisite for items 7–10. |
-| 7 | The site promises “DOOR SCAN WORKS OFFLINE,” but the ticket uses a decorative generated grid rather than a signed, scannable payload. The real flow needs signed tickets and validation against a cached manifest. For multi-session offers, redemption must be keyed by `(ticketId, sessionId)` so a combo ticket admits once on each granted night. |
+| 6 | All seven catalog entries live in `src/event-catalog.js`, validated against the event contract in CI. AfterBreak proves the intended `event → sessions → offers` shape, and `ticket-schema.js` defines the persistent shows, sessions, offers, orders, tickets, entitlements, redemptions, and devices with referential integrity checks. There is no persistence or application data API, the demo checkout produces no `order` record, and the catalog's display shape (dollars, `price`, `tag`) is not the schema's (cents, `facePriceCents` + `feeCents`, status enums); the six native fixtures also carry no `sessions` or `offers`. Item 6 is the adapter or reshape plus storage; it is the prerequisite for live tickets on items 7–10. |
+| 7 | The door side exists: `NT1` signed payloads, `NTM1` signed manifests pinned to a publisher key, an offline engine keyed by `(ticketId, sessionId)` so a combo ticket admits once on each granted night, deterministic two-device reconciliation, a real QR encoder, and the `/scanner/` PWA with a `localStorage` queue and JSON export. The storefront ticket still renders a decorative grid because nothing on the site can sign a payload without an issuance service, scan queues are exported by hand rather than synced, and the physical-phone gate in `docs/testing/scanner-phone-matrix.md` has not been run. |
 | 8 | There is no transfer or refund flow. Face-value transfer keeps the no-junk-fees position intact when a buyer can no longer attend. |
 | 9 | “Sold out · waitlist at the door” is copy only. A functional waitlist would capture the highest-intent audience while supporting the “YOUR LIST, YOUR DATA” promise. |
 | 10 | The site promises next-day payouts and audience ownership, but `#promoters` remains marketing content rather than an operational promoter surface. |
@@ -85,9 +92,11 @@ what checkout charges. The hero, marquee, fee panel, receipt, and README all sta
 processing comes out of the flat fee and promoters keep the whole face value — no copy
 implies that face value alone is the checkout price anymore.
 
-**R3 — "Door scan works offline" is unimplemented.** The hero marquee advertises it; the
-ticket QR is a decorative CSS grid rendered from `NON-4K2P9X`. Any promoter demo invites a
-question the build cannot answer yet.
+**R3 — "Door scan works offline" is half true.** The scanner PWA verifies signed tickets
+offline against a signed manifest, and the automated suite proves the admission rules. But
+no ticket sold or previewed on the site is signed, so a promoter demo that scans the site's
+own ticket gets NOT A TICKET; the storefront and the scanner only meet once an issuance
+service exists (item 6). The marquee copy still reads as a shipped end to end feature.
 
 **R4 — Scalping undermines the entire positioning.** Flat-fee pricing is a stance, and
 resale at 3x makes it cosmetic. Transfer (item 8) is the mitigation, currently scheduled

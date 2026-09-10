@@ -13,13 +13,18 @@ Live inspection: <https://davehomeassist.github.io/nonsense-tickets/>
 ## Run it
 
 ```bash
-npm run dev     # http://localhost:5173  (set PORT to change)
-npm test        # dependency-free Node tests for event dates, filters, and .ics output
+npm run dev              # http://localhost:5173  (set PORT to change)
+npm test                 # Node test suite: catalog contract, dates/filters/.ics, signed tickets,
+                         # manifests, issuance, scanner admission rules, QR round trips, PWA assets
+npm run scanner:fixture  # disposable public-only kit for the physical-phone scanner test
 ```
 
 No install step — `scripts/dev-server.mjs` is a zero-dependency Node static server
-(Node 18+). It exists because `serve` mangles paths on Windows and buries `index.html`
-under a directory listing.
+(Node 18+; the tests use WebCrypto and `node --test`, so Node 20+ for those). The only
+package in `package.json` is `jsqr`, pinned as the vendoring source for
+`src/scanner/vendor/jsQR.js`; nothing imports it at runtime or in the tests. The dev
+server exists because `serve` mangles paths on Windows and buries `index.html` under a
+directory listing.
 
 The core page can boot without external JavaScript. React 18.3.1 and ReactDOM 18.3.1
 are pinned under `src/vendor/` and loaded before `support.js`. The generated runtime still
@@ -37,18 +42,38 @@ script fetches need an HTTP origin.
 
 ```
 scripts/
-└── dev-server.mjs             local static server, no dependencies
+├── dev-server.mjs                       local static server, no dependencies
+└── generate-scanner-phone-fixture.mjs   public-only scanner qualification kit (also run by CI deploy)
 src/
 ├── index.html                 redirect → the canvas
-├── nonsense-tickets.dc.html   the design (markup + <style> + DCLogic component)
-├── event-tools.js              normalized dates, discovery matching, and .ics generation
+├── nonsense-tickets.dc.html   the storefront (markup + <style> + DCLogic component)
+├── event-catalog.js           the show catalog: the only definition of a show on the storefront
+├── event-tools.js             event contract, normalized dates, discovery matching, .ics generation
+├── ticket-schema.js           persistent record contracts: event, session, offer, order, ticket,
+│                              entitlement, redemption, scanner device, plus catalog integrity
+├── ticket-payload.js          NT1 signed ticket payload (ECDSA P-256, WebCrypto)
+├── ticket-manifest.js         NTM1 signed offline manifest a door device trusts
+├── ticket-issuer.js           server side issuance and transfer (never loaded by the scanner)
+├── scanner-core.js            offline admission decision engine and server reconciliation
+├── qr-encode.js               real QR encoder (ISO/IEC 18004, level M)
+├── scanner/                   door scanner PWA: index.html, scanner-app.js, qr-decoder.js,
+│                              sw.js, app.webmanifest, vendor/jsQR.js
 ├── support.js                 Claude Design runtime (generated — do not edit)
 ├── image-slot.js              image-slot custom element (generated — do not edit)
 ├── .thumbnail                 canvas preview image
 ├── vendor/                    pinned React/ReactDOM UMD files + license notices
 └── assets/                    8 WebPs (706 KB) + 8 PNG fallbacks (9.46 MB)
 tests/
-└── event-tools.test.mjs       utility behavior and canvas source contracts
+├── event-catalog.test.mjs     every shipped catalog entry against the event contract
+├── event-tools.test.mjs       utility behavior and canvas source contracts
+├── ticket-security.test.mjs   forgery, wrong event, duplicates, combo, revocation, transfer,
+│                              two-device reconciliation, persistent schema integrity
+├── qr-encode.test.mjs, qr-roundtrip.test.mjs, scanner-decoder.test.mjs,
+├── scanner-phone-fixture.test.mjs, scanner-pwa.test.mjs
+docs/
+├── superpowers/specs/         design specs (scanner security core, jsQR fallback, AfterBreak)
+├── superpowers/plans/         implementation plans
+└── testing/scanner-phone-matrix.md   physical-phone gate; not yet run
 ```
 
 Application markup lives in `nonsense-tickets.dc.html`. `support.js` and `image-slot.js`
@@ -81,8 +106,12 @@ State lives in one `DCLogic` component — theme (light/dark), combined show que
 filters, cart sheet with drag-to-dismiss, quantity, wallet pass, plus accent/header/texture
 variants.
 
-The catalog contains six native demo fixtures plus the official externally sold AfterBreak
-2026 listing. Every entry uses canonical `startsAt`, `endsAt`, and IANA `timeZone` fields.
+The catalog is `src/event-catalog.js`, loaded before the runtime and read by the cards, the
+detail sheet, the checkout math, calendar export, and the tests; no card or page carries its
+own copy of a title, price, date, or sale status. It contains six native demo fixtures plus
+the official externally sold AfterBreak 2026 listing. Every entry uses canonical `startsAt`,
+`endsAt`, and IANA `timeZone` fields and is validated against
+`NonsenseEventTools.validateEvent` in CI.
 AfterBreak additionally uses `sessions`, `offers`, and an HTTPS `checkout` contract: offer
 `sessionIds` define the admission grants that a future native ticket will carry. The shared
 `NonsenseEventTools` surface validates those references and derives a two-night label from
@@ -90,9 +119,36 @@ the two published session starts. Because the official listing does not publish 
 Night 1 end time, the prototype refuses to manufacture a multi-session calendar file.
 
 The six native fixtures retain the existing local checkout demonstration and RFC 5545
-calendar downloads. AfterBreak never enters that simulated payment or issuance flow;
-Linkstub remains responsible for its live payment and tickets until persistent orders,
-signed ticket payloads, and session-aware scanning exist.
+calendar downloads. The demo checkout is gated and labeled: it charges nothing, writes no
+order record, and renders a decorative QR grid with a random `NON-` code, not a signed
+payload. AfterBreak never enters that simulated flow; Linkstub remains responsible for its
+live payment and tickets until persistent orders and a real issuance service exist.
+
+## Door scanner and ticket contracts
+
+The door side of the product exists as a verification-only vertical slice, separate from
+the storefront:
+
+- `ticket-schema.js` defines the persistent records (events, sessions, offers, orders,
+  tickets, entitlements, redemptions, scanner devices) with money in integer cents and the
+  core invariant of at most one admitted redemption per `(ticketId, sessionId)`.
+- `ticket-payload.js` and `ticket-manifest.js` define the `NT1` signed ticket and the
+  `NTM1` signed manifest. A door device pins a publisher public key at enrollment; a
+  manifest is trusted only if it verifies against that key, and only then are the ticket
+  signing keys it carries usable. Manifest versions are monotonic per device.
+- `scanner-core.js` decides admission offline against the installed manifest and a local
+  redemption log, and reconciles queued batches from several devices deterministically.
+- `src/scanner/` is the installable PWA: enrollment, camera or manual entry, verdicts,
+  a `localStorage` scan queue, and JSON export of the queue. It is served at
+  `/scanner/` on the Pages site. Native `BarcodeDetector` is used when present, the
+  vendored `jsQR` otherwise.
+
+What does not exist, per `docs/superpowers/specs/2026-08-24-scanner-core-security-hardening.md`:
+an issuance service or key custody, a manifest publishing API, device enrollment or
+authentication, upload or sync of the scan queue (export is a manual JSON download), and
+any link from the storefront's demo checkout to these contracts. The only manifest and
+ticket producer in the repository is the qualification kit script. The physical-phone gate
+in `docs/testing/scanner-phone-matrix.md` has not been run.
 
 ## Design source
 
@@ -140,6 +196,16 @@ the flyer, the card, and checkout, with card processing paid out of the flat fee
 - **Not strict-CSP compatible.** Local React removes the critical unpkg boot dependency,
   but the generated runtime evaluates `DCLogic` with `new Function`. Removing `unsafe-eval`
   requires a precompile step or a rebuilt `dc-runtime`, neither of which is in this repo.
-- Six entries remain prototype copy and fixture data (`NON-4K2P9X`,
-  `instagram.com/concretemass`, `ra.co/events/2088414`). AfterBreak is sourced from the
+- Six entries remain prototype copy and fixture data (`instagram.com/concretemass`,
+  `ra.co/events/2088414`, promoter copy, door rules). AfterBreak is sourced from the
   official No Nonsense listing but deliberately uses external Linkstub checkout.
+- **The storefront and the door share no data contract yet.** The catalog uses whole
+  dollars, `price`, and a `tag` vocabulary for display; `ticket-schema.js` uses integer
+  cents, `facePriceCents` plus `feeCents` per offer, and status enums. The six native
+  fixtures have no `sessions` or `offers`, so the native cutover described in the AfterBreak
+  design needs an adapter or a reshaped catalog. The demo checkout does not produce an
+  `order` record and there is no API client boundary on the storefront.
+- **Scanner output is not yet a persistent redemption record.** Queue entries carry
+  `scanId` and `scannedAt` as epoch seconds; `validateRedemptionRecord` expects a
+  server assigned `id` and ISO instants. The conversion belongs to the future
+  reconciliation endpoint and does not exist here.
