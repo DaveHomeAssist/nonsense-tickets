@@ -545,7 +545,7 @@ input{font-family:inherit}
     <div style="max-width:520px;margin:0 auto">
       <button data-action="view" data-arg="site" style="font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.12em;padding:8px 12px;border:2px solid var(--rule);margin-bottom:26px">← All shows</button>
 
-      <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--blue);margin-bottom:6px">Demo ticket preview · 1 of 2 · not valid for entry</div>
+      <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--blue);margin-bottom:6px">Demo ticket preview · not valid for entry</div>
       <h1 style="font-family:'Unbounded',sans-serif;font-weight:900;font-size:clamp(28px,7vw,44px);line-height:1.02;letter-spacing:-.03em;text-transform:uppercase;position:relative;margin-bottom:26px">
         <span aria-hidden="true" style="position:absolute;inset:0;color:var(--blue);mix-blend-mode:var(--blend);transform:translate(calc(var(--mis) * -0.6),calc(var(--mis) * -0.5));animation:regB .9s cubic-bezier(.2,.85,.25,1) .08s both">You're in</span>
         <span aria-hidden="true" style="position:absolute;inset:0;color:var(--pink);mix-blend-mode:var(--blend);transform:translate(calc(var(--mis) * 0.6),calc(var(--mis) * 0.5));animation:regP .9s cubic-bezier(.2,.85,.25,1) .14s both">You're in</span>
@@ -553,19 +553,19 @@ input{font-family:inherit}
       </h1>
 
       <div style="background:var(--paper2);border:2px solid var(--rule);border-radius:18px;overflow:hidden;box-shadow:10px 10px 0 var(--blue)">
-        <div data-tex="Concrete Mass 014" style="height:120px;border-bottom:2px solid var(--rule);display:flex;align-items:flex-end;justify-content:space-between;padding:12px 16px">
+        <div data-tex-live="1" style="height:120px;border-bottom:2px solid var(--rule);display:flex;align-items:flex-end;justify-content:space-between;padding:12px 16px">
           <span style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;background:var(--ink);color:var(--paper);padding:4px 8px">NONSENSE*TICKETS</span>
           <span style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;background:var(--pink);color:#fff;padding:4px 8px">DEMO</span>
-          <span style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;background:var(--acid);color:#17141f;padding:4px 8px">GA · 2 GUESTS</span>
+          <span style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;background:var(--acid);color:#17141f;padding:4px 8px">GA · {{ admitsBadge }}</span>
         </div>
         <div style="padding:20px 22px 18px">
-          <div style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:22px;line-height:1.15;letter-spacing:-.02em">Concrete Mass 014</div>
-          <div style="font-size:13px;opacity:.75;margin-top:6px">Callowhill warehouse · 1213 N Front St</div>
+          <div style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:22px;line-height:1.15;letter-spacing:-.02em">{{ selTitle }}</div>
+          <div style="font-size:13px;opacity:.75;margin-top:6px">{{ selVenue }}</div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px 12px;margin-top:20px">
-            <div><div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55">Date</div><div style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700">FRI SEP 04</div></div>
-            <div><div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55">Doors</div><div style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700">10:00 PM</div></div>
-            <div><div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55">Admits</div><div style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700">2 guests</div></div>
-            <div><div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55">Paid</div><div style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:var(--blue)">$44.00</div></div>
+            <div><div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55">Date</div><div style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700">{{ selDay }}</div></div>
+            <div><div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55">Doors</div><div style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700">{{ selTime }}</div></div>
+            <div><div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55">Admits</div><div style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700">{{ admits }}</div></div>
+            <div><div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.55">Paid</div><div style="font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:var(--blue)">{{ totalMoney }}</div></div>
           </div>
         </div>
         <div style="position:relative;border-top:2px dashed var(--rule)">
@@ -573,8 +573,8 @@ input{font-family:inherit}
           <span style="position:absolute;right:-11px;top:-11px;width:20px;height:20px;border-radius:50%;background:var(--paper);border:2px solid var(--rule)"></span>
         </div>
         <div style="padding:24px 22px 26px;display:flex;flex-direction:column;align-items:center;gap:12px">
-          <div data-qr="NON-4K2P9X" aria-label="Ticket QR code placeholder" style="width:168px;height:168px;background:#fff;padding:10px;display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:repeat(12,1fr)"></div>
-          <div style="font-family:'Space Mono',monospace;font-size:14px;letter-spacing:.24em;font-weight:700">NON-4K2P9X</div>
+          <div data-qr="live" aria-label="Ticket QR code placeholder" style="width:168px;height:168px;background:#fff;padding:10px;display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:repeat(12,1fr)"></div>
+          <div style="font-family:'Space Mono',monospace;font-size:14px;letter-spacing:.24em;font-weight:700">{{ code }}</div>
           <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;opacity:.55;text-align:center">Demo pattern · not a scannable code · real tickets carry signed QR payloads</div>
         </div>
       </div>
@@ -588,10 +588,10 @@ input{font-family:inherit}
       <div style="margin-top:30px;border:2px solid var(--rule);background:var(--paper2)">
         <div style="padding:14px 18px;border-bottom:2px solid var(--rule);font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase">Receipt</div>
         <div style="padding:16px 18px">
-          <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:13px;padding:4px 0"><span>2 × GA</span><span>$40.00</span></div>
-          <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:13px;padding:4px 0"><span data-fee-line="1">Nonsense flat ($2 × 2)</span><span data-fee-total="1">$4.00</span></div>
+          <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:13px;padding:4px 0"><span>{{ receiptLine }}</span><span>{{ receiptBase }}</span></div>
+          <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:13px;padding:4px 0"><span>{{ receiptFeeLine }}</span><span>{{ receiptFee }}</span></div>
           <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:13px;padding:4px 0"><span>Processing</span><span>incl.</span></div>
-          <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:15px;font-weight:700;border-top:1px dashed currentColor;margin-top:8px;padding-top:10px"><span>Charged</span><span data-charged="1">$44.00</span></div>
+          <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:15px;font-weight:700;border-top:1px dashed currentColor;margin-top:8px;padding-top:10px"><span>Charged</span><span>{{ totalMoney }}</span></div>
           <p style="font-size:12px;opacity:.65;margin-top:12px;line-height:1.5">Same number the flyer said. No service fee, no facility fee, no delivery fee for a QR code.</p>
         </div>
       </div>
@@ -599,7 +599,7 @@ input{font-family:inherit}
       <div style="margin-top:26px;border:2px solid var(--rule);background:var(--paper2)">
         <div style="padding:14px 18px;border-bottom:2px solid var(--rule);font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase">Door info</div>
         <ul style="list-style:none;display:flex;flex-direction:column">
-          <li style="padding:14px 18px;border-bottom:2px solid var(--rule);display:flex;gap:12px;align-items:baseline"><span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--pink);font-weight:700;min-width:30px">01</span><span>Exact address unlocks at 6PM day of show. It lands here and by text.</span></li>
+          <li style="padding:14px 18px;border-bottom:2px solid var(--rule);display:flex;gap:12px;align-items:baseline"><span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--pink);font-weight:700;min-width:30px">01</span><span>{{ selNote }}</span></li>
           <li style="padding:14px 18px;border-bottom:2px solid var(--rule);display:flex;gap:12px;align-items:baseline"><span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--pink);font-weight:700;min-width:30px">02</span><span>21+, ID at the door. Earplugs at the merch table, free.</span></li>
           <li style="padding:14px 18px;display:flex;gap:12px;align-items:baseline"><span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--pink);font-weight:700;min-width:30px">03</span><span>No photos on the floor. Nobody wants to be in your story at 3AM.</span></li>
         </ul>
@@ -1241,12 +1241,6 @@ class Component extends DCLogic {
     });
     const inline = document.querySelector('[data-fee-inline]');
     if(inline) inline.textContent = 'a flat $' + fee + ' per ticket';
-    const fl = document.querySelector('[data-fee-line]');
-    if(fl) fl.textContent = 'Nonsense flat ($' + fee + ' × 2)';
-    const ft = document.querySelector('[data-fee-total]');
-    if(ft) ft.textContent = '$' + (fee*2).toFixed(2);
-    const ch = document.querySelector('[data-charged]');
-    if(ch) ch.textContent = '$' + (40 + fee*2).toFixed(2);
 
     document.querySelectorAll('[data-view]').forEach(n => {
       const on = n.getAttribute('data-view') === st.view;
@@ -1382,6 +1376,12 @@ class Component extends DCLogic {
       lineLabel:s ? qty + ' × GA ($' + s.price + ' + $' + fee + ' flat)' : '',
       payLabel:s ? qty + ' × ' + s.title : '',
       admits:qty + (qty > 1 ? ' guests' : ' guest'),
+      admitsBadge:(qty + (qty > 1 ? ' guests' : ' guest')).toUpperCase(),
+      totalMoney:'$' + total.toFixed(2),
+      receiptLine:qty + ' × GA',
+      receiptBase:s ? '$' + (s.price * qty).toFixed(2) : '',
+      receiptFeeLine:'Nonsense flat ($' + fee + ' × ' + qty + ')',
+      receiptFee:'$' + (fee * qty).toFixed(2),
       issuedNote:s ? qty + (qty > 1 ? ' tickets' : ' ticket') + ' for ' + s.title + '.' : '',
       code:this.state.code,
       selDate:formatted.full,

@@ -69,4 +69,18 @@ describe('event catalog registry', () => {
     assert.match(canvas, /this\.cardPrice\(event, fee\)/);
     assert.match(canvas, /this\.statusBadge\(event\)/);
   });
+
+  test('the ticket page renders the purchased show from state, not a fixture', async () => {
+    const canvas = await readFile(new URL('src/nonsense-tickets.dc.html', root), 'utf8');
+    const ticketPage = canvas.slice(canvas.indexOf('<sc-if value="{{ isTicket }}"'), canvas.indexOf('<sc-if value="{{ open }}"'));
+    assert.ok(ticketPage.length > 0, 'ticket page block should exist');
+    for (const literal of ['Concrete Mass 014', '1213 N Front', 'FRI SEP 04', '10:00 PM', '2 guests', '2 GUESTS', '$44.00', '$40.00', 'NON-4K2P9X', '1 of 2']) {
+      assert.equal(ticketPage.includes(literal), false, 'ticket page must not hardcode ' + literal);
+    }
+    for (const binding of ['{{ selTitle }}', '{{ selVenue }}', '{{ selDay }}', '{{ selTime }}', '{{ admits }}', '{{ totalMoney }}', '{{ code }}', '{{ receiptLine }}', '{{ receiptFeeLine }}', '{{ selNote }}']) {
+      assert.ok(ticketPage.includes(binding), 'ticket page must bind ' + binding);
+    }
+    assert.match(ticketPage, /data-qr="live"/);
+    assert.doesNotMatch(canvas, /data-charged|data-fee-line|data-fee-total/);
+  });
 });
