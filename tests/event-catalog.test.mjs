@@ -53,12 +53,20 @@ describe('event catalog registry', () => {
     }
   });
 
-  test('the canvas renders one card per catalog entry', async () => {
+  test('the canvas renders one card per catalog entry with no copied price or status', async () => {
     const canvas = await readFile(new URL('src/nonsense-tickets.dc.html', root), 'utf8');
     for (const id of Object.keys(catalog.events)) {
       assert.match(canvas, new RegExp('data-show-id="' + id + '"'), 'card for entry ' + id);
       assert.match(canvas, new RegExp('data-show-date="' + id + '"'), 'date target for entry ' + id);
+      assert.match(canvas, new RegExp('data-show-price="' + id + '"'), 'price target for entry ' + id);
+      assert.match(canvas, new RegExp('data-show-status="' + id + '"'), 'status target for entry ' + id);
     }
     assert.equal((canvas.match(/data-show-id="[1-7]"/g) || []).length, 7);
+    /* A card must not carry its own face price or sale status text. */
+    assert.doesNotMatch(canvas, /data-price="\d+"/);
+    assert.doesNotMatch(canvas, /white-space:nowrap">(?:On sale|Low tix|Sold out|Official sale)<\/span>/);
+    assert.doesNotMatch(canvas, /font-size:15px">From \$\d+/);
+    assert.match(canvas, /this\.cardPrice\(event, fee\)/);
+    assert.match(canvas, /this\.statusBadge\(event\)/);
   });
 });
